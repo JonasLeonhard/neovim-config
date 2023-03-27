@@ -43,13 +43,16 @@ return {
         },
         ["<leader>c"] = { name = "code" },
         ["<leader>f"] = { name = "file/find" },
-        ["<leader>g"] = { name = "git" },
+        ["<leader>g"] = { name = "git",
+          ["g"] = { "<cmd>lua _Gitui_toggle()<cr>", "Gitui" }
+        },
         ["<leader>q"] = { name = "quit/session" },
         ["<leader>s"] = { name = "search" },
-        ["<leader>u"] = { name = "  Toggles" },
+        ["<leader>u"] = { name = "  Ui-Toggles",
+          ["t"] = { "<cmd>ToggleTerm<cr>", "Terminal" }
+        },
         ["<leader>x"] = { name = "diagnostics/quickfix" },
-        ["<leader>e"] = { "<cmd>Lf %<cr>", "explorer (Lf current dir)" },
-        ["<leader>E"] = { "<cmd>Lf<cr>", "explorer (Lf root)" },
+        ["<leader>e"] = { "<cmd>lua _Lf_toggle()<cr>", "Lf (current dir)" }
       }
 
       wk.register(keymaps)
