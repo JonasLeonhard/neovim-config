@@ -29,7 +29,7 @@ return {
           ["j"] = { "<cmd>BufferLineCycleNext<cr>", "next buffer" },
           ["k"] = { "<cmd>BufferLineCyclePrev<cr>", "previous buffer" },
         },
-        ["m"] = { name = "surround/match",
+        ["M"] = { name = "surround/match",
           ["s"] = { name = "surround add" }
         },
         ["<leader>b"] = { name = "buffer",
@@ -52,7 +52,9 @@ return {
           ["t"] = { "<cmd>ToggleTerm<cr>", "Terminal" }
         },
         ["<leader>x"] = { name = "diagnostics/quickfix" },
-        ["<leader>e"] = { "<cmd>lua _Lf_toggle()<cr>", "Lf (current dir)" }
+        ["<leader>e"] = { "<cmd>lua _Lf_toggle()<cr>", "Lf (current dir)" },
+        ["<leader>."] = { "<cmd>lua _Lf_reset_to_root()<cr>", "Lf reset to root" },
+        ["<leader>E"] = { "<cmd>lua _Lf_root_toggle()<cr>", "Lf (root dir)" }
       }
 
       wk.register(keymaps)

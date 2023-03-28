@@ -1,8 +1,22 @@
-local function openPathsInFile(file)
+local explorers = {
+  lf = {
+    dir = ".",
+    selection = {}
+  },
+  lfRoot = {
+    dir = ".",
+    selection = {}
+  }
+}
+
+local function setSelectionToPathsInFile(key)
+  local file = "/tmp/nvim-toggleterm-selection-" .. key
   if io.open(file, "r") ~= nil then
+    explorers[key].selection = {}
+
     for line in io.lines(file) do
       local path = vim.fn.fnameescape(line)
-      vim.cmd("edit " .. path)
+      table.insert(explorers[key].selection, path)
     end
 
     io.close(io.open(file, "r"))
@@ -10,7 +24,33 @@ local function openPathsInFile(file)
   end
 end
 
-local lf_dir = '.'
+local function setDirToPathInFile(key)
+  local file = "/tmp/nvim-toggleterm-dir-" .. key
+  if io.open(file, "r") ~= nil then
+    for line in io.lines(file) do
+      explorers[key].dir = vim.fn.fnameescape(line)
+    end
+
+    io.close(io.open(file, "r"))
+    os.remove(file)
+  end
+end
+
+local function getLfOpenCmd(key)
+  local openPath = explorers[key].dir;
+  if #(explorers[key].selection) == 1 then
+    openPath = table.concat(explorers[key].selection, " ")
+  end
+
+  return "lf -selection-path /tmp/nvim-toggleterm-selection-" ..
+      key .. " -last-dir-path /tmp/nvim-toggleterm-dir-" .. key .. " " .. openPath
+end
+
+local function openPaths(paths)
+  for _, path in pairs(paths) do
+    vim.cmd("edit " .. path)
+  end
+end
 
 return {
   {
@@ -18,6 +58,7 @@ return {
     version = "*",
     opts = {
       direction = "horizontal", -- default direction
+      size = vim.fn.winheight(0) / 3, -- split size
       float_opts = {
         -- The border key is *almost* the same as 'nvim_open_win'
         -- see :h nvim_open_win for details on borders however
@@ -34,27 +75,79 @@ return {
     config = function(_, opts)
       local toggleTerm = require("toggleterm")
       toggleTerm.setup(opts)
-
-      -- Custom Terminals:
       local Terminal = require('toggleterm.terminal').Terminal
 
+      -- ---------------------- Gitui -----------------------------------
       local gitui = Terminal:new({ cmd = "gitui", hidden = true, direction = "float" })
       function _Gitui_toggle()
         gitui:toggle()
       end
 
-      -- todo: write output to tmp file, then on close, read the tmp file and https://github.com/is0n/fm-nvim/blob/master/lua/fm-nvim.lua#L119
+      -- ---------------------- LF (current buffer) ---------------------
       local lf = Terminal:new({
-        cmd = "lf -selection-path /tmp/nvim-toggleterm " .. lf_dir,
+        direction = "horizontal",
+        cmd = getLfOpenCmd('lf'),
         hidden = true,
-        direction = "float",
-        on_close = function()
-          openPathsInFile('/tmp/nvim-toggleterm')
+        on_close = function(terminal)
+          setSelectionToPathsInFile("lf")
+          setDirToPathInFile("lf")
+
+          -- update changed parameters in terminal open cmd:
+          terminal.cmd = getLfOpenCmd("lf")
+
+          openPaths(explorers.lf.selection)
         end
       })
       function _Lf_toggle()
         lf:toggle()
       end
+
+      -- TODO: add this to lf as a gr -> go to root command
+      function _Lf_reset_to_root()
+        explorers.lf.selection = {}
+        explorers.lf.dir = "."
+        lf.cmd = getLfOpenCmd("lf")
+        print("success: reset lf to root dir.")
+      end
+
+      -- TODO: is this foolproof for all buffers?
+      function _Lf_reset_to_buffer()
+        local buffername = vim.fn.expand("%")
+        if (buffername ~= "") then
+          explorers.lf.selection = { buffername }
+          lf.cmd = getLfOpenCmd("lf")
+        end
+      end
+
+      vim.api.nvim_create_autocmd("BufEnter", {
+        command = "lua _Lf_reset_to_buffer()",
+      })
+
+      -- ---------------------- LF (root) -----------------------------
+      local lf_root = Terminal:new({
+        direction = "float",
+        cmd = getLfOpenCmd("lfRoot"),
+        hidden = true,
+        on_close = function()
+          setSelectionToPathsInFile("lfRoot")
+          openPaths(explorers.lfRoot.selection)
+        end
+      })
+      function _Lf_root_toggle()
+        lf_root:toggle()
+      end
+
+      -- ------------------- Keymaps ----------------------------------
+      function _Set_terminal_keymaps()
+        local opts = { buffer = 0 }
+        vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+        vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+        vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+        vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+        vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+      end
+
+      vim.cmd('autocmd! TermOpen term://* lua _Set_terminal_keymaps()')
     end
   }
 }
