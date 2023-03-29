@@ -6,6 +6,7 @@ return {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     opts = {
+      additional_vim_regex_highlighting = true,
       ensure_installed = { 'go', 'lua', 'rust', 'tsx', 'typescript', 'help', 'vim' },
       -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
       auto_install = true,
@@ -72,8 +73,8 @@ return {
         }
       }
     },
+    build = ":TSUpdate",
     config = function(_, opts)
-      pcall(require('nvim-treesitter.install').update { with_sync = true })
       require('nvim-treesitter.configs').setup(opts)
     end,
   }

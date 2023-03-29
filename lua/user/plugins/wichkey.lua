@@ -25,11 +25,9 @@ return {
       -- TODO: think about keybinds here
       local keymaps = {
         mode = { "n", "v" },
-
         -- See `:help K` for why this keymap
         ["K"] = { vim.lsp.buf.hover, "Hover Documentation" },
         ["<C-k>"] = { vim.lsp.buf.signature_help, "Signature Documentation" },
-
         ["g"] = {
           name = "goto",
           ["k"] = { "<cmd>BufferLineCycleNext<cr>", "next buffer" },
@@ -40,12 +38,10 @@ return {
           ["r"] = { require('telescope.builtin').lsp_references, "Goto References" },
           ["t"] = { vim.lsp.buf.type_definition, "Goto Type Definition" },
         },
-
         ["M"] = {
           name = "surround/match",
           ["s"] = { name = "surround add" }
         },
-
         ["<leader>b"] = {
           name = "buffer",
           ["j"] = { "<cmd>BufferLineCycleNext<cr>", "next buffer" },
@@ -57,7 +53,6 @@ return {
           ["q"] = { function() require("mini.bufremove").delete(0, false) end, "Delete Buffer" },
           ["b"] = { require('telescope.builtin').buffers, "Find existing buffers" }
         },
-
         ["<leader>c"] = {
           name = "code",
           ["D"] = { vim.diagnostic.open_float, "Open floating diagnostic message" },
@@ -77,38 +72,29 @@ return {
           ["f"] = { vim.lsp.buf.format, "Format Buffer" },
           ["t"] = { "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>", "Toggle Cursor Alternate" }
         },
-
-        ["<leader>f"] = {
-          name = "file/find",
-          ["?"] = { require("telescope.builtin").oldfiles, "Find recently opened files" },
-        },
-
+        ["<leader>f"] = { require('telescope.builtin').find_files, "Find files" },
         ["<leader>g"] = {
           name = "git",
           ["g"] = { "<cmd>lua _Gitui_toggle()<cr>", "Gitui" }
         },
-
         ["<leader>q"] = {
           name = "quit/session"
         },
-
         ["<leader>s"] = {
           name = "search",
+          ["?"] = { require("telescope.builtin").oldfiles, "Find recently opened files" },
           ["h"] = { require("telescope.builtin").help_tags, "Help" },
           ["w"] = { require("telescope.builtin").grep_string, "Cursor Word" },
           ["g"] = { require("telescope.builtin").live_grep, "Grep" },
           ["d"] = { require("telescope.builtin").diagnostics, "Diagnostics" },
         },
-
         ["<leader>u"] = {
           name = "  Ui-Toggles",
           ["t"] = { "<cmd>ToggleTerm<cr>", "Terminal" }
         },
-
         ["<leader>x"] = {
           name = "diagnostics/quickfix"
         },
-
         -- Explorer:
         ["<leader>e"] = { "<cmd>lua _Lf_toggle()<cr>", "Lf (current dir)" },
         ["<leader>."] = { "<cmd>lua _Lf_reset_to_root()<cr>", "Lf reset to root" },

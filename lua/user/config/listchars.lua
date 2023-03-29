@@ -1,5 +1,3 @@
-print("loaded listchar")
-
 local themeColors = {
   red = "#F38BA8"
 }

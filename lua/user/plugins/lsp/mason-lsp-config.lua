@@ -14,7 +14,7 @@ local servers = {
 }
 
 return {
-  { 'williamboman/mason-lspconfig.nvim', after = { "mason.nvim", "neovim/nvim-lspconfig", "folke/neodev.nvim" },
+  { 'williamboman/mason-lspconfig.nvim', dependencies = { "mason.nvim", "neovim/nvim-lspconfig", "folke/neodev.nvim", "hrsh7th/nvim-cmp", "hrsh7th/cmp-nvim-lsp" },
     config = function()
       local mason_lspconfig = require("mason-lspconfig")
       local lspconfig = require("lspconfig")
@@ -22,6 +22,15 @@ return {
       mason_lspconfig.setup {
         ensure_installed = vim.tbl_keys(servers),
       }
+
+      -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+      --  This function gets run when an LSP connects to a particular buffer.
+      local on_attach = function(_, _)
+        -- nothing to do currently
+      end
 
       mason_lspconfig.setup_handlers {
         function(server_name)
