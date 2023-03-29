@@ -42,14 +42,8 @@ local function getLfOpenCmd(key)
     openPath = table.concat(explorers[key].selection, " ")
   end
 
-  return "lf -selection-path /tmp/nvim-toggleterm-selection-" ..
+  return "export RUN_INSIDE_NVIM=true && lf -selection-path /tmp/nvim-toggleterm-selection-" ..
       key .. " -last-dir-path /tmp/nvim-toggleterm-dir-" .. key .. " " .. openPath
-end
-
-local function openPaths(paths)
-  for _, path in pairs(paths) do
-    vim.cmd("edit " .. path)
-  end
 end
 
 return {
@@ -59,6 +53,7 @@ return {
     opts = {
       direction = "horizontal", -- default direction
       size = vim.fn.winheight(0) / 3, -- split size
+      close_on_exit = false,
       float_opts = {
         -- The border key is *almost* the same as 'nvim_open_win'
         -- see :h nvim_open_win for details on borders however
@@ -84,25 +79,32 @@ return {
       end
 
       -- ---------------------- LF (current buffer) ---------------------
+      -- to open files in neovim:
+      -- add this to your .zshrc:
+      -- ```
+      -- alias nvim="nvim --listen ~/.cache/nvim/server.pipe"
+      -- ```
+      -- then in lfrc add to open files with enter:
+      -- ```
+      -- map <enter> $nvim --server ~/.cache/nvim/server.pipe --remote-send "<C-w>q:edit $f<CR>"
+      -- ```
       local lf = Terminal:new({
         direction = "horizontal",
         cmd = getLfOpenCmd('lf'),
         hidden = true,
-        on_close = function(terminal)
+        on_exit = function(terminal)
           setSelectionToPathsInFile("lf")
           setDirToPathInFile("lf")
 
           -- update changed parameters in terminal open cmd:
           terminal.cmd = getLfOpenCmd("lf")
-
-          openPaths(explorers.lf.selection)
         end
       })
       function _Lf_toggle()
         lf:toggle()
       end
 
-      -- TODO: add this to lf as a gr -> go to root command
+      -- TODO: add this to lf as a gr -> go to root command?
       function _Lf_reset_to_root()
         explorers.lf.selection = {}
         explorers.lf.dir = "."
@@ -128,9 +130,8 @@ return {
         direction = "float",
         cmd = getLfOpenCmd("lfRoot"),
         hidden = true,
-        on_close = function()
+        on_exit = function()
           setSelectionToPathsInFile("lfRoot")
-          openPaths(explorers.lfRoot.selection)
         end
       })
       function _Lf_root_toggle()
