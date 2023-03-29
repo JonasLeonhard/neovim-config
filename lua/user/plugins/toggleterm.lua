@@ -53,7 +53,6 @@ return {
     opts = {
       direction = "horizontal", -- default direction
       size = vim.fn.winheight(0) / 3, -- split size
-      close_on_exit = false,
       float_opts = {
         -- The border key is *almost* the same as 'nvim_open_win'
         -- see :h nvim_open_win for details on borders however
