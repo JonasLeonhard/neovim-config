@@ -1,15 +1,14 @@
 return {
-  { -- Highlight, edit, and navigate code
+  {
+    -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     opts = {
       ensure_installed = { 'go', 'lua', 'rust', 'tsx', 'typescript', 'help', 'vim' },
-
       -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
       auto_install = true,
-
       highlight = { enable = true },
       indent = { enable = true },
       incremental_selection = {
@@ -64,7 +63,14 @@ return {
             ['<leader>A'] = '@parameter.inner',
           },
         },
-      },
+        context_commentstring = {
+          enable = true,
+          enable_autocmd = false,
+          config = {
+            twig = "{# %s #}"
+          }
+        }
+      }
     },
     config = function(_, opts)
       pcall(require('nvim-treesitter.install').update { with_sync = true })

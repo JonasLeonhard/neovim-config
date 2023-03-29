@@ -1,7 +1,6 @@
 -- Install global configuration
 require('user.config.options');
 require('user.config.autocmds');
-require('user.config.keymaps');
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -25,5 +24,6 @@ require('lazy').setup({
   --    up-to-date with whatever is in the kickstart repo.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
+  { import = 'user.plugins.lsp' },
   { import = 'user.plugins' },
 }, {})
