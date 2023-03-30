@@ -16,18 +16,32 @@ return {
       window = {
         margin = { 1, getMarginRight(), 1, 0 }, -- extra window margin [top, right, bottom, left]
       },
-      show_help = false
+      show_help = false,
     },
     config = function(_, opts)
       local wk = require("which-key")
       wk.setup(opts)
 
       -- TODO: think about keybinds here
-      local keymaps = {
-        mode = { "n", "v" },
+      local Nkeymaps = {
+        ["<Esc>"] = { "<cmd>:noh <cr>", "clear highlights" },
+        ["<C-j>"] = { "<cmd>:MoveLine(1)<cr>", "Move line down" },
+        ["<C-k>"] = { "<cmd>:MoveLine(-1)<cr>", "Move line up" },
+        ["<C-h>"] = { "<cmd>:MoveHChar(-1)<cr>", "Move char left" },
+        ["<C-l>"] = { "<cmd>:MoveHHhar(1)<cr>", "Move chart right" },
+      }
+
+      local VXkeymaps = {
+        ["<C-j>"] = { "<cmd>:MoveBlock(1)<cr>", "Move block down" },
+        ["<C-k>"] = { "<cmd>:MoveBlock(-1)<cr>", "Move block up" },
+        ["<C-h>"] = { "<cmd>:MoveHBlock(-1)<cr>", "Move block left" },
+        ["<C-l>"] = { "<cmd>:MoveHBlock(1)<cr>", "Move block right" },
+      }
+
+      local NVkeymaps = {
         -- See `:help K` for why this keymap
         ["K"] = { vim.lsp.buf.hover, "Hover Documentation" },
-        ["<C-k>"] = { vim.lsp.buf.signature_help, "Signature Documentation" },
+        ["<C-,>"] = { vim.lsp.buf.signature_help, "Signature Documentation" },
         ["g"] = {
           name = "goto",
           ["k"] = { "<cmd>BufferLineCycleNext<cr>", "next buffer" },
@@ -55,9 +69,9 @@ return {
         },
         ["<leader>c"] = {
           name = "code",
-          ["D"] = { vim.diagnostic.open_float, "Open floating diagnostic message" },
-          ["[D"] = { vim.diagnostic.goto_prev, "go to previous diagnostic message" },
-          ["]D"] = { vim.diagnostic.goto_next, "go to next diagnostic message" },
+          ["d"] = { vim.diagnostic.open_float, "Open floating diagnostic message" },
+          ["[d"] = { vim.diagnostic.goto_prev, "go to previous diagnostic message" },
+          ["]d"] = { vim.diagnostic.goto_next, "go to next diagnostic message" },
           ["l"] = { vim.diagnostic.setloclist, "Open diagnostic list" },
           ["r"] = { vim.lsp.buf.rename, "Rename" },
           ["a"] = { vim.lsp.buf.code_action, "Code Action" },
@@ -75,7 +89,51 @@ return {
         ["<leader>f"] = { require('telescope.builtin').find_files, "Find files" },
         ["<leader>g"] = {
           name = "git",
-          ["g"] = { "<cmd>lua _Gitui_toggle()<cr>", "Gitui" }
+          ["g"] = { "<cmd>lua _Gitui_toggle()<cr>", "Gitui" },
+          ["]"] = {
+            function()
+              if vim.wo.diff then
+                return "]c"
+              end
+              vim.schedule(function()
+                require("gitsigns").next_hunk()
+              end)
+              return "<Ignore>"
+            end,
+            "Jump to next hunk",
+            opts = { expr = true },
+          },
+          ["["] = {
+            function()
+              if vim.wo.diff then
+                return "[c"
+              end
+              vim.schedule(function()
+                require("gitsigns").prev_hunk()
+              end)
+              return "<Ignore>"
+            end,
+            "Jump to prev hunk",
+            opts = { expr = true },
+          },
+          ["r"] = {
+            function()
+              require("gitsigns").reset_hunk()
+            end,
+            "Reset hunk",
+          },
+          ["h"] = {
+            function()
+              require("gitsigns").preview_hunk()
+            end,
+            "Preview hunk",
+          },
+          ["b"] = {
+            function()
+              package.loaded.gitsigns.blame_line()
+            end,
+            "Blame line",
+          },
         },
         ["<leader>q"] = {
           name = "quit/session"
@@ -90,7 +148,21 @@ return {
         },
         ["<leader>u"] = {
           name = "  Ui-Toggles",
-          ["t"] = { "<cmd>ToggleTerm<cr>", "Terminal" }
+          ["t"] = { "<cmd>ToggleTerm<cr>", "Terminal" },
+          ["g"] = {
+            name = "git",
+            ["d"] = {
+              function()
+                require("gitsigns").toggle_deleted()
+              end,
+              "GitSigns Toggle deleted",
+            }
+          },
+          ["b"] = {
+            name = "buffer",
+            ["N"] = { "<cmd> set nu! <CR>", "toggle line number" },
+            ["n"] = { "<cmd> set rnu! <CR>", "toggle relative number" },
+          }
         },
         ["<leader>x"] = {
           name = "diagnostics/quickfix"
@@ -106,7 +178,9 @@ return {
       vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
       vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-      wk.register(keymaps)
+      wk.register(Nkeymaps, { mode = { 'n' } })
+      wk.register(VXkeymaps, { mode = { 'v', 'x' } })
+      wk.register(NVkeymaps, { mode = { 'n', 'v' } })
     end,
   },
 }
