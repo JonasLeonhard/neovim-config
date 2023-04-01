@@ -132,6 +132,18 @@ return {
             end,
             'To <char> BEFORE_CURSOR(hop)',
           },
+          ['h'] = {
+            function()
+              require('illuminate').goto_next_reference()
+            end,
+            'Go to next underlined reference (illiminate)',
+          },
+          ['H'] = {
+            function()
+              require('illuminate').goto_prev_reference()
+            end,
+            'Go to pref underlined reference (illiminate)',
+          },
         },
         ['M'] = {
           name = 'surround/match', -- TAKEN in mini-surround.lua
