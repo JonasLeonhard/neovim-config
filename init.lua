@@ -1,6 +1,5 @@
 -- Install global configuration
-require('user.config.options');
-require('user.config.autocmds');
+require 'user.config'
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
