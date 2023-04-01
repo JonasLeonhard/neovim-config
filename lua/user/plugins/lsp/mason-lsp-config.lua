@@ -28,9 +28,7 @@ return {
       capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
       --  This function gets run when an LSP connects to a particular buffer.
-      local on_attach = function(_, _)
-        -- nothing to do currently
-      end
+      local on_attach = require("user.plugins.lsp.helpers.on_attach")
 
       mason_lspconfig.setup_handlers {
         function(server_name)
