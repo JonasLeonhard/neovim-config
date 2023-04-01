@@ -25,18 +25,20 @@ return {
       -- TODO: think about keybinds here
       local Nkeymaps = {
         ["<Esc>"] = { "<cmd>:noh <cr>", "clear highlights" },
-        ["<C-j>"] = { "<cmd>:MoveLine(1)<cr>", "Move line down" },
-        ["<C-k>"] = { "<cmd>:MoveLine(-1)<cr>", "Move line up" },
-        ["<C-h>"] = { "<cmd>:MoveHChar(-1)<cr>", "Move char left" },
-        ["<C-l>"] = { "<cmd>:MoveHHhar(1)<cr>", "Move chart right" },
+        ["<C-j>"] = { "<cmd>:m .+1<cr>==", "Move line down" },
+        ["<C-k>"] = { "<cmd>:m .-2<cr>==", "Move line up" },
       }
+      --  Remap for dealing with word wrap
+      vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+      vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-      local VXkeymaps = {
-        ["<C-j>"] = { "<cmd>:MoveBlock(1)<cr>", "Move block down" },
-        ["<C-k>"] = { "<cmd>:MoveBlock(-1)<cr>", "Move block up" },
-        ["<C-h>"] = { "<cmd>:MoveHBlock(-1)<cr>", "Move block left" },
-        ["<C-l>"] = { "<cmd>:MoveHBlock(1)<cr>", "Move block right" },
+      local Vkeymaps = {
+        ["<"] = { "<gv", "Indent left" },
+        [">"] = { ">gv", "Inde t right" },
       }
+      -- move blocks of code - TODO: make this work with wichkey.
+      vim.keymap.set('v', '<C-j>', ":m '>+1<cr>gv")
+      vim.keymap.set('v', '<C-k>', ":m '<-2<cr>gv")
 
       local NVkeymaps = {
         -- See `:help K` for why this keymap
@@ -173,13 +175,8 @@ return {
         ["<leader>E"] = { "<cmd>lua _Lf_root_toggle()<cr>", "Lf (root dir)" }
       }
 
-      -- Other keybinds:
-      --  Remap for dealing with word wrap
-      vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-      vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
       wk.register(Nkeymaps, { mode = { 'n' } })
-      wk.register(VXkeymaps, { mode = { 'v', 'x' } })
+      wk.register(Vkeymaps, { mode = { 'v' } })
       wk.register(NVkeymaps, { mode = { 'n', 'v' } })
     end,
   },
