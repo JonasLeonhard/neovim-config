@@ -47,7 +47,6 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
 opt.ch = 0 -- commandheight
-
 if vim.fn.has("nvim-0.9.0") == 1 then
   opt.splitkeep = "screen"
   opt.shortmess:append { C = true }
@@ -57,3 +56,4 @@ end
 vim.g.markdown_recommended_style = 0
 
 require("user.config.listchars")
+require("user.config.diagnostics")
