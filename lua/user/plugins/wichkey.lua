@@ -44,15 +44,70 @@ return {
         -- See `:help K` for why this keymap
         ["K"] = { vim.lsp.buf.hover, "Hover Documentation" },
         ["<C-,>"] = { vim.lsp.buf.signature_help, "Signature Documentation" },
+        ["f"] = { function()
+          require("hop").hint_char1({
+            direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+            current_line_only = true
+          })
+        end, "Find <char> in current line AFTER_CURSOR(hop)" },
+        ["F"] = { function()
+          require("hop").hint_char1({
+            direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
+            current_line_only = true
+          })
+        end, "Find <char> in current line BEFORE_CURSOR(hop)" },
+        ["t"] = { function()
+          require("hop").hint_char1({
+            direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+            current_line_only = true,
+            hint_offset = -1
+          })
+        end, "To <char> AFTER_CURSOR(hop)" },
+        ["T"] = { function()
+          require("hop").hint_char1({
+            direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
+            current_line_only = true,
+            hint_offset = -1
+          })
+        end, "To <char> BEFORE_CURSOR(hop)" },
         ["g"] = {
           name = "goto",
           ["k"] = { "<cmd>BufferLineCycleNext<cr>", "next buffer" },
           ["j"] = { "<cmd>BufferLineCyclePrev<cr>", "previous buffer" },
           ["d"] = { vim.lsp.buf.definition, "Goto Definition" },
-          ["D"] = { vim.lsp.buf.declaration, "Goto Declaration" },
+          ["D"] = {
+            name = "Goto Declaration / Type Definition",
+            ["d"] = { vim.lsp.buf.declaration, "Goto Declaration" },
+            ["D"] = { vim.lsp.buf.type_definition, "Goto Type Definition" },
+          },
           ["i"] = { vim.lsp.buf.implementation, "Goto implementation" },
           ["r"] = { require('telescope.builtin').lsp_references, "Goto References" },
-          ["t"] = { vim.lsp.buf.type_definition, "Goto Type Definition" },
+          ["f"] = { function()
+            require("hop").hint_char1({
+              direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+              current_line_only = false
+            })
+          end, "Find <char> globally AFTER_CURSOR(hop)" },
+          ["F"] = { function()
+            require("hop").hint_char1({
+              direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
+              current_line_only = false
+            })
+          end, "Find <char> globally BEFORE_CURSOR(hop)" },
+          ["t"] = { function()
+            require("hop").hint_char1({
+              direction = require('hop.hint').HintDirection.AFTER_CURSOR,
+              current_line_only = false,
+              hint_offset = -1
+            })
+          end, "To <char> AFTER_CURSOR(hop)" },
+          ["T"] = { function()
+            require("hop").hint_char1({
+              direction = require('hop.hint').HintDirection.BEFORE_CURSOR,
+              current_line_only = false,
+              hint_offset = -1
+            })
+          end, "To <char> BEFORE_CURSOR(hop)" },
         },
         ["M"] = {
           name = "surround/match",
