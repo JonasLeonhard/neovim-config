@@ -1,6 +1,7 @@
 return {
   {
-    "catppuccin/nvim", name = "catppuccin",
+    'catppuccin/nvim',
+    name = 'catppuccin',
     opts = {
       flavour = 'mocha',
       integrations = {
@@ -16,12 +17,12 @@ return {
         treesitter = true,
         treesitter_context = true,
         which_key = true,
-        harpoon = true
-      }
+        harpoon = true,
+      },
     },
     config = function(_, opts)
       require('catppuccin').setup(opts)
-      vim.cmd.colorscheme "catppuccin"
-    end
-  }
+      vim.cmd.colorscheme 'catppuccin'
+    end,
+  },
 }
