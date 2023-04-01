@@ -134,8 +134,7 @@ return {
           },
         },
         ['M'] = {
-          name = 'surround/match',
-          ['s'] = { name = 'surround add' },
+          name = 'surround/match', -- TAKEN in mini-surround.lua
         },
         ['<leader>b'] = {
           name = 'buffer',
