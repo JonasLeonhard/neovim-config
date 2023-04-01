@@ -255,6 +255,7 @@ return {
             "<cmd>lua require('spectre').open_visual({select_word=true})<CR>",
             'Replace in files globally (Spectre)',
           },
+          ['t'] = { '<cmd>:TodoTelescope<cr>', 'show todo comments' },
         },
         ['<leader>u'] = {
           name = '  Ui-Toggles',
