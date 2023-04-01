@@ -229,12 +229,20 @@ return {
           name = 'quit/session',
         },
         ['<leader>s'] = {
-          name = 'search',
+          name = 'search/replace',
           ['?'] = { require('telescope.builtin').oldfiles, 'Find recently opened files' },
           ['h'] = { require('telescope.builtin').help_tags, 'Help' },
-          ['w'] = { require('telescope.builtin').grep_string, 'Cursor Word' },
+          ['W'] = { require('telescope.builtin').grep_string, 'Cursor Word' },
           ['g'] = { require('telescope.builtin').live_grep, 'Grep' },
           ['d'] = { require('telescope.builtin').diagnostics, 'Diagnostics' },
+          ['r'] = {
+            "<cmd>lua require('spectre').open_file_search({select_word=true})<cr>",
+            'replace in current file (Spectre)',
+          },
+          ['R'] = {
+            "<cmd>lua require('spectre').open_visual({select_word=true})<CR>",
+            'Replace in files globally (Spectre)',
+          },
         },
         ['<leader>u'] = {
           name = '  Ui-Toggles',
