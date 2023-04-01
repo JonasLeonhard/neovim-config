@@ -57,3 +57,4 @@ vim.g.markdown_recommended_style = 0
 
 require("user.config.listchars")
 require("user.config.diagnostics")
+require("user.config.formatting");
