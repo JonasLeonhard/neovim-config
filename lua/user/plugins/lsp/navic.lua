@@ -1,8 +1,8 @@
 return {
-  "SmiteshP/nvim-navic",
-  dependencies = { "neovim/nvim-lspconfig" },
+  'SmiteshP/nvim-navic',
+  dependencies = { 'neovim/nvim-lspconfig' },
   config = function()
-    require("nvim-navic").setup({
+    require('nvim-navic').setup {
       highlight = true,
       icons = {
         File = ' ',
@@ -30,8 +30,8 @@ return {
         Struct = ' ',
         Event = ' ',
         Operator = ' ',
-        TypeParameter = ' '
+        TypeParameter = ' ',
       },
-    })
-  end
+    }
+  end,
 }

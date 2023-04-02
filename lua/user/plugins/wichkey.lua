@@ -306,9 +306,7 @@ return {
           },
         },
         -- Explorer:
-        ['<leader>e'] = { '<cmd>lua _Lf_toggle()<cr>', 'Lf (current dir)' },
-        ['<leader>.'] = { '<cmd>lua _Lf_reset_to_root()<cr>', 'Lf reset to root' },
-        ['<leader>E'] = { '<cmd>lua _Lf_root_toggle()<cr>', 'Lf (root dir)' },
+        ['<leader>e'] = { '<cmd>:Xplr<cr>', 'Xplr (current dir)' },
       }
 
       wk.register(Nkeymaps, { mode = { 'n' } })
