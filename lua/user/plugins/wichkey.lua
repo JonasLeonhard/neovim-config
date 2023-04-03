@@ -306,7 +306,7 @@ return {
           },
         },
         -- Explorer:
-        ['<leader>e'] = { '<cmd>:lua vim.api.nvim_command("Xplr" .. vim.fn.expand("%"))<cr>', 'Xplr (current file)' },
+        ['<leader>e'] = { '<cmd>:lua vim.api.nvim_command("Xplr " .. vim.fn.expand("%"))<cr>', 'Xplr (current file)' },
       }
 
       wk.register(Nkeymaps, { mode = { 'n' } })
