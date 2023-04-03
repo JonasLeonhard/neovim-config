@@ -236,6 +236,33 @@ return {
             end,
             'Blame line',
           },
+          ['d'] = {
+            name = 'Diffview',
+            ['h'] = {
+              '<cmd>DiffviewFileHistory<cr>',
+              'File history',
+            },
+            ['d'] = {
+              '<cmd>DiffviewOpen<cr>',
+              'Merges & Changes',
+            },
+            ['q'] = {
+              '<cmd>DiffviewClose<cr>',
+              'Close',
+            },
+            ['l'] = {
+              '<cmd>DiffviewLog<cr>',
+              'Log',
+            },
+            ['e'] = {
+              '<cmd>DiffviewToggleFiles<cr>',
+              'Toggle files',
+            },
+            ['r'] = {
+              '<cmd>DiffviewRefresh<cr>',
+              'refresh',
+            },
+          },
         },
         ['<leader>q'] = {
           name = 'quit/session',

@@ -39,43 +39,43 @@ return {
           enable = true,
           set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
-            [']m'] = '@function.outer',
-            [']]'] = '@class.outer',
+            ['g]m'] = '@function.outer',
+            ['g]]'] = '@class.outer',
           },
           goto_next_end = {
-            [']M'] = '@function.outer',
-            [']['] = '@class.outer',
+            ['g]M'] = '@function.outer',
+            ['g]['] = '@class.outer',
           },
           goto_previous_start = {
-            ['[m'] = '@function.outer',
-            ['[['] = '@class.outer',
+            ['g[m'] = '@function.outer',
+            ['g[['] = '@class.outer',
           },
           goto_previous_end = {
-            ['[M'] = '@function.outer',
-            ['[]'] = '@class.outer',
+            ['g[M'] = '@function.outer',
+            ['g[]'] = '@class.outer',
           },
         },
         swap = {
           enable = true,
           swap_next = {
-            ['<leader>a'] = '@parameter.inner',
+            ['<leader>cSa'] = '@parameter.inner',
           },
           swap_previous = {
-            ['<leader>A'] = '@parameter.inner',
+            ['<leader>cSA'] = '@parameter.inner',
           },
         },
         context_commentstring = {
           enable = true,
           enable_autocmd = false,
           config = {
-            twig = "{# %s #}"
-          }
-        }
-      }
+            twig = '{# %s #}',
+          },
+        },
+      },
     },
-    build = ":TSUpdate",
+    build = ':TSUpdate',
     config = function(_, opts)
       require('nvim-treesitter.configs').setup(opts)
     end,
-  }
+  },
 }
