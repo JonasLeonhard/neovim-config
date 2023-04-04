@@ -188,7 +188,10 @@ return {
           ['f'] = { vim.lsp.buf.format, 'Format Buffer' },
           ['t'] = { "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>", 'Toggle Cursor Alternate' },
         },
-        ['<leader>f'] = { require('telescope.builtin').find_files, 'Find files' },
+        ['<leader>f'] = {
+          require('telescope.builtin').find_files,
+          'Find files',
+        },
         ['<leader>g'] = {
           name = 'git',
           ['g'] = { '<cmd>lua _Gitui_toggle()<cr>', 'Gitui' },
@@ -239,8 +242,12 @@ return {
           ['d'] = {
             name = 'Diffview',
             ['h'] = {
+              '<cmd>:lua vim.api.nvim_command("DiffviewFileHistory " .. vim.fn.expand("%"))<cr>',
+              'File history (current file)',
+            },
+            ['h'] = {
               '<cmd>DiffviewFileHistory<cr>',
-              'File history',
+              'File history (global)',
             },
             ['d'] = {
               '<cmd>DiffviewOpen<cr>',
