@@ -12,7 +12,64 @@ return {
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
 
+    local kind_icons = {
+      Class = 'ﴯ',
+      Color = '',
+      Constant = '',
+      Constructor = '',
+      Enum = '',
+      EnumMember = '',
+      Event = '',
+      Field = '',
+      File = '',
+      Folder = '',
+      Function = '',
+      Interface = '',
+      Keyword = '',
+      Method = '',
+      Module = '',
+      Operator = '',
+      Property = 'ﰠ',
+      Reference = '',
+      Snippet = '',
+      Struct = '',
+      Text = '',
+      TypeParameter = '',
+      Unit = '',
+      Value = '',
+      Variable = '',
+    }
+
     cmp.setup {
+      window = {
+        completion = {
+          winhighlight = 'Normal:CMPmenu,FloatBorder:CMPmenu,Search:None',
+        },
+      },
+      sources = {
+        { name = 'buffer' },
+        { name = 'cmdline' },
+        { name = 'luasnip' },
+        { name = 'nvim_lsp' },
+        { name = 'path' },
+      },
+      formatting = {
+        format = function(entry, vim_item)
+          -- Kind icons
+          vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+          -- Source
+          vim_item.menu = ({
+            buffer = '[Buf]',
+            cmdline = '[Cmd]',
+            latex_symbols = '[Ltx]',
+            luasnip = '[Snp]',
+            nvim_lsp = '[Lsp]',
+            nvim_lua = '[Lua]',
+            path = '[Pth]',
+          })[entry.source.name]
+          return vim_item
+        end,
+      },
       snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
@@ -47,13 +104,6 @@ return {
           end
         end, { 'i', 's' }),
       },
-      sources = {
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-        { name = 'path' },
-        { name = 'buffer' },
-        { name = 'cmdline' },
-      },
     }
 
     -- Set configuration for specific filetypes.
@@ -82,5 +132,8 @@ return {
         { name = 'cmdline' },
       }),
     })
+
+    -- Highlight Background:
+    vim.cmd 'highlight CMPMenu guibg=#181825'
   end,
 }
