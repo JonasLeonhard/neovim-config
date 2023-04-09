@@ -20,6 +20,7 @@ return {
         },
         automatic_installation = false,
         automatic_setup = true, -- Recommended, but optional
+        handlers = {}
       }
 
       -- Extend null_ls builtins:
@@ -35,8 +36,6 @@ return {
           -- Add Anything not supported by mason.
         },
       }
-
-      mason_null_ls.setup_handlers() -- If `automatic_setup` is true.
     end,
   },
 }
