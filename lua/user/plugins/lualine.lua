@@ -9,9 +9,10 @@ local function list_registered_null_ls_providers_names(filetype)
 end
 
 return {
-  { -- Set lualine as statusline
+  {
+    -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons', 'catppuccin/nvim' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     -- See `:help lualine.txt`
     opts = {
       extensions = { 'lazy' },
