@@ -20,20 +20,18 @@ return {
         },
         automatic_installation = false,
         automatic_setup = true, -- Recommended, but optional
-        handlers = {}
+        handlers = {},
       }
 
-      -- Extend null_ls builtins:
-      local prettierFiletypes = null_ls.builtins.formatting.prettier.filetypes
-      table.insert(prettierFiletypes, 'twig.html')
-      table.insert(prettierFiletypes, 'svelte')
-
-      local eslintFiletypes = null_ls.builtins.diagnostics.eslint.filetypes
-      table.insert(eslintFiletypes, 'svelte')
+      -- Extend null_ls builtins before they are beeing setup:
+      vim.list_extend(null_ls.builtins.formatting.prettier.filetypes, { 'twig', 'svelte' })
+      vim.list_extend(null_ls.builtins.diagnostics.eslint.filetypes, { 'svelte' })
 
       null_ls.setup {
         sources = {
-          -- Add Anything not supported by mason.
+          -- Add Anything not supported by mason or extended.
+          null_ls.builtins.formatting.prettier,
+          null_ls.builtins.diagnostics.eslint,
         },
       }
     end,
