@@ -32,6 +32,12 @@ return {
       vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
       vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+      -- resize with arrow keys
+      vim.keymap.set('n', '<A-Up>', ':resize -2<CR>', { silent = true })
+      vim.keymap.set('n', '<A-Down>', ':resize +2<CR>', { silent = true })
+      vim.keymap.set('n', '<A-Left>', ':vertical resize -2<CR>', { silent = true })
+      vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { silent = true })
+
       local Vkeymaps = {
         ['<'] = { '<gv', 'Indent left' },
         ['>'] = { '>gv', 'Inde t right' },
@@ -161,6 +167,12 @@ return {
               require('mini.bufremove').delete(0, false)
             end,
             'Delete Buffer',
+          },
+          ['Q'] = {
+            function()
+              require('mini.bufremove').delete(0, true)
+            end,
+            'Delete Buffer (force)',
           },
           ['b'] = { require('telescope.builtin').buffers, 'Find existing buffers' },
         },
