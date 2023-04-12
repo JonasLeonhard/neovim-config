@@ -35,10 +35,6 @@ return {
     config = function(_, opts)
       require('catppuccin').setup(opts)
       vim.cmd.colorscheme 'catppuccin'
-      -- HACK: the update of neovim 0.9 broke loading different flavours. This should be removed in the future.
-      vim.api.nvim_create_autocmd('VimEnter', {
-        command = 'Catppuccin mocha',
-      })
     end,
   },
 }

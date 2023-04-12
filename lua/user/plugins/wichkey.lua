@@ -27,6 +27,8 @@ return {
         ['<Esc>'] = { '<cmd>:noh <cr>', 'clear highlights' },
         ['<C-j>'] = { '<cmd>:m .+1<cr>==', 'Move line down' },
         ['<C-k>'] = { '<cmd>:m .-2<cr>==', 'Move line up' },
+        ['<C-s>'] = { '<C-a>', 'Increment' },
+        ['<C-x>'] = { '<C-x>', 'Decrement' },
       }
       --  Remap for dealing with word wrap
       vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })

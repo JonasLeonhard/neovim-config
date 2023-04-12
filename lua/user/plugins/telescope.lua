@@ -20,6 +20,7 @@ return {
             'node_modules/',
             '.git/',
             'vendor/',
+            'dist/',
           },
         },
         pickers = {

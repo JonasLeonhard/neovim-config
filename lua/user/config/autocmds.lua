@@ -14,3 +14,7 @@ vim.cmd [[highlight YankHighlight guifg=#000000 guibg=#FAB387 gui=nocombine]]
 vim.api.nvim_create_autocmd('BufEnter', {
   command = 'syntax on', -- syntax_on/syntax does not work for some reason
 })
+
+vim.api.nvim_create_autocmd('BufEnter', {
+  command = 'stopinsert', -- fix telescope opening files in insert mode
+})

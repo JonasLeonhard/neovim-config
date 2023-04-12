@@ -5,6 +5,7 @@ return {
     require('nvim-ts-autotag').setup {
       filetypes = {
         'html',
+        'twig',
         'javascript',
         'typescript',
         'javascriptreact',

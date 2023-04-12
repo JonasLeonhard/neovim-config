@@ -47,6 +47,7 @@ opt.wildmode = 'longest:full,full' -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
 opt.ch = 0 -- commandheight
+opt.nrformats = 'bin,hex,alpha,octal,'
 
 -- Ufo folding:
 opt.foldcolumn = '1' -- '0' is not bad
