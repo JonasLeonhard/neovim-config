@@ -1,0 +1,7 @@
+{
+  "single constant": {
+    "prefix": "®",
+    "body": "luasnip test: Press tab to jump from hightlight: ${1:name} to ${2:value}",
+    "description": "Snippet Test via Alt-r sign"
+  }
+}
