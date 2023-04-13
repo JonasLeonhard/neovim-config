@@ -203,7 +203,7 @@ return {
           ['t'] = { "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>", 'Toggle Cursor Alternate' },
         },
         ['<leader>f'] = {
-          require('telescope.builtin').find_files,
+          '<cmd>Telescope find_files<cr>',
           'Find files',
         },
         ['<leader>g'] = {

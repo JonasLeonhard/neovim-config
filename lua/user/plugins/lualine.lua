@@ -67,7 +67,7 @@ return {
           },
           {
             function() -- List all registered language servers and null-ls linters/formatters
-              local buf_clients = vim.lsp.get_active_clients()
+              local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
               local buf_client_names = {}
 
               if next(buf_clients) == nil then

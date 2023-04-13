@@ -82,8 +82,7 @@ return {
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-ESC>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm {
-          behavior = cmp.ConfirmBehavior.insert,
-          select = true,
+          select = false,
         }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then

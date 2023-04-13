@@ -3,13 +3,12 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     version = '*',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim' },
     config = function()
       local telescope = require 'telescope'
       vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = '#181825' })
       telescope.setup {
         defaults = {
-          theme = 'ivy',
           sorting_strategy = 'ascending',
           layout_strategy = 'bottom_pane',
           layout_config = {
