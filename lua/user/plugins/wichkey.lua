@@ -323,6 +323,7 @@ return {
             ['n'] = { '<cmd> set rnu! <CR>', 'toggle relative number' },
           },
           ['f'] = { '<cmd>:ToggleAutoFormat<cr>', 'toggle Autoformat on save' },
+          ['I'] = { '<cmd>:ToggleGuessIndent<cr>', 'toggle GuessIndent when opening a bufffer' },
           ['M'] = { '<cmd>MarksToggleSigns<cr>' },
         },
         ['<leader>x'] = {

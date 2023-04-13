@@ -51,6 +51,14 @@ return {
         lualine_x = {
           {
             function() -- Autoformatting Toggle
+              if not _GuessIndentEnabled() then
+                return 'GuessIndent: off'
+              end
+              return ''
+            end,
+          },
+          {
+            function() -- Autoformatting Toggle
               if not _AutoFormatEnabled() then
                 return 'AutoFormat: off'
               end
