@@ -7,12 +7,20 @@ return {
     'hrsh7th/cmp-cmdline',
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/LuaSnip',
+    {
+      "zbirenbaum/copilot-cmp",
+      after = { "copilot.lua" },
+      config = function()
+        require("copilot_cmp").setup()
+      end
+    }
   },
   config = function()
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
 
     local kind_icons = {
+      Copilot = ' ',
       Class = 'ﴯ',
       Color = '',
       Constant = '',
@@ -47,11 +55,12 @@ return {
         },
       },
       sources = {
-        { name = 'buffer' },
-        { name = 'cmdline' },
-        { name = 'luasnip' },
-        { name = 'nvim_lsp' },
-        { name = 'path' },
+        { name = "copilot",  group_index = 2 },
+        { name = 'nvim_lsp', group_index = 2, },
+        { name = 'path',     group_index = 2, },
+        { name = 'buffer',   group_index = 2, },
+        { name = 'luasnip',  group_index = 2, },
+        { name = 'cmdline',  group_index = 2, },
       },
       formatting = {
         format = function(entry, vim_item)
@@ -59,6 +68,7 @@ return {
           vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
           -- Source
           vim_item.menu = ({
+            copilot = '[Cop]',
             buffer = '[Buf]',
             cmdline = '[Cmd]',
             latex_symbols = '[Ltx]',
@@ -103,6 +113,24 @@ return {
           end
         end, { 'i', 's' }),
       },
+      sorting = {
+        priority_weight = 2,
+        comparators = {
+          require("copilot_cmp.comparators").prioritize,
+
+          -- Below is the default comparitor list and order for nvim-cmp
+          cmp.config.compare.offset,
+          -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          cmp.config.compare.recently_used,
+          cmp.config.compare.locality,
+          cmp.config.compare.kind,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        },
+      }
     }
 
     -- Set configuration for specific filetypes.

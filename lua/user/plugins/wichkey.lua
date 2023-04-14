@@ -259,7 +259,7 @@ return {
               '<cmd>:lua vim.api.nvim_command("DiffviewFileHistory " .. vim.fn.expand("%"))<cr>',
               'File history (current file)',
             },
-            ['h'] = {
+            ['H'] = {
               '<cmd>DiffviewFileHistory<cr>',
               'File history (global)',
             },
@@ -373,6 +373,30 @@ return {
           q = { "<cmd>lua require'dap'.close()<cr>", 'Quit' },
           U = { "<cmd>lua require'dapui'.toggle({reset = true})<cr>", 'Toggle UI' },
         },
+        ['<leader>a'] = {
+          name = "AI",
+          a = { "<cmd>ChatGPT<cr>", 'Chat' },
+          A = { "<cmd>ChatGPTActAs<cr>", 'ActAs Selection' },
+          e = { "<cmd>:lua require('chatgpt').edit_with_instructions()<cr>", 'Edit Line(s) w. Instruction' },
+          c = { "<cmd>CopilotPanel<cr>", 'CopilotPanel' },
+          ["<Enter>"] = { "<cmd>:lua require('copilot.panel').accept()<cr>", "Accept CopilotPanel suggestion" },
+          ["n"] = { "<cmd>:lua require('copilot.panel').jump_next()<cr>", "Accept CopilotPanel suggestion" },
+          ["p"] = { "<cmd>:lua require('copilot.panel').jump_prev()<cr>", "Accept CopilotPanel suggestion" },
+          ["R"] = { "<cmd>:lua require('copilot.panel').refresh()<cr>", "Accept CopilotPanel suggestion" },
+          r = {
+            name = "run",
+            g = { "<cmd>ChatGPTRun grammar_correction<cr>", 'grammar_correction' },
+            t = { "<cmd>ChatGPTRun translate<cr>", 'translate' },
+            k = { "<cmd>ChatGPTRun keywords<cr>", 'keywords' },
+            d = { "<cmd>ChatGPTRun docstring<cr>", 'docstring' },
+            T = { "<cmd>ChatGPTRun add_tests<cr>", 'add_tests' },
+            o = { "<cmd>ChatGPTRun optimize_code<cr>", 'optimize_code' },
+            s = { "<cmd>ChatGPTRun summarize<cr>", 'summarize' },
+            f = { "<cmd>ChatGPTRun fix_bugs<cr>", 'fix_bugs' },
+            E = { "<cmd>ChatGPTRun explain_code<cr>", 'explain_code' },
+            r = { "<cmd>ChatGPTRun roxygen_edit<cr>", 'roxygen_edit' },
+          }
+        }
       }
 
       wk.register(Nkeymaps, { mode = { 'n' } })
