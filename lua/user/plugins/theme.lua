@@ -37,11 +37,11 @@ return {
       vim.cmd.colorscheme 'catppuccin'
 
       --HACK: flavour not loading inside zellij:
-      vim.api.nvim_create_autocmd("VimEnter", {
-        callback = function()
-          vim.cmd('Catppuccin mocha')
-        end
-      })
+      -- vim.api.nvim_create_autocmd('VimEnter', {
+      --   callback = function()
+      --     vim.cmd 'Catppuccin mocha'
+      --   end,
+      -- })
     end,
   },
 }
