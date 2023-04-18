@@ -21,7 +21,7 @@ dap.configurations.php = {
     end,
   },
   {
-    name = 'Debug with Xdebug (remote with server->local pathMappings)',
+    name = 'Debug with Xdebug (remote with server->local pathMappings [/app <--> ${workspaceFolder}/site)]',
     type = 'php',
     request = 'launch',
     port = function()
@@ -33,8 +33,7 @@ dap.configurations.php = {
     end,
     -- server -> local mappings
     pathMappings = {
-      { '/var/www/html', '${workspaceFolder}/www' },
-      { '/app', '${workspaceFolder}/app' },
+      ['/app'] = '${workspaceFolder}/site',
     },
   },
   {
