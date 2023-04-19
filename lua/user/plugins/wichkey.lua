@@ -359,6 +359,12 @@ return {
         ['<leader>d'] = {
           name = 'Debug',
           t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", 'Toggle Breakpoint' },
+          T = {
+            function()
+              require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+            end,
+            'Toggle Breakpoint w. Condition',
+          },
           b = { "<cmd>lua require'dap'.step_back()<cr>", 'Step Back' },
           c = { "<cmd>lua require'dap'.continue()<cr>", 'Continue' },
           C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", 'Run To Cursor' },
@@ -374,29 +380,29 @@ return {
           U = { "<cmd>lua require'dapui'.toggle({reset = true})<cr>", 'Toggle UI' },
         },
         ['<leader>a'] = {
-          name = "AI",
-          a = { "<cmd>ChatGPT<cr>", 'Chat' },
-          A = { "<cmd>ChatGPTActAs<cr>", 'ActAs Selection' },
+          name = 'AI',
+          a = { '<cmd>ChatGPT<cr>', 'Chat' },
+          A = { '<cmd>ChatGPTActAs<cr>', 'ActAs Selection' },
           e = { "<cmd>:lua require('chatgpt').edit_with_instructions()<cr>", 'Edit Line(s) w. Instruction' },
-          c = { "<cmd>CopilotPanel<cr>", 'CopilotPanel' },
-          ["<Enter>"] = { "<cmd>:lua require('copilot.panel').accept()<cr>", "Accept CopilotPanel suggestion" },
-          ["n"] = { "<cmd>:lua require('copilot.panel').jump_next()<cr>", "Accept CopilotPanel suggestion" },
-          ["p"] = { "<cmd>:lua require('copilot.panel').jump_prev()<cr>", "Accept CopilotPanel suggestion" },
-          ["R"] = { "<cmd>:lua require('copilot.panel').refresh()<cr>", "Accept CopilotPanel suggestion" },
+          c = { '<cmd>CopilotPanel<cr>', 'CopilotPanel' },
+          ['<Enter>'] = { "<cmd>:lua require('copilot.panel').accept()<cr>", 'Accept CopilotPanel suggestion' },
+          ['n'] = { "<cmd>:lua require('copilot.panel').jump_next()<cr>", 'Accept CopilotPanel suggestion' },
+          ['p'] = { "<cmd>:lua require('copilot.panel').jump_prev()<cr>", 'Accept CopilotPanel suggestion' },
+          ['R'] = { "<cmd>:lua require('copilot.panel').refresh()<cr>", 'Accept CopilotPanel suggestion' },
           r = {
-            name = "run",
-            g = { "<cmd>ChatGPTRun grammar_correction<cr>", 'grammar_correction' },
-            t = { "<cmd>ChatGPTRun translate<cr>", 'translate' },
-            k = { "<cmd>ChatGPTRun keywords<cr>", 'keywords' },
-            d = { "<cmd>ChatGPTRun docstring<cr>", 'docstring' },
-            T = { "<cmd>ChatGPTRun add_tests<cr>", 'add_tests' },
-            o = { "<cmd>ChatGPTRun optimize_code<cr>", 'optimize_code' },
-            s = { "<cmd>ChatGPTRun summarize<cr>", 'summarize' },
-            f = { "<cmd>ChatGPTRun fix_bugs<cr>", 'fix_bugs' },
-            E = { "<cmd>ChatGPTRun explain_code<cr>", 'explain_code' },
-            r = { "<cmd>ChatGPTRun roxygen_edit<cr>", 'roxygen_edit' },
-          }
-        }
+            name = 'run',
+            g = { '<cmd>ChatGPTRun grammar_correction<cr>', 'grammar_correction' },
+            t = { '<cmd>ChatGPTRun translate<cr>', 'translate' },
+            k = { '<cmd>ChatGPTRun keywords<cr>', 'keywords' },
+            d = { '<cmd>ChatGPTRun docstring<cr>', 'docstring' },
+            T = { '<cmd>ChatGPTRun add_tests<cr>', 'add_tests' },
+            o = { '<cmd>ChatGPTRun optimize_code<cr>', 'optimize_code' },
+            s = { '<cmd>ChatGPTRun summarize<cr>', 'summarize' },
+            f = { '<cmd>ChatGPTRun fix_bugs<cr>', 'fix_bugs' },
+            E = { '<cmd>ChatGPTRun explain_code<cr>', 'explain_code' },
+            r = { '<cmd>ChatGPTRun roxygen_edit<cr>', 'roxygen_edit' },
+          },
+        },
       }
 
       wk.register(Nkeymaps, { mode = { 'n' } })
