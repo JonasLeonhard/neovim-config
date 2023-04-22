@@ -80,14 +80,15 @@ git clone https://github.com/JonasLeonhard/neovim-config ~/.config/nvim
   :Do you recommend some other tools for your everyday CommandLine usage?
 
 - Sure. Checkout this list:
-- Starship.rs (a good looking Prompt)
+- Starship.rs (a good looking Prompt. You can find my config here: https://github.com/JonasLeonhard/starship-config. It uses zshs builtin vi-mode to display your mode (see my .zshrc))
 - zsh-autosuggestions (auto-complete)
 - zsh-syntax-highlighting
 - Zoxide (smart cd)
 - FzF aswell as Fzf-tab (fuzzy finder that can replace your builtin zsh Tab auto-complete window.)
-- Zellij (a Terminal Multiplexer/Workspace manager. I feel like this is a little cleaner than your average Tmux config. Both are good and you should check them out.)
+- Zellij (a Terminal Multiplexer/Workspace manager. I feel like this is a little cleaner than your average Tmux config. Both are good and you should check them out. My config: https://github.com/JonasLeonhard/zellij-config)
 - Exa (a better looking ls command, i recommend alias ls=exa)
 - Bat (a better looking cat command, i recommend alias cat=bat)
+- Alacritty Terminal Emulator (a terminal emulator with a builtin vi-mode. My config can be found at: https://github.com/JonasLeonhard/alacritty)
 
 : Where can i find your .zshrc?
 
