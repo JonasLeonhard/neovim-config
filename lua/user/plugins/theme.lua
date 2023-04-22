@@ -2,8 +2,9 @@ return {
   {
     'catppuccin/nvim',
     name = 'catppuccin',
+    event = "VimEnter",
     opts = {
-      flavour = 'mocha',
+      flavour = "mocha",
       integrations = {
         cmp = true,
         gitsigns = true,
@@ -34,14 +35,7 @@ return {
     },
     config = function(_, opts)
       require('catppuccin').setup(opts)
-      vim.cmd.colorscheme 'catppuccin'
-
-      --HACK: flavour not loading inside zellij:
-      -- vim.api.nvim_create_autocmd('VimEnter', {
-      --   callback = function()
-      --     vim.cmd 'Catppuccin mocha'
-      --   end,
-      -- })
+      vim.cmd.colorscheme 'catppuccin-mocha'
     end,
   },
 }

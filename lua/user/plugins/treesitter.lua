@@ -7,7 +7,8 @@ return {
     },
     opts = {
       additional_vim_regex_highlighting = true,
-      ensure_installed = { 'go', 'lua', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
+      ensure_installed = { 'go', 'lua', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'regex', 'bash', 'markdown_inline',
+        'markdown' },
       -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
       auto_install = true,
       highlight = { enable = true },
