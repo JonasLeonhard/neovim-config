@@ -14,7 +14,7 @@ return {
     event = 'VeryLazy',
     opts = {
       window = {
-        margin = { 1, getMarginRight(), 1, 0 }, -- extra window margin [top, right, bottom, left]
+        margin = { 1, 0, 1, getMarginRight() }, -- extra window margin [top, right, bottom, left]
       },
       show_help = false,
     },
