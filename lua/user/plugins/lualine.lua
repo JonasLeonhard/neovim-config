@@ -39,14 +39,7 @@ return {
               return '[' .. status .. ']'
             end,
           },
-          {
-            function() -- Navic
-              return require('nvim-navic').get_location()
-            end,
-            cond = function()
-              return package.loaded['nvim-navic'] and require('nvim-navic').is_available()
-            end,
-          },
+          'navic',
         },
         lualine_x = {
           {
