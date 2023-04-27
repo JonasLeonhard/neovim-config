@@ -304,6 +304,7 @@ return {
             'Replace in files globally (Spectre)',
           },
           ['t'] = { '<cmd>:TodoTelescope<cr>', 'show todo comments' },
+          ['c'] = { '<cmd>:Telescope neoclip<cr>', 'Clipboard manager' },
         },
         ['<leader>u'] = {
           name = '  Ui-Toggles',
