@@ -323,7 +323,7 @@ return {
               },
               ['T'] = {
                 require('diffview.actions').conflict_choose_all 'theirs',
-                'Theirs',
+                'Theirs (all)',
               },
             },
             ['g'] = {
