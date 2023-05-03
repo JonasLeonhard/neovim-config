@@ -283,6 +283,68 @@ return {
               '<cmd>DiffviewRefresh<cr>',
               'refresh',
             },
+            ['c'] = {
+              name = 'choose',
+              ['b'] = {
+                require('diffview.actions').conflict_choose 'base',
+                'Base',
+              },
+              ['B'] = {
+                require('diffview.actions').conflict_choose_all 'base',
+                'Base (all)',
+              },
+              ['a'] = {
+                require('diffview.actions').conflict_choose 'all',
+                'All',
+              },
+              ['A'] = {
+                require('diffview.actions').conflict_choose_all 'all',
+                'All (all)',
+              },
+              ['x'] = {
+                require('diffview.actions').conflict_choose 'none',
+                'None',
+              },
+              ['X'] = {
+                require('diffview.actions').conflict_choose_all 'none',
+                'None (all)',
+              },
+              ['o'] = {
+                require('diffview.actions').conflict_choose 'ours',
+                'Ours',
+              },
+              ['O'] = {
+                require('diffview.actions').conflict_choose_all 'ours',
+                'Ours (all)',
+              },
+              ['t'] = {
+                require('diffview.actions').conflict_choose 'theirs',
+                'Theirs',
+              },
+              ['T'] = {
+                require('diffview.actions').conflict_choose_all 'theirs',
+                'Theirs',
+              },
+            },
+            ['g'] = {
+              name = 'goto',
+              ['n'] = {
+                require('diffview.actions').next_conflict,
+                'Next Conflict',
+              },
+              ['N'] = {
+                require('diffview.actions').select_next_entry,
+                'Next Entry',
+              },
+              ['p'] = {
+                require('diffview.actions').prev_conflict,
+                'Next Conflict',
+              },
+              ['P'] = {
+                require('diffview.actions').select_prev_entry,
+                'Previous Entry',
+              },
+            },
           },
         },
         ['<leader>q'] = {
