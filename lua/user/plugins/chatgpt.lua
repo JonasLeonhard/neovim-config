@@ -26,11 +26,14 @@ return {
         }
       },
       popup_layout = {
-        relative = "editor",
-        position = "100%",
-        size = {
-          height = "60%",
+        default = "center",
+        center = {
           width = "100%",
+          height = "100%",
+        },
+        right = {
+          width = "30%",
+          width_settings_open = "50%",
         },
       },
       popup_window = {
