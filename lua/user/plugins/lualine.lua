@@ -64,7 +64,7 @@ return {
               local buf_client_names = {}
 
               if next(buf_clients) == nil then
-                return '[LS: Inactive]'
+                return '󰴀 '
               end
 
               -- add all clients but null-ls
@@ -78,7 +78,7 @@ return {
               local supported_formatters = list_registered_null_ls_providers_names(vim.bo.filetype)
               vim.list_extend(buf_client_names, supported_formatters)
 
-              return '[' .. table.concat(buf_client_names, ', ') .. ']'
+              return '󱙋 [' .. table.concat(buf_client_names, ', ') .. ']'
             end,
             color = { gui = 'bold' },
           },
