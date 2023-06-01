@@ -105,5 +105,7 @@ return {
         },
       },
     }
+
+    vim.cmd 'highlight DiffviewDiffAddAsDelete guibg=#11111b guifg=0'
   end,
 }
