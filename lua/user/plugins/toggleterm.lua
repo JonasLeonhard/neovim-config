@@ -30,6 +30,12 @@ return {
         gitui:toggle()
       end
 
+      -- ---------------------- LazyDocker -----------------------------------
+      local lazydocker = Terminal:new { cmd = 'lazydocker', hidden = true, direction = 'float' }
+      function _LazyDocker_toggle()
+        lazydocker:toggle()
+      end
+
       -- ------------------- Keymaps ----------------------------------
       function _Set_terminal_keymaps()
         vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], { buffer = 0 })

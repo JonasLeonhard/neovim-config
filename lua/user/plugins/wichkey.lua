@@ -417,18 +417,21 @@ return {
           },
         },
         -- Explorer:
-        ['<leader>e'] = { function()
-          local path = vim.fn.expand("%:p")
-          if (path == "") then
-            vim.api.nvim_command("Xplr")
-          else
-            -- xplr cant open paths with '[' and ']' in them withouth them beeing wrapped in qoutes ''. An example would be:
-            -- xplr .../frontend/src/routes/[lang]/+layout.svelte
-            -- this will cause zsh to return: 'zsh: no matches found: .../frontend/src/routes/[lang]/+layout.svelte'
-            -- the following will wrap the path in quotes, to zsh does not try to pattern-match paths.
-            vim.api.nvim_command("Xplr " .. "\'" .. path .. "\'")
-          end
-        end, 'Xplr (current file)' },
+        ['<leader>e'] = {
+          function()
+            local path = vim.fn.expand '%:p'
+            if path == '' then
+              vim.api.nvim_command 'Xplr'
+            else
+              -- xplr cant open paths with '[' and ']' in them withouth them beeing wrapped in qoutes ''. An example would be:
+              -- xplr .../frontend/src/routes/[lang]/+layout.svelte
+              -- this will cause zsh to return: 'zsh: no matches found: .../frontend/src/routes/[lang]/+layout.svelte'
+              -- the following will wrap the path in quotes, to zsh does not try to pattern-match paths.
+              vim.api.nvim_command('Xplr ' .. "'" .. path .. "'")
+            end
+          end,
+          'Xplr (current file)',
+        },
         ['<leader>d'] = {
           name = 'Debug',
           t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", 'Toggle Breakpoint' },
@@ -451,6 +454,10 @@ return {
           s = { "<cmd>lua require'dap'.continue()<cr>", 'Start' },
           q = { "<cmd>lua require'dap'.close()<cr>", 'Quit' },
           U = { "<cmd>lua require'dapui'.toggle({reset = true})<cr>", 'Toggle UI' },
+        },
+        ['<leader>D'] = {
+          '<cmd> lua _LazyDocker_toggle()<cr>',
+          'LazyDocker',
         },
         ['<leader>a'] = {
           name = 'AI',
