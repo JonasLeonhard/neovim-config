@@ -4,8 +4,6 @@ return {
     'nvim-telescope/telescope.nvim',
     version = '*',
     dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim' },
-    event = 'VeryLazy',
-    lazy = true,
     config = function()
       local telescope = require 'telescope'
       vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = '#181825' })
