@@ -15,12 +15,6 @@ return {
             height = 25,
           },
           border = false,
-          file_ignore_patterns = {
-            'node_modules/',
-            '.git/',
-            'vendor/',
-            'dist/',
-          },
         },
         pickers = {
           find_files = {

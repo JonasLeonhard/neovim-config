@@ -204,8 +204,8 @@ return {
           ['t'] = { "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>", 'Toggle Cursor Alternate' },
         },
         ['<leader>f'] = {
-          '<cmd>Telescope find_files<cr>',
-          'Find files',
+          '<cmd>Telescope git_files<cr>',
+          'Find files (git)',
         },
         ['<leader>g'] = {
           name = 'git',
@@ -367,6 +367,10 @@ return {
             'Replace in files globally (Spectre)',
           },
           ['t'] = { '<cmd>:TodoTelescope<cr>', 'show todo comments' },
+          ['f'] = {
+            '<cmd>Telescope find_files<cr>',
+            'Find files (all)',
+          },
         },
         ['<leader>u'] = {
           name = '  Ui-Toggles',
