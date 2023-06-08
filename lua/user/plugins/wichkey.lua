@@ -432,6 +432,10 @@ return {
           end,
           'Xplr (current file)',
         },
+        ['<leader>E'] = {
+          '<cmd>Xplr<cr>',
+          'Xplr (root)',
+        },
         ['<leader>d'] = {
           name = 'Debug',
           t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", 'Toggle Breakpoint' },
