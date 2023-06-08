@@ -355,7 +355,7 @@ return {
           name = 'search/replace',
           ['?'] = { require('telescope.builtin').oldfiles, 'Find recently opened files' },
           ['h'] = { require('telescope.builtin').help_tags, 'Help' },
-          ['W'] = { require('telescope.builtin').grep_string, 'Cursor Word' },
+          ['w'] = { require('telescope.builtin').grep_string, 'Cursor Word' },
           ['g'] = { require('telescope.builtin').live_grep, 'Grep' },
           ['d'] = { require('telescope.builtin').diagnostics, 'Diagnostics' },
           ['r'] = {
