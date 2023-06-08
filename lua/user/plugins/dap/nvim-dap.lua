@@ -1,6 +1,7 @@
 return {
   'mfussenegger/nvim-dap',
   dependencies = { 'williamboman/mason.nvim', 'theHamsta/nvim-dap-virtual-text' },
+  lazy = true,
   config = function()
     local sign = vim.fn.sign_define
 

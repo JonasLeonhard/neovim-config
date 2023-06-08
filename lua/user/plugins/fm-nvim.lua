@@ -1,5 +1,7 @@
 return {
   'is0n/fm-nvim',
+  event = 'VeryLazy',
+  lazy = true,
   config = function()
     require('fm-nvim').setup {
       -- (Vim) Command used to open files

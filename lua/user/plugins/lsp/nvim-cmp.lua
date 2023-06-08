@@ -8,13 +8,15 @@ return {
     'saadparwaiz1/cmp_luasnip',
     'L3MON4D3/LuaSnip',
     {
-      "zbirenbaum/copilot-cmp",
-      dependencies = { "copilot.lua" },
+      'zbirenbaum/copilot-cmp',
+      dependencies = { 'copilot.lua' },
       config = function()
-        require("copilot_cmp").setup()
-      end
-    }
+        require('copilot_cmp').setup()
+      end,
+    },
   },
+  event = 'VeryLazy',
+  lazy = true,
   config = function()
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
@@ -55,12 +57,12 @@ return {
         },
       },
       sources = {
-        { name = "copilot",  group_index = 2 },
-        { name = 'nvim_lsp', group_index = 2, },
-        { name = 'path',     group_index = 2, },
-        { name = 'buffer',   group_index = 2, },
-        { name = 'luasnip',  group_index = 2, },
-        { name = 'cmdline',  group_index = 2, },
+        { name = 'copilot', group_index = 2 },
+        { name = 'nvim_lsp', group_index = 2 },
+        { name = 'path', group_index = 2 },
+        { name = 'buffer', group_index = 2 },
+        { name = 'luasnip', group_index = 2 },
+        { name = 'cmdline', group_index = 2 },
       },
       formatting = {
         format = function(entry, vim_item)
@@ -116,7 +118,7 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
-          require("copilot_cmp.comparators").prioritize,
+          require('copilot_cmp.comparators').prioritize,
 
           -- Below is the default comparitor list and order for nvim-cmp
           cmp.config.compare.offset,
@@ -130,7 +132,7 @@ return {
           cmp.config.compare.length,
           cmp.config.compare.order,
         },
-      }
+      },
     }
 
     -- Set configuration for specific filetypes.

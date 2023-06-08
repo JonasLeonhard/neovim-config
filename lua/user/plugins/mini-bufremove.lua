@@ -1,6 +1,7 @@
 return {
   {
-    "echasnovski/mini.bufremove",
-    event = "VeryLazy",
-  }
+    'echasnovski/mini.bufremove',
+    event = 'VeryLazy',
+    lazy = true,
+  },
 }

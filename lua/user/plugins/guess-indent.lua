@@ -1,5 +1,7 @@
 return {
   'NMAC427/guess-indent.nvim',
+  event = 'VeryLazy',
+  lazy = true,
   config = function()
     require('guess-indent').setup {
       auto_cmd = false, -- we create our own toggle for the autocmd

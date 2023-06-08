@@ -3,6 +3,7 @@ return {
     'akinsho/toggleterm.nvim',
     version = '*',
     event = 'VeryLazy',
+    lazy = true,
     opts = {
       direction = 'horizontal', -- default direction
       size = vim.fn.winheight(0) / 3, -- split size

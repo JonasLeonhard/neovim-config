@@ -13,6 +13,8 @@ return {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons', 'catppuccin/nvim' },
+    event = 'VeryLazy',
+    lazy = true,
     -- See `:help lualine.txt`
     opts = {
       extensions = { 'lazy' },

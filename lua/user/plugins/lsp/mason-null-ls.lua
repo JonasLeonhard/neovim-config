@@ -6,6 +6,8 @@ return {
       'williamboman/mason.nvim',
       'jose-elias-alvarez/null-ls.nvim',
     },
+    event = 'VeryLazy',
+    lazy = true,
     config = function()
       local mason_null_ls = require 'mason-null-ls'
       local null_ls = require 'null-ls'

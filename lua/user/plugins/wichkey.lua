@@ -12,6 +12,7 @@ return {
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
+    lazy = true,
     opts = {
       window = {
         margin = { 1, 0, 1, getMarginRight() }, -- extra window margin [top, right, bottom, left]

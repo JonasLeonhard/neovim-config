@@ -1,6 +1,7 @@
 return {
   'chentoast/marks.nvim',
   event = 'VeryLazy',
+  lazy = true,
   config = function()
     require('marks').setup {
       -- while lower values may cause performance penalties. default 150.

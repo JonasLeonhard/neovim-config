@@ -1,8 +1,10 @@
 return {
   {
-    "williamboman/mason.nvim",
+    'williamboman/mason.nvim',
+    event = 'VeryLazy',
+    lazy = true,
     config = function()
-      require("mason").setup()
-    end
-  }
+      require('mason').setup()
+    end,
+  },
 }

@@ -1,16 +1,17 @@
 return {
   {
-    "akinsho/bufferline.nvim",
+    'akinsho/bufferline.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    event = "VeryLazy",
+    event = 'VeryLazy',
+    lazy = true,
     opts = {
       options = {
-        diagnostics = "nvim_lsp",
+        diagnostics = 'nvim_lsp',
         always_show_bufferline = false,
-      }
+      },
     },
     config = function(_, opts)
-      require("bufferline").setup(opts)
-    end
-  }
+      require('bufferline').setup(opts)
+    end,
+  },
 }

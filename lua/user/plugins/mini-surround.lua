@@ -1,5 +1,7 @@
 return {
   'echasnovski/mini.surround',
+  event = 'VeryLazy',
+  lazy = true,
   opts = {
     -- Add custom surroundings to be used on top of builtin ones. For more
     -- information ith examples, see `:h MiniSurround.config`.

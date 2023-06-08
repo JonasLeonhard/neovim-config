@@ -1,6 +1,8 @@
 return {
   'SmiteshP/nvim-navic',
   dependencies = { 'neovim/nvim-lspconfig' },
+  event = 'VeryLazy',
+  lazy = true,
   config = function()
     require('nvim-navic').setup {
       highlight = true,
