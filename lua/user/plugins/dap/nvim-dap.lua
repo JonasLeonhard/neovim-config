@@ -9,7 +9,9 @@ return {
     sign('DapBreakpointCondition', { text = ' ', texthl = 'DapBreakpointCondition', linehl = '', numhl = '' })
     sign('DapLogPoint', { text = ' ', texthl = 'DapLogPoint', linehl = '', numhl = '' })
 
-    require('nvim-dap-virtual-text').setup()
+    require('nvim-dap-virtual-text').setup {
+      virt_text_pos = vim.fn.has 'nvim-0.10' == 1 and 'inline' or 'eol',
+    }
     require 'user.plugins.dap.configurations.go'
     require 'user.plugins.dap.configurations.lua'
     require 'user.plugins.dap.configurations.php'
