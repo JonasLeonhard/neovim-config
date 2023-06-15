@@ -19,7 +19,6 @@ return {
       mason_null_ls.setup {
         ensure_installed = {
           -- Opt to list sources here, when available in mason.
-          'eslint_d',
           'prettierd',
           'styllua',
           'shfm',
@@ -27,44 +26,13 @@ return {
         automatic_installation = false,
         automatic_setup = true, -- Recommended, but optional
         handlers = {
-          eslint_d = function() end, -- disable automatic setup: see (1)
-        },
-      }
-
-      -- So we check if a .pnp.cjs file is in the project and switch to plain eslint
-
-      -- handling yarn berry and pnpm:
-      local command_resolver = require 'null-ls.helpers.command_resolver'
-
-      null_ls.setup {
-        -- Add Anything not supported by mason or extended edgecases.
-        sources = {
-          -- (1) We can use `eslint_d` if we don't use Yarn PnP.
-          null_ls.builtins.diagnostics.eslint_d.with {
-            condition = function(utils)
-              return not utils.root_has_file '.pnp.cjs'
-            end,
-          },
-          null_ls.builtins.code_actions.eslint_d.with {
-            condition = function(utils)
-              return not utils.root_has_file '.pnp.cjs'
-            end,
-          },
-
-          -- (1) We have to fall back to `eslint` if we use Yarn PnP. `eslint_d` is not able to resolve
-          -- plugins inside the `eslintrc.cjs` configuration file.
-          null_ls.builtins.diagnostics.eslint.with {
-            dynamic_command = command_resolver.from_yarn_pnp(),
-            condition = function(utils)
-              return utils.root_has_file '.pnp.cjs'
-            end,
-          },
-          null_ls.builtins.code_actions.eslint.with {
-            dynamic_command = command_resolver.from_yarn_pnp(),
-            condition = function(utils)
-              return utils.root_has_file '.pnp.cjs'
-            end,
-          },
+          eslint_d = function()
+            -- disable automatic setup for eslint_d,
+            -- this is because eslind_d wont work correctly with yarn berry pnp,
+            -- it is therefore recommended to use the eslint-lsp instead.
+            print(
+            "You have installed eslint_d via mason_null_ls linters. This can cause problems with yarn berry. Use the eslint lsp instead")
+          end,
         },
       }
     end,

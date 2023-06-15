@@ -10,7 +10,7 @@ return {
     },
   },
   -- tsserver = {},
-
+  eslint = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
