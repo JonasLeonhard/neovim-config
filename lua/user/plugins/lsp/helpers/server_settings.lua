@@ -1,20 +1,23 @@
 return {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
+  -- each server_name key in this tabe will be called as
+  -- require('lspconfig')[<server_name>].setup({ capabilities, onAttach, ...rest })
   rust_analyzer = {
-    ["rust-analyzer"] = {
-      checkOnSave = {
-        command = "clippy",
+    -- ...rest here:
+    settings = {
+      ["rust-analyzer"] = {
+        checkOnSave = {
+          command = "clippy",
+        },
       },
-    },
+    }
   },
-  -- tsserver = {},
   eslint = {},
   lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
+    settings = {
+      Lua = {
+        workspace = { checkThirdParty = false },
+        telemetry = { enable = false },
+      },
+    }
   },
 }
