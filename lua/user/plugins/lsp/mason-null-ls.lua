@@ -6,7 +6,6 @@ return {
       'williamboman/mason.nvim',
       'jose-elias-alvarez/null-ls.nvim',
     },
-    event = 'VeryLazy',
     lazy = true,
     config = function()
       local mason_null_ls = require 'mason-null-ls'
@@ -31,7 +30,7 @@ return {
             -- this is because eslind_d wont work correctly with yarn berry pnp,
             -- it is therefore recommended to use the eslint-lsp instead.
             print(
-            "You have installed eslint_d via mason_null_ls linters. This can cause problems with yarn berry. Use the eslint lsp instead")
+              "You have installed eslint_d via mason_null_ls linters. This can cause problems with yarn berry. Use the eslint lsp instead")
           end,
         },
       }
