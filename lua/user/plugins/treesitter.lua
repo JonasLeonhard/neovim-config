@@ -5,6 +5,8 @@ return {
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
+    event = 'User FileOpened',
+    lazy = true,
     opts = {
       additional_vim_regex_highlighting = true,
       ensure_installed = { 'go', 'lua', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'regex', 'bash', 'markdown_inline', 'markdown' },
