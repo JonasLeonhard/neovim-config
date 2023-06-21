@@ -2,6 +2,6 @@
 return {
   'neovim/nvim-lspconfig',
   dependencies = { 'mason.nvim', 'folke/neodev.nvim' },
-  event = 'VeryLazy',
+  event = 'User FileOpened',
   lazy = true,
 }

@@ -1,7 +1,7 @@
 return {
   'SmiteshP/nvim-navic',
   dependencies = { 'neovim/nvim-lspconfig' },
-  event = 'VeryLazy',
+  event = 'User FileOpened',
   lazy = true,
   config = function()
     require('nvim-navic').setup {

@@ -3,7 +3,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     dependencies = { 'mason.nvim', 'neovim/nvim-lspconfig', 'folke/neodev.nvim', 'hrsh7th/nvim-cmp',
       'hrsh7th/cmp-nvim-lsp' },
-    event = 'VeryLazy',
+    event = 'User FileOpened',
     lazy = true,
     config = function()
       local mason_lspconfig = require 'mason-lspconfig'
