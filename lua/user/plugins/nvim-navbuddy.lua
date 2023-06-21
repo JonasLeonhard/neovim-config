@@ -1,12 +1,12 @@
 return {
   'SmiteshP/nvim-navbuddy',
   lazy = true,
-  event = 'VeryLazy',
+  event = 'User FileOpened',
   dependencies = {
     'neovim/nvim-lspconfig',
     'SmiteshP/nvim-navic',
     'MunifTanjim/nui.nvim',
-    'numToStr/Comment.nvim', -- Optional
+    'numToStr/Comment.nvim',         -- Optional
     'nvim-telescope/telescope.nvim', -- Optional
   },
   config = function()
@@ -19,8 +19,8 @@ return {
         -- or an array with eight chars building up the border in a clockwise fashion
         -- starting with the top-left corner. eg: { "╔", "═" ,"╗", "║", "╝", "═", "╚", "║" }.
         size = { height = '40%', width = '100%' }, -- Or table format example: { height = "40%", width = "100%"}
-        position = '100%', -- Or table format example: { row = "100%", col = "0%"}
-        scrolloff = nil, -- scrolloff value within navbuddy window
+        position = '100%',                         -- Or table format example: { row = "100%", col = "0%"}
+        scrolloff = nil,                           -- scrolloff value within navbuddy window
         sections = {
           left = {
             size = '20%',
@@ -80,48 +80,48 @@ return {
       -- mappings are used for keys
       -- that are not set by user
       mappings = {
-        ['<esc>'] = actions.close(), -- Close and cursor to original location
+        ['<esc>'] = actions.close(),        -- Close and cursor to original location
         ['q'] = actions.close(),
-        ['j'] = actions.next_sibling(), -- down
+        ['j'] = actions.next_sibling(),     -- down
         ['k'] = actions.previous_sibling(), -- up
-        ['h'] = actions.parent(), -- Move to left panel
-        ['l'] = actions.children(), -- Move to right panel
-        ['0'] = actions.root(), -- Move to first panel
-        ['v'] = actions.visual_name(), -- Visual selection of name
-        ['V'] = actions.visual_scope(), -- Visual selection of scope
-        ['y'] = actions.yank_name(), -- Yank the name to system clipboard "+
-        ['Y'] = actions.yank_scope(), -- Yank the scope to system clipboard "+
-        ['i'] = actions.insert_name(), -- Insert at start of name
-        ['I'] = actions.insert_scope(), -- Insert at start of scope
-        ['a'] = actions.append_name(), -- Insert at end of name
-        ['A'] = actions.append_scope(), -- Insert at end of scope
-        ['r'] = actions.rename(), -- Rename currently focused symbol
-        ['d'] = actions.delete(), -- Delete scope
-        ['f'] = actions.fold_create(), -- Create fold of current scope
-        ['F'] = actions.fold_delete(), -- Delete fold of current scope
-        ['c'] = actions.comment(), -- Comment out current scope
-        ['<enter>'] = actions.select(), -- Goto selected symbol
+        ['h'] = actions.parent(),           -- Move to left panel
+        ['l'] = actions.children(),         -- Move to right panel
+        ['0'] = actions.root(),             -- Move to first panel
+        ['v'] = actions.visual_name(),      -- Visual selection of name
+        ['V'] = actions.visual_scope(),     -- Visual selection of scope
+        ['y'] = actions.yank_name(),        -- Yank the name to system clipboard "+
+        ['Y'] = actions.yank_scope(),       -- Yank the scope to system clipboard "+
+        ['i'] = actions.insert_name(),      -- Insert at start of name
+        ['I'] = actions.insert_scope(),     -- Insert at start of scope
+        ['a'] = actions.append_name(),      -- Insert at end of name
+        ['A'] = actions.append_scope(),     -- Insert at end of scope
+        ['r'] = actions.rename(),           -- Rename currently focused symbol
+        ['d'] = actions.delete(),           -- Delete scope
+        ['f'] = actions.fold_create(),      -- Create fold of current scope
+        ['F'] = actions.fold_delete(),      -- Delete fold of current scope
+        ['c'] = actions.comment(),          -- Comment out current scope
+        ['<enter>'] = actions.select(),     -- Goto selected symbol
         ['o'] = actions.select(),
-        ['J'] = actions.move_down(), -- Move focused node down
-        ['K'] = actions.move_up(), -- Move focused node up
+        ['J'] = actions.move_down(),        -- Move focused node down
+        ['K'] = actions.move_up(),          -- Move focused node up
         ['/'] = actions.telescope {
           layout_config = {
             height = 25,
           },
           sorting_strategy = 'ascending',
           layout_strategy = 'bottom_pane',
-        }, -- Fuzzy finder at current level.
+        },                      -- Fuzzy finder at current level.
         ['?'] = actions.help(), -- Open mappings help window
       },
       lsp = {
         auto_attach = true, -- If set to true, you don't need to manually use attach function
-        preference = nil, -- list of lsp server names in order of preference
+        preference = nil,   -- list of lsp server names in order of preference
       },
       source_buffer = {
         follow_node = true, -- Keep the current node in focus on the source buffer
-        highlight = true, -- Highlight the currently focused node
+        highlight = true,   -- Highlight the currently focused node
         reorient = 'smart', -- "smart", "top", "mid" or "none"
-        scrolloff = nil, -- scrolloff value when navbuddy is open
+        scrolloff = nil,    -- scrolloff value when navbuddy is open
       },
     }
   end,

@@ -2,7 +2,7 @@ return {
   -- "gc" to comment visual regions/lines
   {
     'numToStr/Comment.nvim',
-    event = 'VeryLazy',
+    event = 'User FileOpened',
     lazy = true,
     dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
     config = function()
@@ -10,9 +10,5 @@ return {
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
       }
     end,
-  },
-  {
-    'JoosepAlviste/nvim-ts-context-commentstring',
-    event = 'VeryLazy',
   },
 }
