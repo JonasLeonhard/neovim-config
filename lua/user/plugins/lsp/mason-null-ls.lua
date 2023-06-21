@@ -32,6 +32,13 @@ return {
             print(
               "You have installed eslint_d via mason_null_ls linters. This can cause problems with yarn berry. Use the eslint lsp instead")
           end,
+          phpstan = function()
+            null_ls.register(null_ls.builtins.diagnostics.phpstan.with({
+              cwd = function(pattern)
+                return require('lspconfig.util').root_pattern('composer.json', '.git')(pattern.bufname)
+              end
+            }))
+          end
         },
       }
     end,
