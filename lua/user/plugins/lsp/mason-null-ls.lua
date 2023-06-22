@@ -29,16 +29,17 @@ return {
             -- disable automatic setup for eslint_d,
             -- this is because eslind_d wont work correctly with yarn berry pnp,
             -- it is therefore recommended to use the eslint-lsp instead.
-            print(
-              "You have installed eslint_d via mason_null_ls linters. This can cause problems with yarn berry. Use the eslint lsp instead")
+            print 'You have installed eslint_d via mason_null_ls linters. This can cause problems with yarn berry. Use the eslint lsp instead'
           end,
           phpstan = function()
-            null_ls.register(null_ls.builtins.diagnostics.phpstan.with({
-              cwd = function(pattern)
-                return require('lspconfig.util').root_pattern('composer.json', '.git')(pattern.bufname)
-              end
-            }))
-          end
+            null_ls.register(null_ls.builtins.diagnostics.phpstan.with {
+              timeout = 100000,
+              extra_args = { '--memory-limit=-1', '-c', 'phpstan.neon' },
+              condition = function(utils)
+                return utils.root_has_file 'phpstan.neon'
+              end,
+            })
+          end,
         },
       }
     end,
