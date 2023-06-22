@@ -20,6 +20,7 @@ return {
         icons_enabled = true,
         component_separators = '|',
         section_separators = '',
+        disabled_filetypes = { 'alpha' }, -- disable in dashboard to increase startuptime
       },
       sections = {
         lualine_a = { 'mode' },

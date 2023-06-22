@@ -11,16 +11,18 @@ return {
       local mason_null_ls = require 'mason-null-ls'
       local null_ls = require 'null-ls'
 
-      -- Extend null_ls builtins before they are beeing setup:
-      vim.list_extend(null_ls.builtins.formatting.prettier.filetypes, { 'twig', 'svelte' })
-      vim.list_extend(null_ls.builtins.diagnostics.eslint.filetypes, { 'svelte' })
-
+      null_ls.setup {
+        debug = true,
+      }
       mason_null_ls.setup {
         ensure_installed = {
           -- Opt to list sources here, when available in mason.
+          'djlint',
+          'phpstan',
           'prettierd',
-          'styllua',
           'shfm',
+          'styllua',
+          'twigcs',
         },
         automatic_installation = false,
         automatic_setup = true, -- Recommended, but optional
@@ -38,6 +40,21 @@ return {
               condition = function(utils)
                 return utils.root_has_file 'phpstan.neon'
               end,
+            })
+          end,
+          prettierd = function()
+            vim.list_extend(null_ls.builtins.formatting.prettier.filetypes, { 'svelte' })
+            null_ls.register(null_ls.builtins.formatting.prettier)
+          end,
+          djlint = function()
+            null_ls.register(null_ls.builtins.formatting.djlint.with {
+              extra_args = {
+                '--profile=nunjucks',
+                '--preserve-blank-lines',
+                '--indent=2',
+                '--line-break-after-multiline-tag',
+              },
+              filetypes = { 'twig' },
             })
           end,
         },
