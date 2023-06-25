@@ -9,7 +9,6 @@ return {
       local mason_lspconfig = require 'mason-lspconfig'
       local lspconfig = require 'lspconfig'
       local lspconfig_settings = require 'user.plugins.lsp.helpers.server_settings'
-      local on_attach = require 'user.plugins.lsp.helpers.on_attach'
 
       mason_lspconfig.setup({ ensure_installed = vim.tbl_keys(lspconfig_settings) })
 
@@ -22,7 +21,6 @@ return {
         function(server_name) -- gets called from mason_lspconfig for each installed lsp
           lspconfig[server_name].setup(
             vim.tbl_deep_extend('force', lspconfig_settings[server_name] or {}, {
-              on_attach = on_attach,
               capabilities = capabilities,
             })
           )

@@ -9,12 +9,13 @@ return {
         cmp = true,
         gitsigns = true,
         telescope = true,
-        navic = {
-          enabled = true,
-        },
         dap = {
           enabled = true,
           enable_ui = true,
+        },
+        dropbar = {
+          enabled = true,
+          color_mode = false
         },
         bufferline = true,
         hop = true,

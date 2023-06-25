@@ -39,8 +39,7 @@ return {
 
               return '[' .. status .. ']'
             end,
-          },
-          'navic',
+          }
         },
         lualine_x = {
           {

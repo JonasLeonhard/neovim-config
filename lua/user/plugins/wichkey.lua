@@ -202,7 +202,7 @@ return {
           },
           ['f'] = { vim.lsp.buf.format, 'Format Buffer' },
           ['t'] = { "<cmd>lua require('alternate-toggler').toggleAlternate()<CR>", 'Toggle Cursor Alternate' },
-          ['n'] = { '<cmd>Navbuddy<CR>', 'Navbuddy' },
+          ['n'] = { "<cmd>:lua require('dropbar.api').pick()<CR>", 'dropbar pick' },
         },
         ['<leader>f'] = {
           '<cmd>Telescope git_files<cr>',
