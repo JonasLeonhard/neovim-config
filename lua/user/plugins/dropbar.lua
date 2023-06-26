@@ -1,33 +1,34 @@
 return {
   'Bekaboo/dropbar.nvim',
+  event = 'User FileOpened',
   opts = {
     icons = {
-      ui = { bar = { separator = "  " } },
+      ui = { bar = { separator = '  ' } },
     },
     menu = {
       keymaps = {
-        ["q"] = function()
-          local menu = require("dropbar.api").get_current_dropbar_menu()
+        ['q'] = function()
+          local menu = require('dropbar.api').get_current_dropbar_menu()
           if not menu then
             return
           end
 
-          menu:close(true);
+          menu:close(true)
         end,
-        ["h"] = function()
-          local menu = require("dropbar.api").get_current_dropbar_menu()
+        ['h'] = function()
+          local menu = require('dropbar.api').get_current_dropbar_menu()
           if not menu then
             return
           end
 
-          menu:close(true);
+          menu:close(true)
         end,
-        ["Q"] = function()
-          local menu = require("dropbar.api").get_current_dropbar_menu()
+        ['Q'] = function()
+          local menu = require('dropbar.api').get_current_dropbar_menu()
           if not menu then
             return
           end
-          menu:close(false); -- close menu and dont restore view
+          menu:close(false) -- close menu and dont restore view
         end,
         ['l'] = function()
           local menu = require('dropbar.api').get_current_dropbar_menu()
@@ -40,7 +41,7 @@ return {
             menu:click_on(component, nil, 1, 'l')
           end
         end,
-      }
-    }
-  }
+      },
+    },
+  },
 }
