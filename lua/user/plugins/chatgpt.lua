@@ -1,7 +1,27 @@
 return {
   'jackMort/ChatGPT.nvim',
-  event = 'VeryLazy',
   lazy = true,
+  keys = {
+    { '<leader>aa', '<cmd>ChatGPT<cr>',      desc = 'Chat' },
+    { '<leader>aA', '<cmd>ChatGPTActAs<cr>', desc = 'ActAs Selection' },
+    {
+      '<leader>ae',
+      function()
+        require('chatgpt').edit_with_instructions()
+      end,
+      desc = 'Edit Line(s) w. Instruction'
+    },
+    { '<leader>arg', '<cmd>ChatGPTRun grammar_correction<cr>', desc = 'grammar_correction' },
+    { '<leader>art', '<cmd>ChatGPTRun translate<cr>',          desc = 'translate' },
+    { '<leader>ark', '<cmd>ChatGPTRun keywords<cr>',           desc = 'keywords' },
+    { '<leader>ard', '<cmd>ChatGPTRun docstring<cr>',          desc = 'docstring' },
+    { '<leader>arT', '<cmd>ChatGPTRun add_tests<cr>',          desc = 'add_tests' },
+    { '<leader>aro', '<cmd>ChatGPTRun optimize_code<cr>',      desc = 'optimize_code' },
+    { '<leader>ars', '<cmd>ChatGPTRun summarize<cr>',          desc = 'summarize' },
+    { '<leader>arf', '<cmd>ChatGPTRun fix_bugs<cr>',           desc = 'fix_bugs' },
+    { '<leader>arE', '<cmd>ChatGPTRun explain_code<cr>',       desc = 'explain_code' },
+    { '<leader>arr', '<cmd>ChatGPTRun roxygen_edit<cr>',       desc = 'roxygen_edit' },
+  },
   dependencies = {
     'MunifTanjim/nui.nvim',
     'nvim-lua/plenary.nvim',
@@ -59,12 +79,12 @@ return {
           text = {
             top_align = 'left',
             top = ' Prompt: ['
-              .. 'Submit: <C-s>,'
-              .. ' yank_last/accept: <C-y>,'
-              .. ' yank_last_code: <C-k>,'
-              .. ' cycle_windows: <Tab> '
-              .. ' opts: <C-o> '
-              .. ']',
+                .. 'Submit: <C-s>,'
+                .. ' yank_last/accept: <C-y>,'
+                .. ' yank_last_code: <C-k>,'
+                .. ' cycle_windows: <Tab> '
+                .. ' opts: <C-o> '
+                .. ']',
           },
         },
         win_options = {

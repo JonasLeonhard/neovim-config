@@ -1,7 +1,8 @@
 return {
-  { -- Adds git releated signs to the gutter, as well as utilities for managing changes
+  {
+    -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
-    event = 'VeryLazy',
+    event = 'User FileOpened',
     lazy = true,
     opts = {
       -- See `:help gitsigns.txt`
@@ -14,6 +15,62 @@ return {
       },
     },
     dependencies = { 'petertriho/nvim-scrollbar' },
+    keys = {
+      {
+        '<leader>g]',
+        function()
+          if vim.wo.diff then
+            return ']c'
+          end
+          vim.schedule(function()
+            require('gitsigns').next_hunk()
+          end)
+          return '<Ignore>'
+        end,
+        desc = 'Jump to next hunk',
+      },
+      {
+        '<leader>g[',
+        function()
+          if vim.wo.diff then
+            return '{c'
+          end
+          vim.schedule(function()
+            require('gitsigns').prev_hunk()
+          end)
+          return '<Ignore>'
+        end,
+        'Jump to prev hunk',
+      },
+      {
+        '<leader>gr',
+        function()
+          require('gitsigns').reset_hunk()
+        end,
+        'Reset hunk',
+      },
+      {
+        '<leader>gh',
+        function()
+          require('gitsigns').preview_hunk()
+        end,
+        'Preview hunk',
+      },
+      {
+        '<leader>gb',
+        function()
+          require('gitsigns').blame_line()
+        end,
+        desc = 'Blame line',
+      },
+      {
+        '<leader>ugd',
+        function()
+          require('gitsigns').toggle_deleted()
+        end,
+        desc = 'GitSigns Toggle deleted',
+      }
+    },
     config = function()
       require('gitsigns').setup()
       require('scrollbar.handlers.gitsigns').setup()

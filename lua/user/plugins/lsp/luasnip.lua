@@ -7,6 +7,6 @@ return {
     require('luasnip.loaders.from_vscode').lazy_load { paths = { './lua/user/plugins/snippets/' } } -- loads snippets in user/plugins/snippets/[filetype].snippets
     luasnip.config.setup {}
   end,
-  event = 'VeryLazy',
+  event = 'User FileOpened',
   lazy = true,
 }

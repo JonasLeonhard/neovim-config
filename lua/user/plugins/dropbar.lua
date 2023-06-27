@@ -1,6 +1,16 @@
 return {
   'Bekaboo/dropbar.nvim',
   event = 'User FileOpened',
+  lazy = true,
+  keys = {
+    {
+      '<leader>cn',
+      function()
+        require('dropbar.api').pick()
+      end,
+      desc = 'dropbar pick'
+    },
+  },
   opts = {
     icons = {
       ui = { bar = { separator = '  ' } },

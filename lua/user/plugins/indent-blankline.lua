@@ -1,7 +1,8 @@
 return {
-  { -- Add indentation guides even on blank lines
+  {
+    -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
-    event = 'VeryLazy',
+    event = 'User FileOpened',
     lazy = true,
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`

@@ -1,10 +1,10 @@
 return {
   'NMAC427/guess-indent.nvim',
-  event = 'VeryLazy',
+  event = 'User FileOpened',
   lazy = true,
   config = function()
     require('guess-indent').setup {
-      auto_cmd = false, -- we create our own toggle for the autocmd
+      auto_cmd = false,    -- we create our own toggle for the autocmd
       filetype_exclude = { -- A list of filetypes for which the auto command gets disabled
         'netrw',
         'tutor',

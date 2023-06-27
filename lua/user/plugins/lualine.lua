@@ -32,7 +32,7 @@ return {
           'diagnostics',
           {
             function() -- Harpoon
-              local status = require('harpoon.mark').status()
+              local status = package.loaded['harpoon.mark'].status()
               if status == '' then
                 return '[U]'
               end

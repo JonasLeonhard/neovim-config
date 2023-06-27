@@ -1,7 +1,15 @@
 return {
   'rmagatti/alternate-toggler',
   lazy = true,
-  event = 'VeryLazy',
+  keys = {
+    {
+      '<leader>ct',
+      function()
+        require('alternate-toggler').toggleAlternate()
+      end,
+      desc = 'Toggle Cursor Alternate'
+    },
+  },
   config = function()
     local alternateToggler = require 'alternate-toggler'
 

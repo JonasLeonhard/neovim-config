@@ -4,8 +4,29 @@ return {
     version = '*',
     event = 'VeryLazy',
     lazy = true,
+    keys = {
+      {
+        '<leader>gg',
+        function()
+          _Gitui_toggle()
+        end,
+        desc = 'Gitui'
+      },
+      {
+        '<leader>ut',
+        '<cmd>ToggleTerm<cr>',
+        desc = 'Terminal'
+      },
+      {
+        '<leader>D',
+        function()
+          _LazyDocker_toggle()
+        end,
+        desc = 'LazyDocker',
+      }
+    },
     opts = {
-      direction = 'horizontal', -- default direction
+      direction = 'horizontal',       -- default direction
       size = vim.fn.winheight(0) / 3, -- split size
       float_opts = {
         -- The border key is *almost* the same as 'nvim_open_win'
