@@ -1,7 +1,7 @@
 return {
   'folke/neodev.nvim',
   lazy = true,
-  event = 'User FileOpened',
+  event = 'User File Opened',
   config = function()
     require('neodev').setup()
   end,
