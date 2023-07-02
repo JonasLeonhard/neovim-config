@@ -6,6 +6,9 @@ return {
     modes = {
       search = {
         enabled = false
+      },
+      char = {
+        label = { exclude = "hjkliardcwbyog" },
       }
     }
   },
