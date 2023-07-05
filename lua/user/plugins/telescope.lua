@@ -21,28 +21,28 @@ return {
         function()
           require('telescope.builtin').buffers()
         end,
-        desc = 'Find existing buffers'
+        desc = 'Find existing buffers',
       },
       {
         '<leader>cs',
         function()
           require('telescope.builtin').lsp_document_symbols()
         end,
-        desc = 'Document Symbols'
+        desc = 'Document Symbols',
       },
       {
-        '<leader>gr',
+        'gr',
         function()
           require('telescope.builtin').lsp_references()
         end,
-        desc = 'Goto References'
+        desc = 'Goto References',
       },
       {
         '<leader>cws',
         function()
           require('telescope.builtin').lsp_dynamic_workspace_symbols()
         end,
-        desc = 'Workspace Symbols'
+        desc = 'Workspace Symbols',
       },
       {
         '<leader>f',
@@ -54,41 +54,41 @@ return {
         function()
           require('telescope.builtin').oldfiles()
         end,
-        desc = 'Find recently opened files'
+        desc = 'Find recently opened files',
       },
       {
         '<leader>sh',
         function()
           require('telescope.builtin').help_tags()
         end,
-        desc = 'Help'
+        desc = 'Help',
       },
       {
         '<leader>sw',
         function()
           require('telescope.builtin').grep_string()
         end,
-        desc = 'Cursor Word'
+        desc = 'Cursor Word',
       },
       {
         '<leader>sg',
         function()
           require('telescope.builtin').live_grep()
         end,
-        desc = 'Grep'
+        desc = 'Grep',
       },
       {
         '<leader>sd',
         function()
           require('telescope.builtin').diagnostics()
         end,
-        desc = 'Diagnostics'
+        desc = 'Diagnostics',
       },
       {
         '<leader>sf',
         '<cmd>Telescope find_files<cr>',
         desc = 'Find files (all)',
-      }
+      },
     },
     config = function()
       local telescope = require 'telescope'
@@ -116,10 +116,10 @@ return {
         },
         extensions = {
           fzf = {
-            fuzzy = true,                   -- false will only do exact matching
+            fuzzy = true, -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true,    -- override the file sorter
-            case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
+            override_file_sorter = true, -- override the file sorter
+            case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
           },
         },
       }
