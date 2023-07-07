@@ -53,7 +53,7 @@ return {
       end
 
       -- ---------------------- LazyDocker -----------------------------------
-      local lazydocker = Terminal:new { cmd = 'cd ~ && lazydocker', hidden = true, direction = 'float' }
+      local lazydocker = Terminal:new { cmd = 'cd; lazydocker', hidden = true, direction = 'float' }
       function _LazyDocker_toggle()
         lazydocker:toggle()
       end
