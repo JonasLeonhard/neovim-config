@@ -40,21 +40,21 @@ return {
           end)
           return '<Ignore>'
         end,
-        'Jump to prev hunk',
+        desc = 'Jump to prev hunk',
       },
       {
         '<leader>gr',
         function()
           require('gitsigns').reset_hunk()
         end,
-        'Reset hunk',
+        desc = 'Reset hunk',
       },
       {
         '<leader>gh',
         function()
           require('gitsigns').preview_hunk()
         end,
-        'Preview hunk',
+        desc = 'Preview hunk',
       },
       {
         '<leader>gb',
