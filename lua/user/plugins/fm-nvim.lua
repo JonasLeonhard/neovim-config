@@ -1,5 +1,5 @@
 return {
-  'is0n/fm-nvim',
+  'JonasLeonhard/fm-nvim',
   lazy = true,
   keys = {
     {
