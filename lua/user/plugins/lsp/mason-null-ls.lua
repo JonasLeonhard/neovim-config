@@ -43,8 +43,8 @@ return {
             })
           end,
           prettierd = function()
-            vim.list_extend(null_ls.builtins.formatting.prettier.filetypes, { 'svelte', 'vue' })
-            null_ls.register(null_ls.builtins.formatting.prettier)
+            vim.list_extend(null_ls.builtins.formatting.prettierd.filetypes, { 'svelte', 'vue' })
+            null_ls.register(null_ls.builtins.formatting.prettierd)
           end,
           djlint = function()
             null_ls.register(null_ls.builtins.formatting.djlint.with {
