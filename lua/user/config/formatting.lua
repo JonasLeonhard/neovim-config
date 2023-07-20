@@ -10,8 +10,6 @@ end
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   callback = function()
-    if autoformatting_on then
-      vim.lsp.buf.format { async = true }
-    end
+    vim.lsp.buf.format { async = false }
   end,
 })
