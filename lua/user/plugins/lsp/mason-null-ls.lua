@@ -19,7 +19,6 @@ return {
           -- Opt to list sources here, when available in mason.
           'djlint',
           'phpstan',
-          'prettierd',
           'shfm',
           'styllua',
           'twigcs',
