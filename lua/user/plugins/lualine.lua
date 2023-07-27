@@ -44,7 +44,7 @@ return {
             function() -- Macro Toggle
               local mode = package.loaded['noice'].api.statusline.mode.get()
               if mode then
-                return string.match(mode, '^recording @.*') or ''
+                return string.match(mode, '^recording @.*') .. ' - to stop recording press q again.' or ''
               end
               return ''
             end,
