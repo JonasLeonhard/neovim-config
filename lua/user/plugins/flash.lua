@@ -9,26 +9,6 @@ end
 
 local twoCharLabel = { after = false, before = { 0, 0 }, uppercase = false, format = format }
 
-local twoCharAction = function(match, state)
-  state:hide()
-  require('flash').jump {
-    search = { max_length = 0 },
-    highlight = { matches = false },
-    label = { format = format },
-    matcher = function(win)
-      -- limit matches to the current label
-      return vim.tbl_filter(function(m)
-        return m.label == match.label and m.win == win
-      end, state.results)
-    end,
-    labeler = function(matches)
-      for _, m in ipairs(matches) do
-        m.label = m.label2 -- use the second label
-      end
-    end,
-  }
-end
-
 local twoCharActionRemote = function(match, state)
   state:hide()
   require('flash').remote {
@@ -78,11 +58,7 @@ return {
       mode = { 'n', 'x', 'o' },
       function()
         require('flash').jump {
-          search = { mode = 'search' },
-          label = twoCharLabel,
-          pattern = [[\<]],
-          action = twoCharAction,
-          labeler = twoCharLabeler,
+          search = { mode = 'fuzzy' },
         }
       end,
       desc = 'Flash',
