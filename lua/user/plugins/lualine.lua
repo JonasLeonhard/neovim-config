@@ -39,7 +39,16 @@ return {
 
               return '[' .. status .. ']'
             end,
-          }
+          },
+          {
+            function() -- Macro Toggle
+              local mode = package.loaded['noice'].api.statusline.mode.get()
+              if mode then
+                return string.match(mode, '^recording @.*') or ''
+              end
+              return ''
+            end,
+          },
         },
         lualine_x = {
           {
