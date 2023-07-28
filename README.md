@@ -56,6 +56,9 @@ git clone https://github.com/JonasLeonhard/neovim-config ~/.config/nvim
 
 # FAQ:
 
+: Where can i find more awsome neovim plugins?
+- Checkout <a href="https://github.com/rockerBOO/awesome-neovim/tree/main">Awsome Neovim</a>
+
 :What tools do i need to install for this config?
 
 - This config uses a bunch of cli tools to make your life easier.
@@ -66,6 +69,7 @@ git clone https://github.com/JonasLeonhard/neovim-config ~/.config/nvim
   to change this key. Checkout toggleterm.lua:28 and change the command to lazygit.
 
 - <a href="https://github.com/sayanarijit/xplr">Xplr</a> Fileexplorer via <leader>e.
+  The command is configured in fm-nvim.lua . You should be able to change it to the file explorer of your liking <a href="https://github.com/JonasLeonhard/fm-nvim">Fm-nvim</a>
   I use Xplr instead of a Filetree installed in this config. Xplr is configured via lua. I can really recommend giving it a try.
   You can find my Xplr config here:
   <a href="https://github.com/JonasLeonhard/xplr-config">Xplr-Config</a>
@@ -90,9 +94,10 @@ git clone https://github.com/JonasLeonhard/neovim-config ~/.config/nvim
 - Bat (a better looking cat command, i recommend alias cat=bat)
 - Alacritty Terminal Emulator (a terminal emulator with a builtin vi-mode. My config can be found at: https://github.com/JonasLeonhard/alacritty)
 
-: Where can i find your .zshrc?
+: Where can i find your .zshrc and or nushell config?
 
-- Checkout this gist: https://gist.github.com/JonasLeonhard/de3103b923a59be26baf15ed18c1a8d0
+- Checkout this gist for zsh: https://gist.github.com/JonasLeonhard/de3103b923a59be26baf15ed18c1a8d0
+- or https://github.com/JonasLeonhard/nushell-config for nushell
 
   :I have an Intelephense Licence, how do i get it setup?
 
