@@ -51,13 +51,18 @@ return {
       },
       {
         '<leader>s?',
+        '<cmd>Telescope<cr>',
+        desc = 'Select a Picker',
+      },
+      {
+        '<leader>sr',
         function()
           require('telescope.builtin').oldfiles()
         end,
         desc = 'Find recently opened files',
       },
       {
-        '<leader>sr',
+        '<leader>sR',
         function()
           require('telescope.builtin').resume()
         end,
