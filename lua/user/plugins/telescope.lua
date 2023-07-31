@@ -57,6 +57,13 @@ return {
         desc = 'Find recently opened files',
       },
       {
+        '<leader>sr',
+        function()
+          require('telescope.builtin').resume()
+        end,
+        desc = 'Resume last picker',
+      },
+      {
         '<leader>sh',
         function()
           require('telescope.builtin').help_tags()
