@@ -40,8 +40,9 @@ Every Keybind should be displayed inside of WhichKey.
 Telescope for fuzzy finding files, searching words and more.
 <![Noice integration for commandline, notifications, save popups ...](./assets/Noice.png)
 A cleaner UI using Folkes amazing Noice plugin for CommandProps, Notifications, LoadingIndicators, Save/Edit popups and more.
-<![Specte search and replace](./assets/Spectre.png)
-Spectre search and replace for the project.
+<![Quickfix search and replace](./assets/Quickfix.png)
+Use the quickfix window to search and replace. Open a telescope window and press ctrl-q to send the selection to
+a quickfix window. Here use :h cdo or :h cfdo s/somethingtoreplace/somethingtoreplacewith/g
 
 <br/>
 ...and alot more plugins. Checkout lua/user/plugins to see all plugins.
@@ -57,6 +58,7 @@ git clone https://github.com/JonasLeonhard/neovim-config ~/.config/nvim
 # FAQ:
 
 : Where can i find more awsome neovim plugins?
+
 - Checkout <a href="https://github.com/rockerBOO/awesome-neovim/tree/main">Awsome Neovim</a>
 
 :What tools do i need to install for this config?
