@@ -18,7 +18,6 @@ return {
           color_mode = false
         },
         bufferline = true,
-        hop = true,
         mason = true,
         noice = true,
         treesitter = true,
@@ -32,6 +31,8 @@ return {
         native_lsp = {
           enabled = true,
         },
+        neogit = true,
+        illuminate = true
       },
     },
     config = function(_, opts)
