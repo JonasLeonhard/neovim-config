@@ -6,16 +6,9 @@ return {
     lazy = true,
     keys = {
       {
-        '<leader>gg',
-        function()
-          _Gitui_toggle()
-        end,
-        desc = 'Gitui'
-      },
-      {
         '<leader>ut',
         '<cmd>ToggleTerm<cr>',
-        desc = 'Terminal'
+        desc = 'Terminal',
       },
       {
         '<leader>D',
@@ -23,7 +16,7 @@ return {
           _LazyDocker_toggle()
         end,
         desc = 'LazyDocker',
-      }
+      },
     },
     opts = {
       direction = 'horizontal',       -- default direction
@@ -45,12 +38,6 @@ return {
       local toggleTerm = require 'toggleterm'
       toggleTerm.setup(opts)
       local Terminal = require('toggleterm.terminal').Terminal
-
-      -- ---------------------- Gitui -----------------------------------
-      local gitui = Terminal:new { cmd = 'gitui', hidden = true, direction = 'float' }
-      function _Gitui_toggle()
-        gitui:toggle()
-      end
 
       -- ---------------------- LazyDocker -----------------------------------
       local lazydocker = Terminal:new { cmd = 'cd; lazydocker', hidden = true, direction = 'float' }

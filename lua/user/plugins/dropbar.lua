@@ -8,10 +8,45 @@ return {
       function()
         require('dropbar.api').pick()
       end,
-      desc = 'dropbar pick'
+      desc = 'dropbar pick',
     },
   },
   opts = {
+    bar = {
+      sources = function(buf, _)
+        local sources = require 'dropbar.sources'
+        local utils = require 'dropbar.utils'
+        local filetype = vim.bo[buf].ft
+
+        if filetype == 'markdown' then
+          return {
+            sources.path,
+            utils.source.fallback {
+              sources.treesitter,
+              sources.markdown,
+              sources.lsp,
+            },
+          }
+        end
+
+        if filetype == 'NeogitCommitMessage' then
+          return {
+            sources.path,
+            utils.source.fallback {
+              sources.lsp,
+            },
+          }
+        end
+
+        return {
+          sources.path,
+          utils.source.fallback {
+            sources.lsp,
+            sources.treesitter,
+          },
+        }
+      end,
+    },
     icons = {
       ui = { bar = { separator = '  ' } },
     },
