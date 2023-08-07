@@ -72,11 +72,13 @@ return {
         ['<leader>c'] = {
           name = '󰅨 code',
           ['d'] = { vim.diagnostic.open_float, 'Open floating diagnostic message' },
-          ['[d'] = { vim.diagnostic.goto_prev, 'go to previous diagnostic message' },
-          [']d'] = { vim.diagnostic.goto_next, 'go to next diagnostic message' },
           ['l'] = { vim.diagnostic.setloclist, 'Open diagnostic list' },
           ['r'] = { vim.lsp.buf.rename, 'Rename' },
           ['a'] = { vim.lsp.buf.code_action, 'Code Action' },
+          ['S'] = { name = 'swap',
+            ['a'] = { 'swap next @parameter.inner' },
+            ['A'] = { 'swap previous @parameter.inner' }
+          },
           ['w'] = {
             name = 'workspace',
             ['a'] = { vim.lsp.buf.add_workspace_folder, 'Workspace add Folder' },
