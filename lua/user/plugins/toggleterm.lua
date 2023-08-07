@@ -15,7 +15,7 @@ return {
         function()
           _LazyDocker_toggle()
         end,
-        desc = 'LazyDocker',
+        desc = ' LazyDocker',
       },
     },
     opts = {

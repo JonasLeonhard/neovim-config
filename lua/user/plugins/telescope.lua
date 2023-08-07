@@ -47,7 +47,7 @@ return {
       {
         '<leader>f',
         '<cmd>Telescope git_files<cr>',
-        desc = 'Find files (git)',
+        desc = '󰈞 Find files (git)',
       },
       {
         '<leader>s?',

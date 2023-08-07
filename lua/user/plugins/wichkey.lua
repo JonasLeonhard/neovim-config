@@ -67,10 +67,10 @@ return {
           name = 'surround/match', -- TAKEN in mini-surround.lua
         },
         ['<leader>b'] = {
-          name = 'buffer',
+          name = '󰘓 buffer',
         },
         ['<leader>c'] = {
-          name = 'code',
+          name = '󰅨 code',
           ['d'] = { vim.diagnostic.open_float, 'Open floating diagnostic message' },
           ['[d'] = { vim.diagnostic.goto_prev, 'go to previous diagnostic message' },
           [']d'] = { vim.diagnostic.goto_next, 'go to next diagnostic message' },
@@ -91,10 +91,10 @@ return {
           ['f'] = { vim.lsp.buf.format, 'Format Buffer' },
         },
         ['<leader>d'] = {
-          name = 'debug'
+          name = ' debug'
         },
         ['<leader>g'] = {
-          name = 'git',
+          name = ' git',
           ['d'] = {
             name = 'Diffview',
             ['c'] = {
@@ -106,7 +106,7 @@ return {
           },
         },
         ['<leader>s'] = {
-          name = 'search/replace',
+          name = ' search/replace',
         },
         ['<leader>u'] = {
           name = '  Ui-Toggles',
@@ -122,14 +122,14 @@ return {
           ['I'] = { '<cmd>:ToggleGuessIndent<cr>', 'toggle GuessIndent when opening a bufffer' },
         },
         ['<leader>m'] = {
-          name = 'marks & harpoon',
+          name = ' marks & harpoon',
           ['M'] = {
             name = 'Marks',
           },
         },
         -- Explorer:
         ['<leader>a'] = {
-          name = 'AI',
+          name = '󰁨 AI',
           r = {
             name = 'run'
           }

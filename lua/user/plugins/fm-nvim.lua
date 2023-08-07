@@ -16,12 +16,12 @@ return {
           vim.api.nvim_command('Xplr ' .. "'" .. path .. "'")
         end
       end,
-      desc = 'Xplr (current file)',
+      desc = ' Xplr (current file)',
     },
     {
       '<leader>E',
       '<cmd>Xplr<cr>',
-      desc = 'Xplr (root)',
+      desc = ' Xplr (root)',
     },
   },
   config = function()
