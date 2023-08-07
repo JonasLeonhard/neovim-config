@@ -16,7 +16,7 @@ return {
       function()
         require('neogit').open()
       end,
-      desc = 'Gitui',
+      desc = 'Neogit',
     },
   },
 }
