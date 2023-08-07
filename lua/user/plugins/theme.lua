@@ -32,7 +32,6 @@ return {
           enabled = true,
         },
         neogit = true,
-        illuminate = true
       },
     },
     config = function(_, opts)
