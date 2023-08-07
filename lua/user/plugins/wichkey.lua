@@ -69,6 +69,12 @@ return {
         ['<leader>b'] = {
           name = '󰘓 buffer',
         },
+        ['<leader>D'] = {
+          function()
+            vim.cmd('terminal LazyDocker'); -- see terminal.lua
+          end,
+          ' LazyDocker',
+        },
         ['<leader>c'] = {
           name = '󰅨 code',
           ['d'] = { vim.diagnostic.open_float, 'Open floating diagnostic message' },
@@ -122,6 +128,7 @@ return {
           },
           ['f'] = { '<cmd>:ToggleAutoFormat<cr>', 'toggle Autoformat on save' },
           ['I'] = { '<cmd>:ToggleGuessIndent<cr>', 'toggle GuessIndent when opening a bufffer' },
+          ['t'] = { '<cmd>split | terminal<cr>', 'teminal split' }
         },
         ['<leader>m'] = {
           name = ' marks & harpoon',
