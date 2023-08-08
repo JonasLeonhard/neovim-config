@@ -25,7 +25,7 @@ return {
       [[]],
     }
 
-    local fortune = require 'alpha.fortune'()
+    local fortune = require 'alpha.fortune' ()
     local footer = {
       type = 'text',
       val = fortune,
@@ -41,7 +41,7 @@ return {
       val = {
         dashboard.button('e', '  New file', '<cmd>ene <CR>'),
         dashboard.button('SPC f', '  Find file'),
-        dashboard.button('SPC s ?', '  Recently opened files'),
+        dashboard.button('SPC s r', '  Recently opened files'),
         dashboard.button('SPC s g', '  Find word'),
       },
       opts = {
