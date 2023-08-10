@@ -92,6 +92,9 @@ return {
         },
         submit = '<C-s>',
       },
+      openai_params = {
+        model = "gpt-4",
+      },
     }
 
     vim.api.nvim_set_hl(0, 'GPTBorder', { fg = '#181825' })
