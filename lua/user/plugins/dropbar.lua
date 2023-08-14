@@ -29,7 +29,7 @@ return {
           }
         end
 
-        if filetype == 'NeogitCommitMessage' then
+        if filetype == 'NeogitCommitMessage' or filetype == 'NeogitMergeMessage' then
           return {
             sources.path,
             utils.source.fallback {
