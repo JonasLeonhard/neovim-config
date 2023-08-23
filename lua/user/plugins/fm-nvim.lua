@@ -7,21 +7,21 @@ return {
       function()
         local path = vim.fn.expand '%:p'
         if path == '' then
-          vim.api.nvim_command 'Nnn'
+          vim.api.nvim_command 'Broot'
         else
           -- xplr cant open paths with '{' and ']' in them withouth them beeing wrapped in qoutes ''. An example would be:
           -- xplr .../frontend/src/routes/{lang]/+layout.svelte
           -- this will cause zsh to return: 'zsh: no matches found: .../frontend/src/routes/{lang]/+layout.svelte'
           -- the following will wrap the path in quotes, to zsh does not try to pattern-match paths.
-          vim.api.nvim_command('Nnn' .. "'" .. path .. "'")
+          vim.api.nvim_command('Broot' .. "'" .. path .. "'")
         end
       end,
-      desc = ' Nnn (current file)',
+      desc = ' Broot (current file)',
     },
     {
       '<leader>E',
-      '<cmd>Nnn<cr>',
-      desc = ' Nnn (root)',
+      '<cmd>Broot<cr>',
+      desc = ' Broot (root)',
     },
   },
   config = function()
@@ -86,7 +86,7 @@ return {
         ESC = '<ESC>',
       },
       -- Path to broot config
-      broot_conf = vim.fn.stdpath 'data' .. '/site/pack/packer/start/fm-nvim/assets/broot_conf.hjson',
+      broot_conf = '~/.config/broot/conf.hjson',
     }
   end,
 }
