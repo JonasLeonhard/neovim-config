@@ -81,10 +81,10 @@ return {
       },
       -- Mappings used with the plugin
       mappings = {
-        vert_split = '<C-v>',
-        horz_split = '<C-h>',
-        tabedit = '<C-t>',
-        edit = '<C-e>',
+        vert_split = '<C-V>',
+        horz_split = '<C-S>',
+        tabedit = '<C-T>',
+        edit = '<C-E>',
         ESC = '<ESC>',
       },
       -- Path to broot config
