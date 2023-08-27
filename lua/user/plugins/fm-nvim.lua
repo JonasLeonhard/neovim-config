@@ -69,7 +69,9 @@ return {
         xplr_cmd = 'xplr',
         vifm_cmd = 'vifm',
         skim_cmd = 'sk',
-        broot_cmd = 'broot',
+        broot_cmd = function()
+          return 'broot -c ":preview_text;:select ' .. vim.fn.expand '%:p' .. '"'
+        end,
         gitui_cmd = 'gitui',
         ranger_cmd = 'ranger',
         joshuto_cmd = 'joshuto',
