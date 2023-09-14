@@ -1,3 +1,5 @@
 return {
-  "NoahTheDuke/vim-just"
+  "NoahTheDuke/vim-just",
+  event = 'User FileOpened',
+  lazy = true
 }
