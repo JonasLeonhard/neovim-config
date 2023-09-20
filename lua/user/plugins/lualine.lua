@@ -12,7 +12,10 @@ return {
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons', 'catppuccin/nvim' },
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'catppuccin/nvim',
+    },
     -- See `:help lualine.txt`
     opts = {
       extensions = { 'lazy' },
@@ -51,6 +54,7 @@ return {
           },
         },
         lualine_x = {
+          "require('lsp-progress').progress()",
           {
             function() -- Autoformatting Toggle
               if not _GuessIndentEnabled() then
