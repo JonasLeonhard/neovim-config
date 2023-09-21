@@ -71,7 +71,7 @@ return {
         },
         ['<leader>D'] = {
           function()
-            vim.cmd('terminal LazyDocker'); -- see terminal.lua
+            vim.cmd 'terminal LazyDocker' -- see terminal.lua
           end,
           ' LazyDocker',
         },
@@ -81,10 +81,7 @@ return {
           ['l'] = { vim.diagnostic.setloclist, 'Open diagnostic list' },
           ['r'] = { vim.lsp.buf.rename, 'Rename' },
           ['a'] = { vim.lsp.buf.code_action, 'Code Action' },
-          ['S'] = { name = 'swap',
-            ['a'] = { 'swap next @parameter.inner' },
-            ['A'] = { 'swap previous @parameter.inner' }
-          },
+          ['S'] = { name = 'swap', ['a'] = { 'swap next @parameter.inner' }, ['A'] = { 'swap previous @parameter.inner' } },
           ['w'] = {
             name = 'workspace',
             ['a'] = { vim.lsp.buf.add_workspace_folder, 'Workspace add Folder' },
@@ -99,18 +96,18 @@ return {
           ['f'] = { vim.lsp.buf.format, 'Format Buffer' },
         },
         ['<leader>d'] = {
-          name = ' debug'
+          name = ' debug',
         },
         ['<leader>g'] = {
           name = ' git',
           ['d'] = {
             name = 'Diffview',
             ['c'] = {
-              name = 'choose'
+              name = 'choose',
             },
             ['g'] = {
-              name = 'goto'
-            }
+              name = 'goto',
+            },
           },
         },
         ['<leader>s'] = {
@@ -128,7 +125,11 @@ return {
           },
           ['f'] = { '<cmd>:ToggleAutoFormat<cr>', 'toggle Autoformat on save' },
           ['I'] = { '<cmd>:ToggleGuessIndent<cr>', 'toggle GuessIndent when opening a bufffer' },
-          ['t'] = { '<cmd>split | terminal<cr>', 'teminal split' }
+          ['i'] = {
+            '<cmd>:ToggleInlayHints<cr>',
+            'toglge Inlayhints',
+          },
+          ['t'] = { '<cmd>split | terminal<cr>', 'teminal split' },
         },
         ['<leader>m'] = {
           name = ' marks & harpoon',
@@ -140,8 +141,8 @@ return {
         ['<leader>a'] = {
           name = '󰁨 AI',
           r = {
-            name = 'run'
-          }
+            name = 'run',
+          },
         },
       }
 
