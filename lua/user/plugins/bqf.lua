@@ -1,7 +1,7 @@
 return {
   'kevinhwang91/nvim-bqf',
   lazy = true,
-  dependencies = { "nvim-telescope/telescope.nvim" },
+  dependencies = { 'nvim-telescope/telescope.nvim' },
   ft = 'qf',
   keys = {
     {
@@ -15,10 +15,10 @@ return {
   opts = {
     -- disable qf window
     preview = {
-      border = 'none'
+      border = 'none',
     },
     func_map = {
-      fzffilter = 'zF'
-    }
+      fzffilter = 'zF',
+    },
   },
 }
