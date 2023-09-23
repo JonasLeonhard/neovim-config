@@ -140,6 +140,11 @@ return {
         },
       }
       opts.options.theme = theme
+
+      -- hide the lualine when entering command mode,
+      -- this fixes an issue, where the statusline would sometimes flicker while typing and cmp window rendering
+      vim.cmd [[ autocmd CmdlineEnter * set laststatus=0 ]]
+      vim.cmd [[ autocmd CmdlineLeave * set laststatus=2 ]]
       require('lualine').setup(opts)
     end,
   },
