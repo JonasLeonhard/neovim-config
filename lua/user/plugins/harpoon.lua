@@ -5,72 +5,52 @@ return {
     { '<leader>ml', '<cmd>Telescope harpoon marks<cr>', desc = 'list Marks' },
     {
       '<leader>mm',
-      function()
-        require('harpoon.ui').toggle_quick_menu()
-      end,
+      "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>",
       desc = 'Marks (builtin)',
     },
     {
       '<leader>ma',
-      function()
-        require('harpoon.mark').add_file()
-      end,
+      "<cmd>lua require('harpoon.mark').add_file()<cr>",
       desc = 'Add File Mark',
     },
     {
       '<leader>md',
-      function()
-        require('harpoon.mark').toggle_file()
-      end,
+      "<cmd>lua require('harpoon.mark').toggle_file()<cr>",
       desc = 'Toggle File Mark',
     },
     {
       '<leader>mn',
-      function()
-        require('harpoon.ui').nav_next()
-      end,
+      "<cmd>lua require('harpoon.ui').nav_next()<cr>",
       desc = 'Next Mark',
     },
     {
       '<leader>mb',
-      function()
-        require('harpoon.ui').nav_prev()
-      end,
+      "<cmd>lua require('harpoon.ui').nav_prev()<cr>",
       desc = 'Prev Mark',
     },
     {
       '<leader>m1',
-      function()
-        require('harpoon.ui').nav_file(1)
-      end,
+      "<cmd>lua require('harpoon.ui').nav_file(1)<cr>",
       desc = 'Navigate to Harpoon Mark (1)',
     },
     {
       '<leader>m2',
-      function()
-        require('harpoon.ui').nav_file(2)
-      end,
+      "<cmd>lua require('harpoon.ui').nav_file(2)<cr>",
       desc = 'Navigate to Harpoon Mark (2)',
     },
     {
       '<leader>m3',
-      function()
-        require('harpoon.ui').nav_file(3)
-      end,
+      "<cmd>lua require('harpoon.ui').nav_file(3)<cr>",
       desc = 'Navigate to Harpoon Mark (3)',
     },
     {
       '<leader>m4',
-      function()
-        require('harpoon.ui').nav_file(4)
-      end,
+      "<cmd>lua require('harpoon.ui').nav_file(4)<cr>",
       desc = 'Navigate to Harpoon Mark (4)',
     },
     {
       '<leader>m5',
-      function()
-        require('harpoon.ui').nav_file(5)
-      end,
+      "<cmd>lua require('harpoon.ui').nav_file(5)<cr>",
       desc = 'Navigate to Harpoon Mark (5)',
     },
   },
