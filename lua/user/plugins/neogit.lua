@@ -2,7 +2,7 @@ return {
   'NeogitOrg/neogit',
   cmd = 'Neogit',
   dependencies = 'nvim-lua/plenary.nvim',
-  config = {
+  opts = {
     signs = {
       -- { CLOSED, OPENED }
       section = { '-', '+' },

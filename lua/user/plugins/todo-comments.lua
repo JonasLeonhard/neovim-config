@@ -6,7 +6,5 @@ return {
   keys = {
     { '<leader>st', '<cmd>:TodoTelescope<cr>', desc = 'show todo comments' },
   },
-  config = function(_, opts)
-    require('todo-comments').setup(opts)
-  end,
+  opts = {}
 }
