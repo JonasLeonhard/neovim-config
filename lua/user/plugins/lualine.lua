@@ -44,10 +44,10 @@ return {
             end,
           },
           {
-            function() -- Macro Toggle
-              local mode = package.loaded['noice'].api.statusline.mode.get()
-              if mode then
-                return string.match(mode, '^recording @.*') .. ' - to stop recording press q again.' or ''
+            function() -- Macro recording register
+              local register = vim.fn.reg_recording()
+              if register ~= "" then
+                return 'recording @' .. register .. ' - to stop recording press q again.'
               end
               return ''
             end,
