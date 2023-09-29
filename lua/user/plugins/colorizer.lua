@@ -2,5 +2,7 @@ return {
   'norcalli/nvim-colorizer.lua',
   event = 'User FileOpened',
   lazy = true,
-  opts = {}
+  config = function()
+    require('colorizer').setup()
+  end,
 }
