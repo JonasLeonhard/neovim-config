@@ -49,12 +49,6 @@ opt.wrap = false                   -- Disable line wrap
 opt.ch = 0                         -- commandheight
 opt.nrformats = 'bin,hex,alpha,octal,'
 
--- Ufo folding:
-opt.foldcolumn = '1' -- '0' is not bad
-opt.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
-opt.foldlevelstart = 99
-opt.foldenable = true
-
 if vim.fn.has 'nvim-0.9.0' == 1 then
   opt.splitkeep = 'screen'
   opt.shortmess:append { C = true }
@@ -69,3 +63,4 @@ require 'user.config.diagnostics'
 require 'user.config.formatting'
 require 'user.config.terminal'
 require 'user.config.inlayHints'
+require 'user.config.fold'
