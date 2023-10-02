@@ -7,13 +7,20 @@ return {
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
     opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-      show_current_context = true,
+      indent = {
+        char = '┊',
+      },
+      scope = {
+        show_start = false, -- no underline of scope start
+      },
     },
+    main = 'ibl',
     config = function(_, opts)
-      vim.cmd [[highlight IndentBlanklineContextChar guifg=#585B70 gui=nocombine]]
-      require('indent_blankline').setup(opts)
+      local hooks = require 'ibl.hooks'
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, 'IblScope', { fg = '#585B70' })
+      end)
+      require('ibl').setup(opts)
     end,
   },
 }
