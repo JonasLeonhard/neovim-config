@@ -22,27 +22,25 @@ With a focus on functionality and ease of use, it's perfect for any developer lo
 
 # Highlighting some Features
 
-<![Alpha-Dashboard-with-Lualine](./assets/Dashboard.png)
++<![Features](./assets/Features.png)
 Alpha-Dashboard-with-Lualine at the bottom.
-<![LSP with Mason & Null-ls](./assets/Hov.png)
-Treesitter syntax Highlighting. With Mason-LSP Language server / Null-ls autoconfiguration for LanguageServers and eslint, prettier, clippy formatters and linters.
-<![Cmp window with LSP, Null-ls, Luasnips, Copilot integration](./assets/Cmp.png)
-CMP window lsp auto-complete. With Luasnippets, CommandLine integration, Words in Buffer auto-complete, :Cmd auto-complete, Aswell as Path auto-completion and Copilot integration.
-<![Gitui](./assets/Gitui.png)
-Gitui via <leader>g.
-<![Xplr File explorer](./assets/Xplr.png)
-Xplr as a Fileexplorer instead of the usual Neotree Filetree.
-<![ChatGPT integration](./assets/ChatGPT.png)
-ChatGPT if you are feeling lonely.
-<![Wichkey](./assets/Wichkey.png)
-Every Keybind should be displayed inside of WhichKey.
-<![Telescope](./assets/telescope.png)
-Telescope for fuzzy finding files, searching words and more.
-<![Noice integration for commandline, notifications, save popups ...](./assets/Noice.png)
-A cleaner UI using Folkes amazing Noice plugin for CommandProps, Notifications, LoadingIndicators, Save/Edit popups and more.
-<![Quickfix search and replace](./assets/Quickfix.png)
-Use the quickfix window to search and replace. Open a telescope window and press ctrl-q to send the selection to
-a quickfix window. Here use :h cdo or :h cfdo s/somethingtoreplace/somethingtoreplacewith/g
+-<![LSP with Mason & Null-ls](./assets/Hov.png)
+-Treesitter syntax Highlighting. With Mason-LSP Language server / Null-ls autoconfiguration for LanguageServers and eslint, prettier, clippy formatters and linters.
+-<![Cmp window with LSP, Null-ls, Luasnips, Copilot integration](./assets/Cmp.png)
+-CMP window lsp auto-complete. With Luasnippets, CommandLine integration, Words in Buffer auto-complete, :Cmd auto-complete, Aswell as Path auto-completion and Copilot integration.
+-<![Neogit](./assets/Neogit.png)
+-Neogit via <leader>g.
+-<![Broot File explorer](./assets/Broot.png)
+-Broot as a Fileexplorer instead of the usual Neotree Filetree.
+-<![ChatGPT integration](./assets/ChatGPT.png)
+-ChatGPT if you are feeling lonely.
+-<![Wichkey](./assets/Wichkey.png)
+-Every Keybind should be displayed inside of WhichKey.
+-<![Telescope](./assets/telescope.png)
+-Telescope for fuzzy finding files, searching words and more.
+-<![Quickfix search and replace](./assets/Quickfix.png)
+-Use the bqf quickfix window to search and replace. Open a telescope window and press ctrl-q to send the selection to
+-a quickfix window. Here use :h cdo or :h cfdo s/somethingtoreplace/somethingtoreplacewith/g
 
 <br/>
 ...and alot more plugins. Checkout lua/user/plugins to see all plugins.
@@ -66,16 +64,16 @@ git clone https://github.com/JonasLeonhard/neovim-config ~/.config/nvim
 - This config uses a bunch of cli tools to make your life easier.
   Checkout the following list:
 
-- <a href="https://github.com/extrawurst/gitui">Gitui</a> w. <leader>gg.
-  I use Gitui for my everyday git use. I like it slightly more than <a href="https://github.com/jesseduffield/lazygit">Lazygit</a>, but that comes down to personal preference. If you want
-  to change this key. Checkout toggleterm.lua:28 and change the command to lazygit.
+- <a href="https://github.com/NeogitOrg/neogit">Neogit</a> w. \<leader\>gg.
+  Alternatives to consider could be <a href="https://github.com/extrawurst/gitui">Gitui</a>. I like it slightly more than <a href="https://github.com/jesseduffield/lazygit">Lazygit</a>, but that comes down to personal preference. If you want
+  to change this key.
 
-- <a href="https://github.com/sayanarijit/xplr">Xplr</a> Fileexplorer via <leader>e.
+- <a href="https://github.com/Canop/broot">Broot</a> Fileexplorer via <leader>e.
   The command is configured in fm-nvim.lua . You should be able to change it to the file explorer of your liking <a href="https://github.com/JonasLeonhard/fm-nvim">Fm-nvim</a>
-  I use Xplr instead of a Filetree installed in this config. Xplr is configured via lua. I can really recommend giving it a try.
-  You can find my Xplr config here:
-  <a href="https://github.com/JonasLeonhard/xplr-config">Xplr-Config</a>
-  If you still want a filetree, i recommend <a href="https://github.com/nvim-neo-tree/neo-tree.nvim">Neotree</a>.
+  I use Broot instead of a Filetree installed in this config. I can really recommend giving it a try.
+  You can find my Broot config here:
+  <a href="https://github.com/JonasLeonhard/broot-config">Xplr-Config</a>
+  If you want another good alternative, i recommend <a href="https://github.com/stevearc/oil.nvim">Oil.nvim</a>
 
 - <a href="https://github.com/BurntSushi/ripgrep">Ripgrep</a> is used for Telescope search. This is not required, but i highly recommend it.
 
@@ -87,12 +85,12 @@ git clone https://github.com/JonasLeonhard/neovim-config ~/.config/nvim
 
 - Sure. Checkout this list:
 - Starship.rs (a good looking Prompt. You can find my config here: https://github.com/JonasLeonhard/starship-config. It uses zshs builtin vi-mode to display your mode (see my .zshrc))
-- zsh-autosuggestions (auto-complete)
-- zsh-syntax-highlighting
+- <a href="https://github.com/JonasLeonhard/nushell-config">Nushell</a>
+- or if you are using zsh: zsh-autosuggestions (auto-complete), zsh-syntax-highlighting
 - Zoxide (smart cd)
 - FzF aswell as Fzf-tab (fuzzy finder that can replace your builtin zsh Tab auto-complete window.)
 - Zellij (a Terminal Multiplexer/Workspace manager. I feel like this is a little cleaner than your average Tmux config. Both are good and you should check them out. My config: https://github.com/JonasLeonhard/zellij-config)
-- Exa (a better looking ls command, i recommend alias ls=exa)
+- Eza (a better looking ls command, i recommend alias ls=eza)
 - Bat (a better looking cat command, i recommend alias cat=bat)
 - Alacritty Terminal Emulator (a terminal emulator with a builtin vi-mode. My config can be found at: https://github.com/JonasLeonhard/alacritty)
 
