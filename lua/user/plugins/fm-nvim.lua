@@ -5,7 +5,7 @@ return {
     {
       '<leader>e',
       function()
-        local path = vim.fn.expand '%:p'
+        local path = vim.fn.expand '%:p:h'
         if path == '' then
           vim.api.nvim_command 'Broot'
         else
