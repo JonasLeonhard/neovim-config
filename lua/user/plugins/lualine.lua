@@ -1,13 +1,3 @@
-local function list_registered_null_ls_providers_names(filetype)
-  local s = require 'null-ls.sources'
-  local available_sources = s.get_available(filetype)
-  local registered = {}
-  for _, source in ipairs(available_sources) do
-    table.insert(registered, source.name)
-  end
-  return vim.fn.uniq(registered)
-end
-
 return {
   {
     -- Set lualine as statusline
@@ -46,7 +36,7 @@ return {
           {
             function() -- Macro recording register
               local register = vim.fn.reg_recording()
-              if register ~= "" then
+              if register ~= '' then
                 return 'recording @' .. register .. ' - to stop recording press q again.'
               end
               return ''
@@ -72,28 +62,33 @@ return {
             end,
           },
           {
-            function() -- List all registered language servers and null-ls linters/formatters
-              local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
-              local buf_client_names = {}
-
-              if next(buf_clients) == nil then
-                return '󰴀 '
+            function() -- List all registered formatters from conform
+              local formatters = package.loaded['conform'].list_formatters(0)
+              if not formatters then
+                return ''
               end
 
-              -- add all clients but null-ls
-              for _, client in pairs(buf_clients) do
-                if client.name ~= 'null-ls' then
-                  table.insert(buf_client_names, client.name)
-                end
+              if #formatters == 0 then
+                return ''
               end
 
-              -- add null-ls providers seperatly
-              local supported_formatters = list_registered_null_ls_providers_names(vim.bo.filetype)
-              vim.list_extend(buf_client_names, supported_formatters)
-
-              return '󱙋 [' .. table.concat(buf_client_names, ', ') .. ']'
+              local display = ''
+              for i, formatter in ipairs(formatters) do
+                display = display .. formatter.name .. ' '
+              end
+              return '󰉶 ' .. display
             end,
             color = { gui = 'bold' },
+          },
+          {
+            function()
+              local linters = package.loaded['lint']._resolve_linter_by_ft(vim.bo.filetype)
+              if not linters or #linters == 0 then
+                return ''
+              end
+
+              return '󱔲  ' .. table.concat(linters, ',')
+            end,
           },
         },
         lualine_y = {

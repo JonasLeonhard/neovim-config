@@ -3,6 +3,11 @@ return {
     'williamboman/mason.nvim',
     event = 'VeryLazy',
     lazy = true,
-    opts = {}
+    opts = {
+      ensure_installed = {
+        "stylua",
+        "prettierd"
+      },
+    }
   },
 }
