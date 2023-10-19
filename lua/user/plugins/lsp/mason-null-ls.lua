@@ -4,7 +4,7 @@ return {
     event = 'User FileOpened',
     dependencies = {
       'williamboman/mason.nvim',
-      'jose-elias-alvarez/null-ls.nvim',
+      'nvimtools/none-ls.nvim',
     },
     lazy = true,
     config = function()
