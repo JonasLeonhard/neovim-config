@@ -1,40 +1,44 @@
 return {
   'stevearc/conform.nvim',
   lazy = true,
-  event = 'BufWritePre',
+  event = 'User FileOpened',
+  cmd = { 'ConformInfo' },
   keys = {
     {
       '<leader>cf',
       function()
-        require('conform').format()
+        require('conform').format { timeout_ms = 500, lsp_fallback = true }
       end,
       desc = 'Format',
-      mode = 'n',
-    },
-    {
-      '<leader>cf',
-      function()
-        require('conform').format()
-      end,
-      desc = 'Format Selection',
-      mode = 'v',
+      mode = { 'n', 'v' },
     },
   },
   opts = {
     formatters_by_ft = {
+      css = { { 'prettierd', 'prettier' } },
+      graphql = { { 'prettierd', 'prettier' } },
+      html = { { 'prettierd', 'prettier' } },
+      javascript = { { 'prettierd', 'prettier' } },
+      javascriptreact = { { 'prettierd', 'prettier' } },
+      json = { { 'prettierd', 'prettier' } },
       lua = { 'stylua' },
-      javascript = { 'prettierd', 'prettier' },
-      javascriptreact = { 'prettierd', 'prettier' },
-      typescript = { 'prettierd', 'prettier' },
-      typescriptreact = { 'prettierd', 'prettier' },
-      vue = { 'prettierd', 'prettier' },
-      svelte = { 'prettierd', 'prettier' },
+      python = { 'isort', 'black' },
+      scss = { { 'prettierd', 'prettier' } },
+      svelte = { { 'prettierd', 'prettier' } },
+      typescript = { { 'prettierd', 'prettier' } },
+      typescriptreact = { { 'prettierd', 'prettier' } },
+      vue = { { 'prettierd', 'prettier' } },
+      yaml = { { 'prettierd', 'prettier' } },
     },
     format_on_save = function()
       if not _AutoFormatEnabled() then
         return
       end
+
       return { timeout_ms = 500, lsp_fallback = true }
     end,
   },
+  init = function()
+    vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+  end,
 }
