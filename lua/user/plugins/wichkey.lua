@@ -78,7 +78,7 @@ return {
         ['<leader>c'] = {
           name = '󰅨 code',
           ['d'] = { vim.diagnostic.open_float, 'Open floating diagnostic message' },
-          ['l'] = { vim.diagnostic.setloclist, 'Open diagnostic list' },
+          ['L'] = { vim.diagnostic.setloclist, 'Open diagnostic list' },
           ['r'] = { vim.lsp.buf.rename, 'Rename' },
           ['a'] = { vim.lsp.buf.code_action, 'Code Action' },
           ['S'] = { name = 'swap', ['a'] = { 'swap next @parameter.inner' }, ['A'] = { 'swap previous @parameter.inner' } },
@@ -123,6 +123,7 @@ return {
             ['n'] = { '<cmd> set rnu! <CR>', 'toggle relative number' },
           },
           ['f'] = { '<cmd>:ToggleAutoFormat<cr>', 'toggle Autoformat on save' },
+          ['l'] = { '<cmd>:ToggleAutoLint<cr>', 'toggle Autolint on save, insert leave, bufreadpost' },
           ['I'] = { '<cmd>:ToggleGuessIndent<cr>', 'toggle GuessIndent when opening a bufffer' },
           ['i'] = {
             '<cmd>:ToggleInlayHints<cr>',

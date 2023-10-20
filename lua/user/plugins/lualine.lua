@@ -46,7 +46,7 @@ return {
         lualine_x = {
           "require('lsp-progress').progress()",
           {
-            function() -- Autoformatting Toggle
+            function() -- GuessIndent Toggle
               if not _GuessIndentEnabled() then
                 return 'GuessIndent: off'
               end
@@ -54,16 +54,13 @@ return {
             end,
           },
           {
-            function() -- Autoformatting Toggle
-              if not _AutoFormatEnabled() then
-                return 'AutoFormat: off'
-              end
-              return ''
-            end,
-          },
-          {
             function() -- List all registered formatters from conform
               local formatters = package.loaded['conform'].list_formatters(0)
+
+              if not _AutoFormatEnabled() then
+                return '󰉶 : --off'
+              end
+
               if not formatters then
                 return ''
               end
@@ -72,22 +69,27 @@ return {
                 return ''
               end
 
-              local display = ''
-              for i, formatter in ipairs(formatters) do
-                display = display .. formatter.name .. ' '
+              local names = {}
+              for _key, formatter in pairs(formatters) do
+                table.insert(names, formatter.name)
               end
-              return '󰉶 ' .. display
+              return '󰉶 : [' .. table.concat(names, ',') .. ']'
             end,
             color = { gui = 'bold' },
           },
           {
             function()
               local linters = package.loaded['lint']._resolve_linter_by_ft(vim.bo.filetype)
+
+              if not _AutoLintEnabled() then
+                return '󱔲 : --off'
+              end
+
               if not linters or #linters == 0 then
                 return ''
               end
 
-              return '󱔲  ' .. table.concat(linters, ',')
+              return '󱔲 : [' .. table.concat(linters, ',') .. ']'
             end,
           },
         },
