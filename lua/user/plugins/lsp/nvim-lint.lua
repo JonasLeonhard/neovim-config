@@ -36,6 +36,7 @@ return {
       sh = { 'shellcheck' },
       twig = { 'djlint' },
       yaml = { 'yamllint' },
+      php = { 'phpstan' },
     },
   },
   config = function(_, opts)
