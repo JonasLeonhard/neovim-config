@@ -44,7 +44,6 @@ return {
           },
         },
         lualine_x = {
-          "require('lsp-progress').progress()",
           {
             function() -- GuessIndent Toggle
               if not _GuessIndentEnabled() then
@@ -53,6 +52,7 @@ return {
               return ''
             end,
           },
+          "require('lsp-progress').progress()",
           {
             function() -- List all registered formatters from conform
               local formatters = package.loaded['conform'].list_formatters(0)
@@ -71,7 +71,13 @@ return {
 
               local names = {}
               for _key, formatter in pairs(formatters) do
-                table.insert(names, formatter.name)
+                local is_installed = package.loaded['mason-registry'].is_installed(formatter.name)
+                local name = formatter.name
+                if not is_installed then
+                  name = '󰋗 ' .. name
+                end
+
+                table.insert(names, name)
               end
               return '󰉶 : [' .. table.concat(names, ',') .. ']'
             end,
@@ -89,7 +95,17 @@ return {
                 return ''
               end
 
-              return '󱔲 : [' .. table.concat(linters, ',') .. ']'
+              local names = {}
+              for _key, linter in pairs(linters) do
+                local is_installed = package.loaded['mason-registry'].is_installed(linter)
+                local name = linter
+                if not is_installed then
+                  name = '󰋗 ' .. name
+                end
+                table.insert(names, name)
+              end
+
+              return '󱔲 : [' .. table.concat(names, ',') .. ']'
             end,
           },
         },
