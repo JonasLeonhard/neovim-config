@@ -31,12 +31,12 @@ return {
       bash = { 'shellcheck' },
       css = { 'stylelint' },
       lua = { 'luacheck' },
+      php = { 'phpstan' },
       python = { 'mypy', 'pylint' },
       scss = { 'stylelint' },
       sh = { 'shellcheck' },
       twig = { 'djlint' },
       yaml = { 'yamllint' },
-      php = { 'phpstan' },
     },
   },
   config = function(_, opts)
