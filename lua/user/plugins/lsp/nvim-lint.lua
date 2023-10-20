@@ -32,7 +32,7 @@ return {
       css = { 'stylelint' },
       lua = { 'luacheck' },
       php = { 'phpstan' },
-      python = { 'mypy', 'pylint' },
+      python = { 'pylint' },
       scss = { 'stylelint' },
       sh = { 'shellcheck' },
       twig = { 'djlint' },
