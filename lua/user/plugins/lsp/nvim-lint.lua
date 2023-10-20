@@ -28,14 +28,14 @@ return {
   },
   opts = {
     linters_by_ft = {
-      lua = { 'luacheck' },
       bash = { 'shellcheck' },
       css = { 'stylelint' },
+      lua = { 'luacheck' },
       python = { 'mypy', 'pylint' },
       scss = { 'stylelint' },
       sh = { 'shellcheck' },
-      yaml = { 'yamllint' },
       twig = { 'djlint' },
+      yaml = { 'yamllint' },
     },
   },
   config = function(_, opts)
