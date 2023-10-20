@@ -30,6 +30,7 @@ return {
         ['<C-k>'] = { '<cmd>:m .-2<cr>==', 'Move line up' },
         ['<C-s>'] = { '<C-a>', 'Increment' },
         ['<C-x>'] = { '<C-x>', 'Decrement' },
+        ['<leader>cf'] = { vim.lsp.buf.format, 'Format Buffer' },
       }
       --  Remap for dealing with word wrap
       vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -44,6 +45,10 @@ return {
       local Vkeymaps = {
         ['<'] = { '<gv', 'Indent left' },
         ['>'] = { '>gv', 'Inde t right' },
+        ['<leader>cf'] = {
+          "<cmd>:lua vim.lsp.buf.format { range = { ['start'] = vim.api.nvim_buf_get_mark(0, '<'), ['end'] = vim.api.nvim_buf_get_mark(0, '>'), }}<CR>",
+          'Format Selection',
+        },
       }
       -- move blocks of code - TODO: make this work with wichkey.
       vim.keymap.set('v', '<C-j>', ":m '>+1<cr>gv")
