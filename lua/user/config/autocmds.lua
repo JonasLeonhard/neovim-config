@@ -10,15 +10,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 vim.cmd [[highlight YankHighlight guifg=#000000 guibg=#FAB387 gui=nocombine]]
 
--- enable syntax
-vim.api.nvim_create_autocmd('BufEnter', {
-  command = 'syntax on', -- syntax_on/syntax does not work for some reason
-})
-
-vim.api.nvim_create_autocmd('BufEnter', {
-  command = 'stopinsert', -- fix telescope opening files in insert mode
-})
-
 -- @author: astrovim:
 -- creates a augroup _file_opened that checks whether a file was opened. (Not alpha dashboard) or other files with no name,
 -- and runs the "User FileOpened" automcmd once.
