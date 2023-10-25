@@ -45,22 +45,69 @@ return {
         },
         lualine_x = {
           {
-            function() -- Autoformatting Toggle
+            function() -- GuessIndent Toggle
               if not _GuessIndentEnabled() then
                 return 'GuessIndent: off'
               end
               return ''
             end,
           },
+          "require('lsp-progress').progress()",
           {
-            function() -- Autoformatting Toggle
+            function() -- List all registered formatters from conform
+              local formatters = package.loaded['conform'].list_formatters(0)
+
               if not _AutoFormatEnabled() then
-                return 'AutoFormat: off'
+                return '󰉶 : --off'
               end
-              return ''
+
+              if not formatters then
+                return ''
+              end
+
+              if #formatters == 0 then
+                return ''
+              end
+
+              local names = {}
+              for _key, formatter in pairs(formatters) do
+                local is_installed = package.loaded['mason-registry'].is_installed(formatter.name)
+                local name = formatter.name
+                if not is_installed then
+                  name = '󰋗 ' .. name
+                end
+
+                table.insert(names, name)
+              end
+              return '󰉶 : [' .. table.concat(names, ',') .. ']'
+            end,
+            color = { gui = 'bold' },
+          },
+          {
+            function()
+              local linters = package.loaded['lint']._resolve_linter_by_ft(vim.bo.filetype)
+
+              if not _AutoLintEnabled() then
+                return '󱔲 : --off'
+              end
+
+              if not linters or #linters == 0 then
+                return ''
+              end
+
+              local names = {}
+              for _key, linter in pairs(linters) do
+                local is_installed = package.loaded['mason-registry'].is_installed(linter)
+                local name = linter
+                if not is_installed then
+                  name = '󰋗 ' .. name
+                end
+                table.insert(names, name)
+              end
+
+              return '󱔲 : [' .. table.concat(names, ',') .. ']'
             end,
           },
-          "require('lsp-progress').progress()",
         },
         lualine_y = {
           'filetype',
