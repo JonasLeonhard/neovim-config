@@ -55,57 +55,46 @@ return {
           "require('lsp-progress').progress()",
           {
             function() -- List all registered formatters from conform
-              local formatters = package.loaded['conform'].list_formatters(0)
-
               if not _AutoFormatEnabled() then
                 return '󰉶 : --off'
               end
+              local ft = vim.api.nvim_eval("&filetype")
+              local formatters_by_filetype = package.loaded['conform'].formatters_by_ft[ft]
 
-              if not formatters then
+              if not formatters_by_filetype or #formatters_by_filetype == 0 then
                 return ''
               end
 
-              if #formatters == 0 then
-                return ''
-              end
-
-              local names = {}
-              for _key, formatter in pairs(formatters) do
-                local is_installed = package.loaded['mason-registry'].is_installed(formatter.name)
-                local name = formatter.name
-                if not is_installed then
-                  name = '󰋗 ' .. name
+              local formatters = {}
+              for _, formatter in ipairs(formatters_by_filetype or {}) do
+                if type(formatter) == "table" then
+                  table.insert(formatters, "{" .. table.concat(formatter, ",") .. "}")
+                else
+                  table.insert(formatters, formatter)
                 end
-
-                table.insert(names, name)
               end
-              return '󰉶 : [' .. table.concat(names, ',') .. ']'
+              return '󰉶 : ' .. table.concat(formatters, ', ')
             end,
             color = { gui = 'bold' },
           },
           {
             function()
-              local linters = package.loaded['lint']._resolve_linter_by_ft(vim.bo.filetype)
-
               if not _AutoLintEnabled() then
                 return '󱔲 : --off'
               end
+              local ft = vim.api.nvim_eval("&filetype")
+              local linters_by_ft = package.loaded['lint'].linters_by_ft[ft]
 
-              if not linters or #linters == 0 then
+              if not linters_by_ft or #linters_by_ft == 0 then
                 return ''
               end
 
-              local names = {}
-              for _key, linter in pairs(linters) do
-                local is_installed = package.loaded['mason-registry'].is_installed(linter)
-                local name = linter
-                if not is_installed then
-                  name = '󰋗 ' .. name
-                end
-                table.insert(names, name)
+              local linters = {}
+              for _, linter in ipairs(linters_by_ft ~= nil and linters_by_ft or {}) do
+                table.insert(linters, linter)
               end
 
-              return '󱔲 : [' .. table.concat(names, ',') .. ']'
+              return '󱔲 : ' .. table.concat(linters, ', ')
             end,
           },
         },
