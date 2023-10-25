@@ -29,12 +29,23 @@ return {
   opts = {
     linters_by_ft = {
       php = { 'phpstan' },
-      twig = { 'djlint' },
+      twig = { 'djlint', 'twigcs' },
     },
   },
   config = function(_, opts)
     local lint = require 'lint'
 
+    -- custom linter configs:
+    lint.linters.djlint.args = {
+      '--linter-output-format',
+      '{line}:{code}: {message}',
+      '--profile=nunjucks',
+      '--preserve-blank-lines',
+      '--line-break-after-multiline-tag',
+      '-',
+    }
+
+    -- Setup:
     lint.linters_by_ft = opts.linters_by_ft
 
     local augroup = vim.api.nvim_create_augroup('lint', { clear = true })

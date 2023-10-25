@@ -29,6 +29,7 @@ return {
       typescriptreact = { { 'prettierd', 'prettier' } },
       vue = { { 'prettierd', 'prettier' } },
       yaml = { { 'prettierd', 'prettier' } },
+      twig = { 'djlint' },
     },
     format_on_save = function()
       if not _AutoFormatEnabled() then
