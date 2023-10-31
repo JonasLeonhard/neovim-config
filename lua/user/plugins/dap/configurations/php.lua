@@ -37,6 +37,23 @@ dap.configurations.php = {
     },
   },
   {
+    name = 'Debug with Xdebug (remote with server->local pathMappings [/<input> <--> ${workspaceFolder}/<input>)]',
+    type = 'php',
+    request = 'launch',
+    port = function()
+      local value = tonumber(vim.fn.input 'Port: [9003] ')
+      if value ~= '' then
+        return value
+      end
+      return 9003
+    end,
+    -- server -> local mappings
+    pathMappings = function()
+      local path = vim.fn.input 'Path: '
+      return { ['/' .. path] = '${workspaceFolder}/' .. path }
+    end
+  },
+  {
     name = 'Debug currently open script',
     type = 'php',
     request = 'launch',
