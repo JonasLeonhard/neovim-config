@@ -4,6 +4,7 @@ return {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+      'IndianBoy42/tree-sitter-just'
     },
     event = 'User FileOpened',
     lazy = true,
