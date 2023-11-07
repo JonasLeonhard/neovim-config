@@ -6,6 +6,8 @@ return {
       'nvim-tree/nvim-web-devicons',
       'catppuccin/nvim',
     },
+    lazy = true,
+    event = 'User FileOpened',
     -- See `:help lualine.txt`
     opts = {
       extensions = { 'lazy' },
