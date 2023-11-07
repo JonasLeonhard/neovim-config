@@ -1,6 +1,6 @@
 return {
   'folke/neodev.nvim',
   lazy = true,
-  event = 'User FileOpened',
+  ft = { 'lua' },
   opts = {}
 }
