@@ -1,6 +1,8 @@
 return {
   'linrongbin16/lsp-progress.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
+  lazy = true,
+  event = "User FileOpened",
   opts = {
     format = function(messages)
       local active_clients = vim.lsp.get_clients { bufnr = 0 }
