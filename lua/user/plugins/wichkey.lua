@@ -132,10 +132,7 @@ return {
           ['t'] = { '<cmd>split | terminal<cr>', 'teminal split' },
         },
         ['<leader>m'] = {
-          name = ' marks & harpoon',
-          ['M'] = {
-            name = 'Marks',
-          },
+          name = ' marks',
         },
         -- Explorer:
         ['<leader>a'] = {

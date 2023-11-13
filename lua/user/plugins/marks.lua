@@ -2,13 +2,13 @@ return {
   'chentoast/marks.nvim',
   lazy = true,
   keys = {
-    { 'm',           desc = "Add mark",           mode = 'n' },
-    { '<leader>uM',  '<cmd>MarksToggleSigns<cr>', desc = "Toggle Mark signs" },
-    { '<leader>mMa', '<cmd>MarksListAll<cr>',     desc = 'List All' },
-    { '<leader>mMb', '<cmd>MarksListBuf<cr>',     desc = 'List Buffer' },
-    { '<leader>mMg', '<cmd>MarksListGlobal<cr>',  desc = 'List Global' },
+    { 'm',          desc = "Add mark",           mode = 'n' },
+    { '<leader>u',  '<cmd>MarksToggleSigns<cr>', desc = "Toggle Mark signs" },
+    { '<leader>mM', '<cmd>MarksListAll<cr>',     desc = 'List All' },
+    { '<leader>mm', '<cmd>MarksListBuf<cr>',     desc = 'List Buffer' },
+    { '<leader>mg', '<cmd>MarksListGlobal<cr>',  desc = 'List Global' },
     {
-      '<leader>mMh',
+      '<leader>mh',
       function()
         print('{mx] = set Mark <x>')
         print('[m,] = Set the next alphabetical lowercase mark')
@@ -26,7 +26,7 @@ return {
       end,
       desc = 'Keybind help',
     },
-    { '<leader>mMd', '<cmd>:delmarks a-zA-Z0-9<cr>', desc = 'Delete all marks globally' },
+    { '<leader>md', '<cmd>:delmarks a-zA-Z0-9<cr>', desc = 'Delete all marks globally' },
   },
   opts = {
     -- while lower values may cause performance penalties. default 150.
