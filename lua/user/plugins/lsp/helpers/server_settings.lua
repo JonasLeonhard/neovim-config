@@ -59,4 +59,15 @@ return {
       },
     },
   },
+  tailwindcss = {
+    filetypes = {
+      'templ'
+      -- include any other filetypes where you need tailwindcss
+    },
+    init_options = {
+      userLanguages = {
+        templ = "html"
+      }
+    }
+  }
 }
