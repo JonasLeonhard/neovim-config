@@ -69,5 +69,10 @@ return {
         templ = "html"
       }
     }
+  },
+  html = {
+    filetypes = {
+      'templ'
+    }
   }
 }
