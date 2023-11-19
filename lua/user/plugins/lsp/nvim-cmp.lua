@@ -59,8 +59,7 @@ return {
         { name = 'nvim_lsp', group_index = 2 },
         { name = 'path',     group_index = 2 },
         { name = 'buffer',   group_index = 2 },
-        { name = 'luasnip',  group_index = 2 },
-        { name = 'cmdline',  group_index = 2 },
+        { name = 'luasnip',  group_index = 2 }
       },
       formatting = {
         format = function(entry, vim_item)
