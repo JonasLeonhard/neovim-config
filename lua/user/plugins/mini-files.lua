@@ -4,13 +4,8 @@ return {
   keys = {
     {
       '<leader><C-e>',
-      "<cmd>e %:h<cr>",
+      "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>",
       desc = 'Files mini (current File)',
-    },
-    {
-      '<leader><C-E>',
-      "<cmd>e .<cr>",
-      desc = 'Files mini (root)',
     }
   },
   opts = {
