@@ -52,7 +52,7 @@ return {
     },
     menu = {
       keymaps = {
-        ['q'] = function()
+        ['Q'] = function()
           local menu = require('dropbar.api').get_current_dropbar_menu()
           if not menu then
             return
@@ -68,7 +68,7 @@ return {
 
           menu:close(true)
         end,
-        ['Q'] = function()
+        ['q'] = function()
           local menu = require('dropbar.api').get_current_dropbar_menu()
           if not menu then
             return
