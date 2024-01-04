@@ -1,6 +1,7 @@
 return {
   'echasnovski/mini.files',
   version = false,
+  lazy = true,
   keys = {
     {
       '<leader><C-e>',
