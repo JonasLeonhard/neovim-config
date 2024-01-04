@@ -64,3 +64,13 @@ require 'user.config.formatting'
 require 'user.config.terminal'
 require 'user.config.inlayHints'
 require 'user.config.fold'
+
+
+-- info: this creates a detailed flamegraph profiler using plenary plugin. You can copy paste this to profile performance issues
+-- create a detailed profile logs as flamegraph: https://www.speedscope.app/
+
+-- vim.api.nvim_create_user_command("ProfileStart", function()
+--   require("plenary.profile").start(("profile-%s.log"):format(vim.version()), { flame = true })
+-- end, {})
+
+-- vim.api.nvim_create_user_command("ProfileStop", require("plenary.profile").stop, {})
