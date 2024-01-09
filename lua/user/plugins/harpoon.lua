@@ -58,4 +58,9 @@ return {
       desc = 'Navigate to Harpoon Mark (5)',
     },
   },
+  opts = {
+    menu = {
+      width = vim.api.nvim_win_get_width(0) - 12,
+    }
+  }
 }
