@@ -7,8 +7,8 @@ return {
     keys = {
       { 'gk',         '<cmd>BufferLineCycleNext<cr>',  desc = 'next buffer',     mode = 'n' },
       { 'gj',         '<cmd>BufferLineCyclePrev<cr>',  desc = 'previous buffer', mode = 'n' },
-      { '<leader>bj', '<cmd>BufferLineCycleNext<cr>',  desc = 'next buffer' },
-      { '<leader>bk', '<cmd>BufferLineCyclePrev<cr>',  desc = 'previous buffer' },
+      { '<leader>bk', '<cmd>BufferLineMoveNext<cr>',   desc = 'move next' },
+      { '<leader>bj', '<cmd>BufferLineMovePrev<cr>',   desc = 'move previous' },
       { '<leader>bh', '<cmd>BufferLineCloseLeft<cr>',  desc = 'close left' },
       { '<leader>bl', '<cmd>BufferLineCloseRight<cr>', desc = 'close right' },
       { '<leader>bs', '<cmd>BufferLinePick<cr>',       desc = 'pick' },
