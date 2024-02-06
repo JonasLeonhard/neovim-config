@@ -16,7 +16,7 @@ return {
     {
       's',
       mode = { 'n', 'x', 'o' },
-      "<cmd>lua require('flash').jump({ search = { mode = 'fuzzy' }})<cr>",
+      "<cmd>lua require('flash').jump({ search = { mode = 'exact' }})<cr>",
       desc = 'Flash',
     },
     {
