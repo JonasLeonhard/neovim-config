@@ -29,4 +29,8 @@ require('lazy').setup({
   { import = 'user.plugins.lsp' },
   { import = 'user.plugins.dap' },
   { import = 'user.plugins' },
-}, {})
+}, {
+  dev = {
+    path = os.getenv("NVIM_DEV_PATH") or "~/projects"
+  },
+})
