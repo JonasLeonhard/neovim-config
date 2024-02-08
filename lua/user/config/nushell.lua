@@ -26,10 +26,6 @@
 -- This is because ls returns a record instead of a string, which cannot be saved into a file. To fix this you could run something like:
 -- ":r !ls | to text" or ":r !ls | get name"
 
-local shellPath = vim.o.shell
-local splitPath = vim.split(shellPath, '/')
-local shell = splitPath[#splitPath]
-
-if shell == 'nu' then
+if string.match(vim.o.shell, '/nu$') then
   vim.opt.shellredir = '| save %s'
 end
