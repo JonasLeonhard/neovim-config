@@ -64,6 +64,7 @@ require 'user.config.formatting'
 require 'user.config.terminal'
 require 'user.config.inlayHints'
 require 'user.config.fold'
+require 'user.config.nushell'
 
 
 -- info: this creates a detailed flamegraph profiler using plenary plugin. You can copy paste this to profile performance issues
