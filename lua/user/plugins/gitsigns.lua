@@ -4,16 +4,6 @@ return {
     'lewis6991/gitsigns.nvim',
     event = 'User FileOpened',
     lazy = true,
-    opts = {
-      -- See `:help gitsigns.txt`
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
     dependencies = { 'petertriho/nvim-scrollbar' },
     keys = {
       {
@@ -59,7 +49,7 @@ return {
       {
         '<leader>gb',
         function()
-          require('gitsigns').blame_line()
+          require('gitsigns').blame_line({ full = true })
         end,
         desc = 'Blame line',
       },
@@ -71,8 +61,8 @@ return {
         desc = 'GitSigns Toggle deleted',
       }
     },
-    config = function()
-      require('gitsigns').setup()
+    config = function(_, opts)
+      require('gitsigns').setup(opts)
       require('scrollbar.handlers.gitsigns').setup()
     end,
   },
