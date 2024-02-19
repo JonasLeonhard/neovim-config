@@ -15,7 +15,7 @@ return {
   opts = {
     -- disable qf window
     preview = {
-      border = 'none',
+      border = 'rounded',
     },
     func_map = {
       fzffilter = 'zF',
