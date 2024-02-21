@@ -1,8 +1,20 @@
 return {
   'JonasLeonhard/broil',
   dependencies = {
-    "nvim-tree/nvim-web-devicons"
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+    {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      cond = function()
+        return vim.fn.executable 'cmake' == 1
+      end,
+      build =
+      'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+    }
   },
+  cond = function()
+    return vim.fn.executable 'fd' == 1 -- https://github.com/sharkdp/fd
+  end,
   opts = {
     mappings = {
       synchronize = '<C-y>',
@@ -17,5 +29,5 @@ return {
       desc = 'Broil open',
     },
   },
-  enabled = false
+  enabled = true
 }
