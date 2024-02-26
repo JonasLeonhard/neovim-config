@@ -124,7 +124,6 @@ return {
           },
           ['f'] = { '<cmd>:ToggleAutoFormat<cr>', 'toggle Autoformat on save' },
           ['l'] = { '<cmd>:ToggleAutoLint<cr>', 'toggle Autolint on save, insert leave, bufreadpost' },
-          ['I'] = { '<cmd>:ToggleGuessIndent<cr>', 'toggle GuessIndent when opening a bufffer' },
           ['i'] = {
             '<cmd>:ToggleInlayHints<cr>',
             'toglge Inlayhints',

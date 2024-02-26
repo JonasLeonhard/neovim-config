@@ -7,15 +7,14 @@ return {
       'catppuccin/nvim',
     },
     lazy = true,
-    event = 'User FileOpened',
+    event = 'VeryLazy',
     -- See `:help lualine.txt`
     opts = {
       extensions = { 'lazy' },
       options = {
         icons_enabled = true,
         component_separators = '|',
-        section_separators = '',
-        disabled_filetypes = { 'alpha' }, -- disable in dashboard to increase startuptime
+        section_separators = ''
       },
       sections = {
         lualine_a = { 'mode' },
@@ -25,16 +24,6 @@ return {
         lualine_c = {
           'filename',
           'diagnostics',
-          {
-            function() -- Harpoon
-              local status = package.loaded['harpoon.mark'].status()
-              if status == '' then
-                return '[U]'
-              end
-
-              return '[' .. status .. ']'
-            end,
-          },
           {
             function() -- Macro recording register
               local register = vim.fn.reg_recording()
@@ -46,14 +35,6 @@ return {
           },
         },
         lualine_x = {
-          {
-            function() -- GuessIndent Toggle
-              if not _GuessIndentEnabled() then
-                return 'GuessIndent: off'
-              end
-              return ''
-            end,
-          },
           "require('lsp-progress').progress()",
           {
             function() -- List all registered formatters from conform

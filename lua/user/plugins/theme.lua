@@ -23,7 +23,6 @@ return {
         treesitter = true,
         treesitter_context = true,
         which_key = true,
-        harpoon = true,
         indent_blankline = {
           enabled = true,
           colored_indent_levels = true,
