@@ -146,7 +146,13 @@ return {
       vim.cmd [[ autocmd CmdlineEnter * set laststatus=0 ]]
       vim.cmd [[ autocmd CmdlineLeave * set laststatus=3 ]]
 
-      require('lualine').setup(opts)
+      local lualine = require('lualine')
+      local timer_id = vim.loop.new_timer()
+
+      -- there is an issue with laststatus=0, and ch=0 causing the line to flicker once
+      timer_id:start(1000, 0, vim.schedule_wrap(function()
+        lualine.setup(opts)
+      end))
     end,
   },
 }

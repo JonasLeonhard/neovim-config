@@ -17,7 +17,6 @@ opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
 opt.ignorecase = true      -- Ignore case
 opt.inccommand = "nosplit" -- preview incremental substitute
-opt.laststatus = 3         -- global statusline
 opt.list = true            -- Show some invisible characters (tabs...
 opt.mouse = "a"            -- Enable mouse mode
 opt.number = true          -- Print line number
@@ -49,6 +48,7 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5                -- Minimum window width
 opt.wrap = false                   -- Disable line wrap
 
+opt.laststatus = 0                 -- global statusline, this will be set from lualine!
 opt.ch = 0;                        -- no command height
 opt.nrformats = 'bin,hex,alpha,octal,'
 
