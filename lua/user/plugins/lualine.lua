@@ -100,6 +100,10 @@ return {
     },
     config = function(_, opts)
       local Colors = require('catppuccin.palettes').get_palette()
+      if not Colors then
+        return
+      end
+
       local options = require('catppuccin').options
 
       local transparent_bg = options.transparent_background and 'NONE' or Colors.mantle
@@ -140,7 +144,8 @@ return {
       -- hide the lualine when entering command mode,
       -- this fixes an issue, where the statusline would sometimes flicker while typing and cmp window rendering
       vim.cmd [[ autocmd CmdlineEnter * set laststatus=0 ]]
-      vim.cmd [[ autocmd CmdlineLeave * set laststatus=2 ]]
+      vim.cmd [[ autocmd CmdlineLeave * set laststatus=3 ]]
+
       require('lualine').setup(opts)
     end,
   },
