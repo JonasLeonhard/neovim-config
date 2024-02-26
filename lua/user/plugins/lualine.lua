@@ -6,8 +6,9 @@ return {
       'nvim-tree/nvim-web-devicons',
       'catppuccin/nvim',
     },
+    enabled = true,
     lazy = true,
-    event = 'User FileOpened',
+    event = 'VeryLazy',
     -- See `:help lualine.txt`
     opts = {
       extensions = { 'lazy' },
@@ -146,8 +147,7 @@ return {
       vim.cmd [[ autocmd CmdlineEnter * set laststatus=0 ]]
       vim.cmd [[ autocmd CmdlineLeave * set laststatus=3 ]]
 
-      local lualine = require('lualine')
-      lualine.setup(opts)
+      require('lualine').setup(opts)
     end,
   },
 }
