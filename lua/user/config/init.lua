@@ -48,7 +48,7 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5                -- Minimum window width
 opt.wrap = false                   -- Disable line wrap
 
-opt.laststatus = 3
+opt.laststatus = 0
 opt.ch = 0; -- no cmdheight
 opt.nrformats = 'bin,hex,alpha,octal,'
 
