@@ -73,3 +73,6 @@ require 'user.config.nushell'
 -- end, {})
 
 -- vim.api.nvim_create_user_command("ProfileStop", require("plenary.profile").stop, {})
+
+-- put :messages in a new buffer
+vim.api.nvim_command('command! Messages enew | execute "redir @a" | silent messages | redir END | normal! "ap')
