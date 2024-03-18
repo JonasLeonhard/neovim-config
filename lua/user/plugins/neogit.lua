@@ -11,6 +11,7 @@ return {
     },
   },
   lazy = true,
+  event = "VeryLazy",
   keys = {
     {
       '<leader>gg',
