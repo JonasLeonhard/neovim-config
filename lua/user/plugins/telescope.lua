@@ -107,7 +107,7 @@ return {
       vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = '#181825' })
       telescope.setup {
         defaults = {
-          sorting_strategy = 'ascending',
+          -- sorting_strategy = 'ascending',
           layout_strategy = 'bottom_pane',
           layout_config = {
             height = 25,
