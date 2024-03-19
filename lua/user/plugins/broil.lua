@@ -12,9 +12,6 @@ return {
       'make'
     }
   },
-  cond = function()
-    return vim.fn.executable 'fd' == 1 -- https://github.com/sharkdp/fd
-  end,
   opts = {
     mappings = {
       synchronize = '<C-y>',
@@ -25,7 +22,12 @@ return {
   keys = {
     {
       '<leader>o',
-      "<cmd>lua require('broil').open()<cr>",
+      "<cmd>lua require('broil').open()<cr>", -- opens current %:h or cwd by default
+      desc = 'Broil open',
+    },
+    {
+      '<leader>O',
+      "<cmd>lua require('broil').open(vim.fn.getcwd())<cr>",
       desc = 'Broil open',
     },
   },
