@@ -6,7 +6,7 @@ return {
       'nvim-treesitter/nvim-treesitter-textobjects',
       'vrischmann/tree-sitter-templ'
     },
-    event = 'User FileOpened',
+    event = 'VeryLazy',
     lazy = true,
     opts = {
       additional_vim_regex_highlighting = true,
