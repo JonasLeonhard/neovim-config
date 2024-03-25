@@ -1,17 +1,17 @@
 return {
-  'rmagatti/alternate-toggler',
+  'nguyenvukhang/nvim-toggler',
   lazy = true,
   keys = {
     {
       '<leader>ct',
       function()
-        require('alternate-toggler').toggleAlternate()
+        require('nvim-toggler').toggle()
       end,
       desc = 'Toggle Cursor Alternate',
     },
   },
   opts = {
-    alternates = {
+    inverses = {
       ['true'] = 'false',
       ['True'] = 'False',
       ['TRUE'] = 'FALSE',
