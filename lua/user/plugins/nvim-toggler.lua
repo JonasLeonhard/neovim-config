@@ -47,5 +47,6 @@ return {
       ['='] = ':',
       [':'] = '=',
     },
+    remove_default_keybinds = true,
   },
 }
