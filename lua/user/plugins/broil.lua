@@ -13,16 +13,9 @@ return {
     }
   },
   opts = {
-    mappings = {
-      synchronize = '<C-y>',
-      help = '?',
-    },
     rm_command = 'rm --trash', -- you could use a trash command here. Or rm --trash for nushell...
-    mv_command = 'mv',
-    mkdir_command = 'mkdir',
-    touch_command = 'touch'
   },
-  dev = true, -- This will use {config.dev.path}/broil/ instead of fetching it from Github
+  dev = true,                  -- This will use {config.dev.path}/broil/ instead of fetching it from Github
   keys = {
     {
       '<leader>o',
@@ -35,5 +28,4 @@ return {
       desc = 'Broil open',
     },
   },
-  enabled = true
 }
