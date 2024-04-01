@@ -130,6 +130,11 @@ return {
           cmp.config.compare.order,
         },
       },
+      view = {
+        entries = {
+          follow_cursor = true
+        }
+      },
     }
 
     -- Set configuration for specific filetypes.

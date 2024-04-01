@@ -13,9 +13,13 @@ return {
     }
   },
   opts = {
-    rm_command = 'rm --trash', -- you could use a trash command here. Or rm --trash for nushell...
+    -- you could use different commands here, the default works for nushell and bash
+    -- mv_command = 'mv <FROM> <TO>',
+    -- rm_command = 'rm -r --trash <FROM>', -- think about using a trash rm command?
+    -- mkdir_command = 'mkdir <TO>',
+    -- touch_command = 'mkdir (dirname <TO>); touch <TO>',
   },
-  dev = true,                  -- This will use {config.dev.path}/broil/ instead of fetching it from Github
+  dev = true, -- This will use {config.dev.path}/broil/ instead of fetching it from Github
   keys = {
     {
       '<leader>o',
