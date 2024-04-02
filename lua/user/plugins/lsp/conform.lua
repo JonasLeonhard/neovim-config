@@ -31,6 +31,7 @@ return {
       vue = { { 'prettierd', 'prettier' } },
       yaml = { { 'prettierd', 'prettier' } },
       twig = { 'djlint' },
+      astro = { { 'prettierd', 'prettier' } },
     },
     format_on_save = function()
       if not _AutoFormatEnabled() then
