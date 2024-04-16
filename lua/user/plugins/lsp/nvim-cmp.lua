@@ -6,7 +6,16 @@ return {
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'saadparwaiz1/cmp_luasnip',
-    'L3MON4D3/LuaSnip',
+    {
+      'L3MON4D3/LuaSnip',
+      version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+      build = "make install_jsregexp",
+      dependencies = { 'rafamadriz/friendly-snippets' },
+      opts = {},
+      event = 'User FileOpened',
+      -- install jsregexp (optional!).
+      lazy = true,
+    },
     {
       'zbirenbaum/copilot-cmp',
       dependencies = { 'copilot.lua' },
