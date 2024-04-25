@@ -40,6 +40,8 @@ return {
     config = function(_, opts)
       require('catppuccin').setup(opts)
       vim.cmd.colorscheme 'catppuccin-mocha'
+
+      vim.api.nvim_command('highlight CursorLine guibg=#191926')
     end,
   },
 }
