@@ -104,7 +104,13 @@ return {
     },
     config = function()
       local telescope = require 'telescope'
-      vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = '#181825' })
+
+      vim.api.nvim_command('highlight TelescopePreviewBorder guifg=#191926')
+      vim.api.nvim_command('highlight TelescopePromptBorder guifg=#191926')
+      vim.api.nvim_command('highlight TelescopeResultsBorder guifg=#191926')
+      vim.api.nvim_command('highlight TelescopePreviewTitle guifg=#191926')
+      vim.api.nvim_command('highlight TelescopeResultsTitle guifg=#191926')
+
       telescope.setup {
         defaults = {
           sorting_strategy = 'descending',
@@ -113,7 +119,8 @@ return {
             prompt_position = "bottom",
             height = 25,
           },
-          border = false,
+          border = true,
+          borderchars = { '─', '', '', '', '', '', '', '' }, -- only top border
         },
         pickers = {
           find_files = {

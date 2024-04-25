@@ -8,7 +8,9 @@ return {
       integrations = {
         cmp = true,
         gitsigns = true,
-        telescope = true,
+        telescope = {
+          enabled = true,
+        },
         dap = {
           enabled = true,
           enable_ui = true,
@@ -19,18 +21,20 @@ return {
         },
         bufferline = true,
         mason = true,
-        noice = true,
         treesitter = true,
         treesitter_context = true,
         which_key = true,
-        indent_blankline = {
-          enabled = true,
-          colored_indent_levels = true,
-        },
         native_lsp = {
           enabled = true,
         },
         neogit = true,
+      },
+      color_overrides = {
+        mocha = {
+          base = "#0b0b12",
+          mantle = "#11111a",
+          crust = "#191926",
+        },
       },
     },
     config = function(_, opts)
