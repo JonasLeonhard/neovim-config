@@ -36,12 +36,22 @@ return {
           crust = "#191926",
         },
       },
+      custom_highlights = function(colors)
+        return {
+          CursorLine = { bg = colors.crust },
+          CmpCompletionWindowBorder = { bg = colors.mantle },
+          TelescopePreviewBorder = { fg = colors.crust },
+          TelescopePromptBorder = { fg = colors.crust },
+          TelescopeResultsBorder = { fg = colors.crust },
+          TelescopePreviewTitle = { fg = colors.crust },
+          TelescopeResultsTitle = { fg = colors.crust },
+        }
+      end
+
     },
     config = function(_, opts)
       require('catppuccin').setup(opts)
       vim.cmd.colorscheme 'catppuccin-mocha'
-
-      vim.api.nvim_command('highlight CursorLine guibg=#191926')
     end,
   },
 }

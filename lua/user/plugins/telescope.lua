@@ -105,12 +105,6 @@ return {
     config = function()
       local telescope = require 'telescope'
 
-      vim.api.nvim_command('highlight TelescopePreviewBorder guifg=#191926')
-      vim.api.nvim_command('highlight TelescopePromptBorder guifg=#191926')
-      vim.api.nvim_command('highlight TelescopeResultsBorder guifg=#191926')
-      vim.api.nvim_command('highlight TelescopePreviewTitle guifg=#191926')
-      vim.api.nvim_command('highlight TelescopeResultsTitle guifg=#191926')
-
       telescope.setup {
         defaults = {
           sorting_strategy = 'descending',

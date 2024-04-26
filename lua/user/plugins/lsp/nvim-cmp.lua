@@ -172,8 +172,5 @@ return {
         { name = 'cmdline' },
       }),
     })
-
-    -- Highlight Background:
-    vim.cmd 'highlight CMPMenu guibg=#181825'
   end,
 }
