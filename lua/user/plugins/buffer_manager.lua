@@ -8,7 +8,8 @@ return {
     width = vim.o.columns,
     height = math.floor(vim.api.nvim_win_get_height(0) / 2),
     borderchars = { "─", " ", " ", " ", " ", " ", " ", " " },
-    show_icons = 'before'
+    show_icons = 'before',
+    short_file_names = true
   },
   keys = {
     {
