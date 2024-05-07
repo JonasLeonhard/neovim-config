@@ -1,10 +1,14 @@
 return {
   'https://github.com/JonasLeonhard/buffer_manager.nvim',
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
   lazy = true,
   opts = {
     width = vim.o.columns,
     height = math.floor(vim.api.nvim_win_get_height(0) / 2),
     borderchars = { "─", " ", " ", " ", " ", " ", " ", " " },
+    show_icons = 'before'
   },
   keys = {
     {
