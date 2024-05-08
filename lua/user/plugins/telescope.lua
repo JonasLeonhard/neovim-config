@@ -138,6 +138,11 @@ return {
         },
       }
       telescope.load_extension 'fzf'
+      vim.api.nvim_create_user_command("ProfileStart", function()
+        require("plenary.profile").start(("profile-%s.log"):format(vim.version()), { flame = true })
+      end, {})
+
+      vim.api.nvim_create_user_command("ProfileStop", require("plenary.profile").stop, {})
     end,
   },
 }

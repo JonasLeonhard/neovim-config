@@ -19,7 +19,6 @@ return {
           enabled = true,
           color_mode = false
         },
-        bufferline = true,
         mason = true,
         treesitter = true,
         treesitter_context = true,
@@ -45,6 +44,45 @@ return {
           TelescopeResultsBorder = { fg = colors.crust },
           TelescopePreviewTitle = { fg = colors.crust },
           TelescopeResultsTitle = { fg = colors.crust },
+          StatusLineNormal = {
+            fg = colors.overlay0
+          },
+          StatusLine = {
+            fg = colors.overlay0
+          },
+          StatusLineNC = {
+            fg = colors.overlay0
+          },
+          StatusLineAccent = {
+            fg = colors.green
+          },
+          StatuslineAccent = {
+            fg = colors.green
+          },
+          StatuslineInsertAccent = {
+            fg = colors.yellow
+          },
+          StatuslineVisualAccent = {
+            fg = colors.flamingo
+          },
+          StatusLineGit = {
+            fg = colors.blue
+          },
+          StatuslineTerminalAccent = {
+            fg = colors.green
+          },
+          LspDiagnosticsSignError = {
+            fg = colors.red
+          },
+          LspDiagnosticsSignWarning = {
+            fg = colors.yellow
+          },
+          LspDiagnosticsSignHint = {
+            fg = colors.mauve
+          },
+          LspDiagnosticsSignInformation = {
+            fg = colors.blue
+          },
         }
       end
 
