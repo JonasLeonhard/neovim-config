@@ -1,7 +1,6 @@
 return {
   'NeogitOrg/neogit',
   cmd = 'Neogit',
-  branch = "nightly",
   dependencies = 'nvim-lua/plenary.nvim',
   opts = {
     signs = {
