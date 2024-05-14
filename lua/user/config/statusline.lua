@@ -179,7 +179,7 @@ local function list_formatters()
     table.insert(names, name)
   end
 
-  formatter_list_cache[filetype] = string.format('󰉶 : [ %s ]', table.concat(names, ','))
+  formatter_list_cache[filetype] = string.format('󰉶 : [%s] ', table.concat(names, ','))
   return formatter_list_cache[filetype]
 end
 
@@ -220,7 +220,7 @@ local function list_linters()
     table.insert(names, name)
   end
 
-  linter_list_cache[filetype] = string.format("󱔲 : [ %s ]", table.concat(names, ','));
+  linter_list_cache[filetype] = string.format("󱔲 : [%s] ", table.concat(names, ','));
   return linter_list_cache[filetype]
 end
 
