@@ -9,9 +9,6 @@ return {
       item = { '', ' ' },
       hunk = { '', '' },
     },
-    commit_editor = {
-      kind = "vsplit",
-    },
   },
   lazy = true,
   event = "VeryLazy",
