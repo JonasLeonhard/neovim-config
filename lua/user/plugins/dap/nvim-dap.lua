@@ -2,7 +2,10 @@ return {
   'mfussenegger/nvim-dap',
   dependencies = {
     'williamboman/mason.nvim',
-    'theHamsta/nvim-dap-virtual-text',
+    {
+      "theHamsta/nvim-dap-virtual-text",
+      opts = {},
+    },
     {
       "rcarriga/nvim-dap-ui",
       dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
@@ -35,42 +38,42 @@ return {
   },
   lazy = true,
   keys = {
-    { '<leader>dt', "<cmd>lua require'dap'.toggle_breakpoint()<cr>",      desc = 'Toggle Breakpoint' },
-    {
-      '<leader>dT',
-      function()
-        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-      end,
-      desc = 'Toggle Breakpoint w. Condition',
-    },
-    { '<leader>db', "<cmd>lua require'dap'.step_back()<cr>",              desc = 'Step Back' },
-    { '<leader>dc', "<cmd>lua require'dap'.continue()<cr>",               desc = 'Continue' },
-    { '<leader>dC', "<cmd>lua require'dap'.run_to_cursor()<cr>",          desc = 'Run To Cursor' },
-    { '<leader>dd', "<cmd>lua require'dap'.disconnect()<cr>",             desc = 'Disconnect' },
-    { '<leader>dg', "<cmd>lua require'dap'.session()<cr>",                desc = 'Get Session' },
-    { '<leader>di', "<cmd>lua require'dap'.step_into()<cr>",              desc = 'Step Into' },
-    { '<leader>do', "<cmd>lua require'dap'.step_over()<cr>",              desc = 'Step Over' },
-    { '<leader>du', "<cmd>lua require'dap'.step_out()<cr>",               desc = 'Step Out' },
-    { '<leader>dp', "<cmd>lua require'dap'.pause()<cr>",                  desc = 'Pause' },
-    { '<leader>dr', "<cmd>lua require'dap'.repl.toggle()<cr>",            desc = 'Toggle Repl' },
-    { '<leader>ds', "<cmd>lua require'dap'.continue()<cr>",               desc = 'Start' },
-    { '<leader>dq', "<cmd>lua require'dap'.close()<cr>",                  desc = 'Quit' },
-    { '<leader>dU', "<cmd>lua require'dapui'.toggle({reset = true})<cr>", desc = 'Toggle UI' },
+    { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
+    { "<leader>dt", function() require("dap").toggle_breakpoint() end,                                    desc = "Toggle Breakpoint" },
+    { "<leader>dc", function() require("dap").continue() end,                                             desc = "Continue" },
+    { "<leader>da", function() require("dap").continue({ before = get_args }) end,                        desc = "Run with Args" },
+    { "<leader>dC", function() require("dap").run_to_cursor() end,                                        desc = "Run to Cursor" },
+    { "<leader>dg", function() require("dap").goto_() end,                                                desc = "Go to Line (No Execute)" },
+    { "<leader>di", function() require("dap").step_into() end,                                            desc = "Step Into" },
+    { "<leader>dj", function() require("dap").down() end,                                                 desc = "Down" },
+    { "<leader>dk", function() require("dap").up() end,                                                   desc = "Up" },
+    { "<leader>dl", function() require("dap").run_last() end,                                             desc = "Run Last" },
+    { "<leader>do", function() require("dap").step_out() end,                                             desc = "Step Out" },
+    { "<leader>dO", function() require("dap").step_over() end,                                            desc = "Step Over" },
+    { "<leader>dp", function() require("dap").pause() end,                                                desc = "Pause" },
+    { "<leader>dr", function() require("dap").repl.toggle() end,                                          desc = "Toggle REPL" },
+    { "<leader>ds", function() require("dap").session() end,                                              desc = "Session" },
+    { "<leader>dT", function() require("dap").terminate() end,                                            desc = "Terminate" },
+    { "<leader>dw", function() require("dap.ui.widgets").hover() end,                                     desc = "Widgets" },
   },
   config = function()
-    local sign = vim.fn.sign_define
+    vim.fn.sign_define('DapBreakpoint', { text = ' ', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapBreakpointCondition',
+      { text = ' ', texthl = 'DapBreakpointCondition', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapLogPoint', { text = ' ', texthl = 'DapLogPoint', linehl = '', numhl = '' })
 
-    sign('DapBreakpoint', { text = ' ', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
-    sign('DapBreakpointCondition', { text = ' ', texthl = 'DapBreakpointCondition', linehl = '', numhl = '' })
-    sign('DapLogPoint', { text = ' ', texthl = 'DapLogPoint', linehl = '', numhl = '' })
-
-    require('nvim-dap-virtual-text').setup {
-      virt_text_pos = vim.fn.has 'nvim-0.10' == 1 and 'inline' or 'eol',
-    }
+    require 'user.plugins.dap.configurations.codelldb'
     require 'user.plugins.dap.configurations.go'
     require 'user.plugins.dap.configurations.lua'
     require 'user.plugins.dap.configurations.php'
-    require 'user.plugins.dap.configurations.rust'
     require 'user.plugins.dap.configurations.typescript'
+
+    -- Automatically Extends dap.configurations with entries read from .vscode/launch.json
+    local vscode = require("dap.ext.vscode")
+    vscode.load_launchjs(nil, {
+      ["node"] = { "javascriptreact", "typescriptreact", "typescript", "javascript" },
+      ["pwa-node"] = { "javascriptreact", "typescriptreact", "typescript", "javascript" },
+      ["codelldb"] = { 'rust', 'zig' }
+    })
   end,
 }
