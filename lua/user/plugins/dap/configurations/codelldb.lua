@@ -1,6 +1,6 @@
 local dap = require 'dap'
 
-dap.adapters.codelldb = {
+local codelldb = {
   type = 'server',
   port = '${port}',
   executable = {
@@ -8,6 +8,8 @@ dap.adapters.codelldb = {
     args = { '--port', '${port}' },
   },
 }
+dap.adapters.codelldb = codelldb
+dap.adapters.lldb = codelldb
 
 dap.configurations.rust = {
   {
