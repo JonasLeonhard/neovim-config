@@ -101,6 +101,11 @@ return {
         '<cmd>Telescope find_files<cr>',
         desc = 'Find files (all)',
       },
+      {
+        '<leader>sm',
+        '<cmd>Telescope marks<cr>',
+        desc = 'Find Marks'
+      }
     },
     config = function()
       local telescope = require 'telescope'
