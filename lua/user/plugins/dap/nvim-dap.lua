@@ -67,18 +67,5 @@ return {
     require 'user.plugins.dap.configurations.lua'
     require 'user.plugins.dap.configurations.php'
     require 'user.plugins.dap.configurations.typescript'
-
-    -- Automatically Extends dap.configurations with entries read from .vscode/launch.json
-    local vscode = require("dap.ext.vscode")
-    local json = require("plenary.json")
-    vscode.json_decode = function(str)
-      return vim.json.decode(json.json_strip_comments(str))
-    end
-    vscode.load_launchjs(nil, {
-      ["node"] = { "javascriptreact", "typescriptreact", "typescript", "javascript" },
-      ["pwa-node"] = { "javascriptreact", "typescriptreact", "typescript", "javascript" },
-      ["codelldb"] = { 'rust', 'zig' },
-      ["lldb"] = { 'rust' }
-    })
   end,
 }
