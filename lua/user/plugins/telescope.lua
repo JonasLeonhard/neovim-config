@@ -12,7 +12,8 @@ return {
         end,
         build =
         'make'
-      }
+      },
+      'nvim-telescope/telescope-ui-select.nvim'
     },
     lazy = true,
     keys = {
@@ -142,7 +143,9 @@ return {
           },
         },
       }
-      telescope.load_extension 'fzf'
+      telescope.load_extension('fzf')
+      telescope.load_extension("ui-select")
+
       vim.api.nvim_create_user_command("ProfileStart", function()
         require("plenary.profile").start(("profile-%s.log"):format(vim.version()), { flame = true })
       end, {})
