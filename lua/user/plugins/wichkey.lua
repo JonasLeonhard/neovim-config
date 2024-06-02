@@ -43,11 +43,51 @@ return {
 
       local Vkeymaps = {
         ['<'] = { '<gv', 'Indent left' },
-        ['>'] = { '>gv', 'Inde t right' },
+        ['>'] = { '>gv', 'Indent right' },
       }
       -- move blocks of code - TODO: make this work with wichkey.
       vim.keymap.set('v', '<C-j>', ":m '>+1<cr>gv")
       vim.keymap.set('v', '<C-k>', ":m '<-2<cr>gv")
+
+      local textObjects = {
+        [" "] = "Whitespace",
+        ['"'] = 'Balanced "',
+        ["'"] = "Balanced '",
+        ["`"] = "Balanced `",
+        ["("] = "Balanced (",
+        [")"] = "Balanced ) including white-space",
+        [">"] = "Balanced > including white-space",
+        ["<lt>"] = "Balanced <",
+        ["]"] = "Balanced ] including white-space",
+        ["["] = "Balanced [",
+        ["}"] = "Balanced } including white-space",
+        ["{"] = "Balanced {",
+        ["?"] = "User Prompt",
+        _ = "Underscore",
+        a = "Argument",
+        A = "Whole Assignment",
+        k = "Key (Assignment lhs)",
+        v = "Val (Assignment rhs)",
+        C = "Comment",
+        F = "Function scope",
+        O = "Class",
+        S = "Scopename",
+        b = "Balanced ), ], }",
+        c = "conditional",
+        f = "Function",
+        i = "Indent",
+        l = "loop",
+        n = "Number",
+        o = "Block, conditional, loop",
+        q = "Quote `, \", '",
+        r = "Return",
+        s = "Statement",
+        t = "Tag",
+      };
+      local OXkeymaps = {
+        i = textObjects,
+        a = textObjects,
+      }
 
       local NVkeymaps = {
         -- See `:help K` for why this keymap
@@ -63,17 +103,8 @@ return {
           },
           ['i'] = { vim.lsp.buf.implementation, 'Goto implementation' },
         },
-        ['M'] = {
-          name = 'surround/match', -- TAKEN in mini-surround.lua
-        },
         ['<leader>b'] = {
           name = '󰘓 buffer',
-        },
-        ['<leader>D'] = {
-          function()
-            vim.cmd 'terminal LazyDocker' -- see terminal.lua
-          end,
-          ' LazyDocker',
         },
         ['<leader>c'] = {
           name = '󰅨 code',
@@ -144,6 +175,7 @@ return {
       wk.register(Nkeymaps, { mode = { 'n' } })
       wk.register(Vkeymaps, { mode = { 'v' } })
       wk.register(NVkeymaps, { mode = { 'n', 'v' } })
+      wk.register(OXkeymaps, { mode = { 'o', 'x' } })
     end,
   },
 }
