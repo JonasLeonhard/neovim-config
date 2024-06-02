@@ -5,6 +5,7 @@ return {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
+    'hrsh7th/cmp-nvim-lsp-signature-help',
     'saadparwaiz1/cmp_luasnip',
     {
       'L3MON4D3/LuaSnip',
@@ -64,11 +65,12 @@ return {
         },
       },
       sources = {
-        { name = 'copilot',  group_index = 2 },
-        { name = 'nvim_lsp', group_index = 2 },
-        { name = 'path',     group_index = 2 },
-        { name = 'buffer',   group_index = 2 },
-        { name = 'luasnip',  group_index = 2 }
+        { name = 'copilot',                group_index = 2 },
+        { name = 'nvim_lsp',               group_index = 2 },
+        { name = 'path',                   group_index = 2 },
+        { name = 'buffer',                 group_index = 2 },
+        { name = 'luasnip',                group_index = 2 },
+        { name = 'nvim_lsp_signature_help' }
       },
       formatting = {
         format = function(entry, vim_item)
