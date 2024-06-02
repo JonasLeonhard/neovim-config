@@ -1,29 +1,15 @@
--- TODO: make this responsive.
-local function getMarginRight()
-  local winWidth = vim.fn.winwidth(0)
-  if winWidth <= 160 then
-    return 0
-  end
-
-  return math.floor(winWidth * 0.6)
-end
-
 return {
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     lazy = true,
     opts = {
-      window = {
-        margin = { 1, 0, 1, getMarginRight() }, -- extra window margin [top, right, bottom, left]
-      },
       show_help = false,
     },
     config = function(_, opts)
       local wk = require 'which-key'
       wk.setup(opts)
 
-      -- TODO: think about keybinds here
       local Nkeymaps = {
         ['<Esc>'] = { '<cmd>:noh <cr>', 'clear highlights' },
         ['<C-j>'] = { '<cmd>:m .+1<cr>==', 'Move line down' },
@@ -48,46 +34,6 @@ return {
       -- move blocks of code - TODO: make this work with wichkey.
       vim.keymap.set('v', '<C-j>', ":m '>+1<cr>gv")
       vim.keymap.set('v', '<C-k>', ":m '<-2<cr>gv")
-
-      local textObjects = {
-        [" "] = "Whitespace",
-        ['"'] = 'Balanced "',
-        ["'"] = "Balanced '",
-        ["`"] = "Balanced `",
-        ["("] = "Balanced (",
-        [")"] = "Balanced ) including white-space",
-        [">"] = "Balanced > including white-space",
-        ["<lt>"] = "Balanced <",
-        ["]"] = "Balanced ] including white-space",
-        ["["] = "Balanced [",
-        ["}"] = "Balanced } including white-space",
-        ["{"] = "Balanced {",
-        ["?"] = "User Prompt",
-        _ = "Underscore",
-        a = "Argument",
-        A = "Whole Assignment",
-        k = "Key (Assignment lhs)",
-        v = "Val (Assignment rhs)",
-        C = "Comment",
-        F = "Function scope",
-        O = "Class",
-        S = "Scopename",
-        b = "Balanced ), ], }",
-        c = "conditional",
-        f = "Function",
-        i = "Indent",
-        l = "loop",
-        n = "Number",
-        o = "Block, conditional, loop",
-        q = "Quote `, \", '",
-        r = "Return",
-        s = "Statement",
-        t = "Tag",
-      };
-      local OXkeymaps = {
-        i = textObjects,
-        a = textObjects,
-      }
 
       local NVkeymaps = {
         -- See `:help K` for why this keymap
@@ -175,7 +121,6 @@ return {
       wk.register(Nkeymaps, { mode = { 'n' } })
       wk.register(Vkeymaps, { mode = { 'v' } })
       wk.register(NVkeymaps, { mode = { 'n', 'v' } })
-      wk.register(OXkeymaps, { mode = { 'o', 'x' } })
     end,
   },
 }
