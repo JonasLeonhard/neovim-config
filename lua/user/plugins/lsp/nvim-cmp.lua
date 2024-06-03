@@ -70,7 +70,11 @@ return {
         { name = 'path',                   group_index = 2 },
         { name = 'buffer',                 group_index = 2 },
         { name = 'luasnip',                group_index = 2 },
-        { name = 'nvim_lsp_signature_help' }
+        { name = 'nvim_lsp_signature_help' },
+        {
+          name = "lazydev",
+          group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+        }
       },
       formatting = {
         format = function(entry, vim_item)

@@ -1,7 +1,7 @@
 return {
   {
     'williamboman/mason-lspconfig.nvim',
-    dependencies = { 'mason.nvim', 'neovim/nvim-lspconfig', 'folke/neodev.nvim', 'hrsh7th/nvim-cmp', 'hrsh7th/cmp-nvim-lsp' },
+    dependencies = { 'mason.nvim', 'neovim/nvim-lspconfig' },
     event = 'User FileOpened',
     lazy = true,
     config = function()
