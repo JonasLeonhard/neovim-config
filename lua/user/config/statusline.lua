@@ -63,6 +63,16 @@ local function filename()
 end
 
 local git = function()
+  -- check if we have an actual file open, if not, gitsigns is not loaded and we dont want to require it here for startup time reasons
+  if vim.fn.expand "%:t" == "" then
+    return {
+      head = "",
+      added = "",
+      changed = "",
+      removed = ""
+    }
+  end
+
   local git_info = vim.b.gitsigns_status_dict
   if not git_info or git_info.head == "" then
     return {
@@ -94,6 +104,11 @@ local git = function()
 end
 
 local function lsp_diagnostics()
+    -- check if we have an actual file open, if not, lsp is not loaded and we dont want to require it here for startup time reasons
+  if vim.fn.expand "%:t" == "" then
+    return ""
+  end
+
   local count = {}
   local levels = {
     errors = "Error",
@@ -138,6 +153,11 @@ end
 
 local formatter_list_cache = {}
 local function list_formatters()
+  -- check if we have an actual file open, if not, formatters are not loaded and we dont want to require it here for startup time reasons
+  if vim.fn.expand "%:t" == "" then
+    return ""
+  end
+
   if not _AutoFormatEnabled() then
     return '󰉶 : --off '
   end
@@ -185,6 +205,11 @@ end
 
 local linter_list_cache = {}
 local function list_linters()
+  -- check if we have an actual file open, if not, linters are not loaded and we dont want to require it here for startup time reasons
+  if vim.fn.expand "%:t" == "" then
+    return ""
+  end
+
   if not _AutoLintEnabled() then
     return '󱔲 : --off '
   end
@@ -225,6 +250,11 @@ local function list_linters()
 end
 
 local function list_lsps_and_status()
+  -- check if we have an actual file open, if not, lsp-progress is not loaded and we dont want to require it here for startup time reasons
+  if vim.fn.expand "%:t" == "" then
+    return ""
+  end
+
   local ok, lsp_progress = pcall(require, 'lsp-progress')
 
   if (not ok) then
