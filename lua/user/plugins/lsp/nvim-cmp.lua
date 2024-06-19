@@ -23,7 +23,7 @@ return {
       opts = true
     },
   },
-  event = 'VeryLazy',
+  event = 'InsertEnter',
   lazy = true,
   config = function()
     local cmp = require 'cmp'
