@@ -23,7 +23,7 @@ return {
       opts = true
     },
   },
-  event = 'InsertEnter',
+  event = { 'InsertEnter', 'CmdlineEnter' },
   lazy = true,
   config = function()
     local cmp = require 'cmp'
