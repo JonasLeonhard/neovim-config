@@ -10,10 +10,9 @@ return {
         cond = function()
           return vim.fn.executable 'make' == 1
         end,
-        build =
-        'make'
+        build = 'make',
       },
-      'nvim-telescope/telescope-ui-select.nvim'
+      'nvim-telescope/telescope-ui-select.nvim',
     },
     lazy = true,
     keys = {
@@ -105,8 +104,46 @@ return {
       {
         '<leader>sm',
         '<cmd>Telescope marks<cr>',
-        desc = 'Find Marks'
-      }
+        desc = 'Find Marks',
+      },
+      {
+        '<C-l>',
+        function()
+          local builtin = require 'telescope.builtin'
+          local action_state = require 'telescope.actions.state'
+          local actions = require 'telescope.actions'
+
+          builtin.buffers {
+            sort_lastused = true,
+            sort_mru = true,
+            initial_mode = 'insert',
+            attach_mappings = function(prompt_bufnr, map)
+              local delete_buf = function()
+                local current_picker = action_state.get_current_picker(prompt_bufnr)
+                current_picker:delete_selection(function(selection)
+                  vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+                end)
+              end
+
+              map('n', 'd', delete_buf)
+              map('i', '<C-l>', actions.close)
+
+              return true
+            end,
+          }
+        end,
+        desc = 'Buffers',
+      },
+      {
+        'gk',
+        '<cmd>bnext<cr>',
+        desc = 'buffer next',
+      },
+      {
+        'gj',
+        '<cmd>bprevious<cr>',
+        desc = 'buffer prev',
+      },
     },
     config = function()
       local telescope = require 'telescope'
@@ -116,7 +153,7 @@ return {
           sorting_strategy = 'descending',
           layout_strategy = 'bottom_pane',
           layout_config = {
-            prompt_position = "bottom",
+            prompt_position = 'bottom',
             height = 25,
           },
           border = true,
@@ -136,21 +173,23 @@ return {
         },
         extensions = {
           fzf = {
-            fuzzy = true,                   -- false will only do exact matching
+            fuzzy = true, -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true,    -- override the file sorter
-            case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
+            override_file_sorter = true, -- override the file sorter
+            case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
           },
         },
       }
-      telescope.load_extension('fzf')
-      telescope.load_extension("ui-select")
+      telescope.load_extension 'fzf'
+      telescope.load_extension 'ui-select'
 
-      vim.api.nvim_create_user_command("ProfileStart", function()
-        require("plenary.profile").start(("profile-%s.log"):format(vim.version()), { flame = true })
+      vim.keymap.set('n', '<C-e>', function() end)
+
+      vim.api.nvim_create_user_command('ProfileStart', function()
+        require('plenary.profile').start(('profile-%s.log'):format(vim.version()), { flame = true })
       end, {})
 
-      vim.api.nvim_create_user_command("ProfileStop", require("plenary.profile").stop, {})
+      vim.api.nvim_create_user_command('ProfileStop', require('plenary.profile').stop, {})
     end,
   },
 }
