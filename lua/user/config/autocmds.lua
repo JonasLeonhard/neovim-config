@@ -14,17 +14,16 @@ vim.cmd [[highlight YankHighlight guifg=#000000 guibg=#FAB387 gui=nocombine]]
 -- creates a augroup _file_opened that checks whether a file was opened. (Not alpha dashboard) or other files with no name,
 -- and runs the "User FileOpened" automcmd once.
 -- this allows plugins to only load once a file was loaded. Not in the dashboard. Increasing the startup time for things like treesitter, wich would normally load in alpha dashboard BufRead, BufWinEnter or BufNewFile
-local userGroup = vim.api.nvim_create_augroup('_file_opened', { clear = true })
-vim.api.nvim_create_autocmd({ "BufRead", "BufWinEnter", "BufNewFile" },
-  {
-    group = "_file_opened",
-    nested = true,
-    callback = function(args)
-      local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
-      if not (vim.fn.expand "%" == "" or buftype == "nofile") then
-        vim.api.nvim_del_augroup_by_name "_file_opened"
-        vim.cmd "do User FileOpened"
-      end
-    end,
-  }
-)
+vim.api.nvim_create_augroup('_file_opened', { clear = true })
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufWinEnter', 'BufNewFile' }, {
+  group = '_file_opened',
+  nested = true,
+  callback = function(args)
+    local buftype = vim.api.nvim_get_option_value('buftype', { buf = args.buf }) -- special buffers like telescopes 'prompt', or plugin buffers 'nofile', etc.
+    local filename = vim.fn.expand '%'
+    if filename ~= '' and buftype == '' then
+      vim.api.nvim_del_augroup_by_name '_file_opened'
+      vim.cmd 'do User FileOpened'
+    end
+  end,
+})
