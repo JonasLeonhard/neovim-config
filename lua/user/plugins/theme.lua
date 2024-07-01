@@ -2,9 +2,9 @@ return {
   {
     'catppuccin/nvim',
     name = 'catppuccin',
-    event = "VimEnter",
+    event = 'VimEnter',
     opts = {
-      flavour = "mocha",
+      flavour = 'mocha',
       integrations = {
         cmp = true,
         gitsigns = true,
@@ -17,7 +17,7 @@ return {
         },
         dropbar = {
           enabled = true,
-          color_mode = false
+          color_mode = false,
         },
         mason = true,
         treesitter = true,
@@ -30,9 +30,9 @@ return {
       },
       color_overrides = {
         mocha = {
-          base = "#0b0b12",
-          mantle = "#11111a",
-          crust = "#191926",
+          base = '#0b0b12',
+          mantle = '#11111a',
+          crust = '#191926',
         },
       },
       custom_highlights = function(colors)
@@ -45,47 +45,47 @@ return {
           TelescopePreviewTitle = { fg = colors.crust },
           TelescopeResultsTitle = { fg = colors.crust },
           StatusLineNormal = {
-            fg = colors.overlay0
+            fg = colors.overlay0,
           },
           StatusLine = {
-            fg = colors.overlay0
+            fg = colors.overlay0,
           },
           StatusLineNC = {
-            fg = colors.overlay0
+            fg = colors.overlay0,
           },
           StatusLineAccent = {
-            fg = colors.green
+            fg = colors.green,
           },
           StatuslineAccent = {
-            fg = colors.green
+            fg = colors.green,
           },
           StatuslineInsertAccent = {
-            fg = colors.yellow
+            fg = colors.yellow,
           },
           StatuslineVisualAccent = {
-            fg = colors.flamingo
+            fg = colors.flamingo,
           },
           StatusLineGit = {
-            fg = colors.blue
+            fg = colors.blue,
           },
           StatuslineTerminalAccent = {
-            fg = colors.green
+            fg = colors.green,
           },
           LspDiagnosticsSignError = {
-            fg = colors.red
+            fg = colors.red,
           },
           LspDiagnosticsSignWarning = {
-            fg = colors.yellow
+            fg = colors.yellow,
           },
           LspDiagnosticsSignHint = {
-            fg = colors.mauve
+            fg = colors.mauve,
           },
           LspDiagnosticsSignInformation = {
-            fg = colors.blue
+            fg = colors.blue,
           },
+          MiniIndentscopeSymbol = { link = 'Comment' },
         }
-      end
-
+      end,
     },
     config = function(_, opts)
       require('catppuccin').setup(opts)
