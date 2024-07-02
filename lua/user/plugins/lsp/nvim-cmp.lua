@@ -9,8 +9,8 @@ return {
     'saadparwaiz1/cmp_luasnip',
     {
       'L3MON4D3/LuaSnip',
-      version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-      build = "make install_jsregexp",
+      version = 'v2.*', -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+      build = 'make install_jsregexp',
       dependencies = { 'rafamadriz/friendly-snippets' },
       opts = {},
       event = 'User FileOpened',
@@ -20,7 +20,7 @@ return {
     {
       'zbirenbaum/copilot-cmp',
       dependencies = { 'copilot.lua' },
-      opts = true
+      opts = true,
     },
   },
   event = { 'InsertEnter', 'CmdlineEnter' },
@@ -65,16 +65,16 @@ return {
         },
       },
       sources = {
-        { name = 'copilot',                group_index = 2 },
-        { name = 'nvim_lsp',               group_index = 2 },
-        { name = 'path',                   group_index = 2 },
-        { name = 'buffer',                 group_index = 2 },
-        { name = 'luasnip',                group_index = 2 },
+        { name = 'copilot', group_index = 2 },
+        { name = 'nvim_lsp', group_index = 2 },
+        { name = 'path', group_index = 2 },
+        { name = 'buffer', group_index = 2 },
+        { name = 'luasnip', group_index = 2 },
         { name = 'nvim_lsp_signature_help' },
         {
-          name = "lazydev",
+          name = 'lazydev',
           group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-        }
+        },
       },
       formatting = {
         format = function(entry, vim_item)
@@ -147,8 +147,8 @@ return {
       },
       view = {
         entries = {
-          follow_cursor = true
-        }
+          follow_cursor = true,
+        },
       },
     }
 
