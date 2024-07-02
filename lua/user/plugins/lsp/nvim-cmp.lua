@@ -95,14 +95,18 @@ return {
           select = false,
         }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ['<Tab>'] = cmp.mapping(function(fallback)
-          if vim.snippet.active { direction = 1 } then
+          if cmp.visible() then
+            cmp.select_next_item()
+          elseif vim.snippet.active { direction = 1 } then
             vim.snippet.jump(1)
           else
             fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
           end
         end, { 'i', 's' }),
         ['<S-Tab>'] = cmp.mapping(function(fallback)
-          if vim.snippet.active { direction = -1 } then
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif vim.snippet.active { direction = -1 } then
             vim.snippet.jump(-1)
           else
             fallback()
