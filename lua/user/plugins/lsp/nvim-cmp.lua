@@ -6,17 +6,6 @@ return {
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-nvim-lsp-signature-help',
-    'saadparwaiz1/cmp_luasnip',
-    {
-      'L3MON4D3/LuaSnip',
-      version = 'v2.*', -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-      build = 'make install_jsregexp',
-      dependencies = { 'rafamadriz/friendly-snippets' },
-      opts = {},
-      event = 'User FileOpened',
-      -- install jsregexp (optional!).
-      lazy = true,
-    },
     {
       'zbirenbaum/copilot-cmp',
       dependencies = { 'copilot.lua' },
@@ -27,7 +16,6 @@ return {
   lazy = true,
   config = function()
     local cmp = require 'cmp'
-    local luasnip = require 'luasnip'
 
     local kind_icons = {
       Copilot = ' ',
@@ -69,7 +57,6 @@ return {
         { name = 'nvim_lsp', group_index = 2 },
         { name = 'path', group_index = 2 },
         { name = 'buffer', group_index = 2 },
-        { name = 'luasnip', group_index = 2 },
         { name = 'nvim_lsp_signature_help' },
         {
           name = 'lazydev',
@@ -86,7 +73,6 @@ return {
             buffer = '[Buf]',
             cmdline = '[Cmd]',
             latex_symbols = '[Ltx]',
-            luasnip = '[Snp]',
             nvim_lsp = '[Lsp]',
             nvim_lua = '[Lua]',
             path = '[Pth]',
@@ -97,7 +83,7 @@ return {
       snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-          luasnip.lsp_expand(args.body) -- For `luasnip` users.
+          vim.snippet.expand(args.body) -- native neovim snippets (Neovim v.0.10+)
         end,
       },
       mapping = cmp.mapping.preset.insert {
