@@ -90,6 +90,13 @@ return {
         desc = 'Grep',
       },
       {
+        '<leader>sG',
+        function()
+          require('telescope.builtin').live_grep { search_dirs = { vim.fn.expand '%:h' } }
+        end,
+        desc = 'Grep from current file dir',
+      },
+      {
         '<leader>sd',
         function()
           require('telescope.builtin').diagnostics()
