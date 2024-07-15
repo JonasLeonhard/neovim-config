@@ -4,6 +4,7 @@ return {
     event = 'VeryLazy',
     lazy = true,
     opts = {
+      preset = 'classic',
       show_help = false,
       spec = {
         -- normal mode
