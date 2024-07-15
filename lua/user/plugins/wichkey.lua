@@ -35,8 +35,6 @@ return {
           mode = { 'n', 'v' },
           { 'K', vim.lsp.buf.hover, desc = 'Hover Documentation' },
           { '<C-,>', vim.lsp.buf.signature_help, desc = 'Signature Documentation' },
-          { '<leader>e', '<cmd>ToggleNetrw %:p:h<cr>', desc = 'Netrw' },
-          { '<leader>E', '<cmd>ToggleNetrw<cr>', desc = 'Netrw (cwd)' },
         },
 
         -- goto group

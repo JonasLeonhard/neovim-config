@@ -30,5 +30,7 @@ return {
       "<cmd>lua require('broil').open(vim.fn.getcwd())<cr>",
       desc = 'Broil open',
     },
+    { '<leader>e', '<cmd>BroilToggleNetrw %:p:h<cr>', desc = 'Netrw' },
+    { '<leader>E', '<cmd>BroilToggleNetrw<cr>', desc = 'Netrw (cwd)' },
   },
 }
