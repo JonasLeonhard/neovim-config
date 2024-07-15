@@ -5,122 +5,116 @@ return {
     lazy = true,
     opts = {
       show_help = false,
+      spec = {
+        -- normal mode
+        {
+          mode = 'n',
+          { '<A-Down>', ':resize +2<CR>', desc = 'resize' },
+          { '<A-Left>', ':vertical resize -2<CR>', desc = 'resize' },
+          { '<A-Right>', ':vertical resize +2<CR>', desc = 'resize' },
+          { '<A-Up>', ':resize -2<CR>', desc = 'resize arrow key' },
+          { '<C-j>', '<cmd>:m .+1<cr>==', desc = 'Move line down' },
+          { '<C-k>', '<cmd>:m .-2<cr>==', desc = 'Move line up' },
+          { '<C-s>', '<C-a>', desc = 'Increment' },
+          { '<C-x>', '<C-x>', desc = 'Decrement' },
+          { '<ESC>', '<cmd>:noh <cr>', desc = 'clear highlights' },
+        },
+
+        -- visual mode
+        {
+          mode = 'v',
+          { '<', '<gv', desc = 'indent left' },
+          { '>', '>gv', desc = 'indent right' },
+          { '<C-j>', ":m '>+1<cr>gv", desc = 'move lines down' },
+          { '<C-k>', ":m '<-2<cr>gv", desc = 'move lines up' },
+        },
+
+        -- nv keymaps
+        {
+          mode = { 'n', 'v' },
+          { 'K', vim.lsp.buf.hover, desc = 'Hover Documentation' },
+          { '<C-,>', vim.lsp.buf.signature_help, desc = 'Signature Documentation' },
+        },
+
+        -- goto group
+        {
+          mode = { 'n', 'v' },
+          { 'gd', vim.lsp.buf.definition, desc = 'Goto Definition' },
+          {
+            'gD',
+            desc = 'Goto Declaration / Type Definitition',
+            { 'gDd', vim.lsp.buf.declaration, desc = 'Goto Declaration' },
+            { 'gDD', vim.lsp.buf.type_definition, desc = 'Goto Type definition' },
+          },
+          { 'gi', vim.lsp.buf.implementation, desc = 'Goto implementation' },
+        },
+
+        -- buffer group
+        { '<leader>b', desc = 'buffer', mode = { 'n', 'v' } },
+
+        -- code group,
+        {
+          '<leader>c',
+          desc = 'code',
+          mode = { 'n', 'v' },
+          { '<leader>cd', vim.diagnostic.open_float, desc = 'Open floating diagnostic message' },
+          { '<leader>cL', vim.diagnostic.setloclist, desc = 'Open diagnostic list' },
+          { '<leader>cr', vim.lsp.buf.rename, desc = 'Rename' },
+          { '<leader>ca', vim.lsp.buf.code_action, desc = 'Code Action' },
+        },
+
+        -- debug group
+        {
+          '<leader>d',
+          desc = 'debug',
+          mode = { 'n', 'v' },
+        },
+
+        -- git group
+        {
+          '<leader>g',
+          desc = 'git',
+          mode = { 'n', 'v' },
+          {
+            '<leader>gd',
+            desc = 'Diffview',
+            { '<leader>gdc', desc = 'choose' },
+            { '<leader>gdg', desc = 'goto' },
+          },
+        },
+
+        -- search group
+        {
+          '<leader>s',
+          desc = 'search/replace',
+          mode = { 'n', 'v' },
+        },
+
+        -- toggle group
+        {
+          '<leader>u',
+          desc = 'Ui-Toggles',
+          mode = { 'n', 'v' },
+          { 'leader>ug', desc = 'git' },
+          {
+            'leader>ub',
+            desc = 'buffer',
+            { '<leader>ubN', '<cmd> set nu! <CR>', desc = 'toggle line number' },
+            { '<leader>ubn', '<cmd> set rnu! <CR>', desc = 'toggle relative line number' },
+          },
+          { '<leader>uf', '<cmd>:ToggleAutoFormat<cr>', desc = 'toggle autoformat on save' },
+          { '<leader>ul', '<cmd>:ToggleAutoLint<cr>', desc = 'toggle autolint on save/insert leave/bufreadpost' },
+          { 'leader>ui', '<cmd>:ToggleInlayHints<cr>', desc = 'toggle inlay hints' },
+          { 'leader>ut', '<cmd>split | terminal<cr>', desc = 'toggle terminal split' },
+        },
+
+        -- ai group
+        {
+          '<leader>a',
+          desc = 'AI',
+          mode = { 'n', 'v' },
+        },
+      },
     },
-    config = function(_, opts)
-      local wk = require 'which-key'
-      wk.setup(opts)
-
-      local Nkeymaps = {
-        ['<Esc>'] = { '<cmd>:noh <cr>', 'clear highlights' },
-        ['<C-j>'] = { '<cmd>:m .+1<cr>==', 'Move line down' },
-        ['<C-k>'] = { '<cmd>:m .-2<cr>==', 'Move line up' },
-        ['<C-s>'] = { '<C-a>', 'Increment' },
-        ['<C-x>'] = { '<C-x>', 'Decrement' },
-      }
-      --  Remap for dealing with word wrap
-      vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-      vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
-      -- resize with arrow keys
-      vim.keymap.set('n', '<A-Up>', ':resize -2<CR>', { silent = true })
-      vim.keymap.set('n', '<A-Down>', ':resize +2<CR>', { silent = true })
-      vim.keymap.set('n', '<A-Left>', ':vertical resize -2<CR>', { silent = true })
-      vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { silent = true })
-
-      local Vkeymaps = {
-        ['<'] = { '<gv', 'Indent left' },
-        ['>'] = { '>gv', 'Indent right' },
-      }
-      -- move blocks of code - TODO: make this work with wichkey.
-      vim.keymap.set('v', '<C-j>', ":m '>+1<cr>gv")
-      vim.keymap.set('v', '<C-k>', ":m '<-2<cr>gv")
-
-      local NVkeymaps = {
-        -- See `:help K` for why this keymap
-        ['K'] = { vim.lsp.buf.hover, 'Hover Documentation' },
-        ['<C-,>'] = { vim.lsp.buf.signature_help, 'Signature Documentation' },
-        ['g'] = {
-          name = 'goto',
-          ['d'] = { vim.lsp.buf.definition, 'Goto Definition' },
-          ['D'] = {
-            name = 'Goto Declaration / Type Definition',
-            ['d'] = { vim.lsp.buf.declaration, 'Goto Declaration' },
-            ['D'] = { vim.lsp.buf.type_definition, 'Goto Type Definition' },
-          },
-          ['i'] = { vim.lsp.buf.implementation, 'Goto implementation' },
-        },
-        ['<leader>b'] = {
-          name = '󰘓 buffer',
-        },
-        ['<leader>c'] = {
-          name = '󰅨 code',
-          ['d'] = { vim.diagnostic.open_float, 'Open floating diagnostic message' },
-          ['L'] = { vim.diagnostic.setloclist, 'Open diagnostic list' },
-          ['r'] = { vim.lsp.buf.rename, 'Rename' },
-          ['a'] = { vim.lsp.buf.code_action, 'Code Action' },
-          ['w'] = {
-            name = 'workspace',
-            ['a'] = { vim.lsp.buf.add_workspace_folder, 'Workspace add Folder' },
-            ['r'] = { vim.lsp.buf.remove_workspace_folder, 'Workspace remove Folder' },
-            ['l'] = {
-              function()
-                print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-              end,
-              'Workspace list Folders',
-            },
-          },
-        },
-        ['<leader>d'] = {
-          name = ' debug',
-        },
-        ['<leader>g'] = {
-          name = ' git',
-          ['d'] = {
-            name = 'Diffview',
-            ['c'] = {
-              name = 'choose',
-            },
-            ['g'] = {
-              name = 'goto',
-            },
-          },
-        },
-        ['<leader>s'] = {
-          name = ' search/replace',
-        },
-        ['<leader>u'] = {
-          name = '  Ui-Toggles',
-          ['g'] = {
-            name = 'git',
-          },
-          ['b'] = {
-            name = 'buffer',
-            ['N'] = { '<cmd> set nu! <CR>', 'toggle line number' },
-            ['n'] = { '<cmd> set rnu! <CR>', 'toggle relative number' },
-          },
-          ['f'] = { '<cmd>:ToggleAutoFormat<cr>', 'toggle Autoformat on save' },
-          ['l'] = { '<cmd>:ToggleAutoLint<cr>', 'toggle Autolint on save, insert leave, bufreadpost' },
-          ['i'] = {
-            '<cmd>:ToggleInlayHints<cr>',
-            'toglge Inlayhints',
-          },
-          ['t'] = { '<cmd>split | terminal<cr>', 'teminal split' },
-        },
-        ['<leader>m'] = {
-          name = ' marks',
-        },
-        -- Explorer:
-        ['<leader>a'] = {
-          name = '󰁨 AI',
-          r = {
-            name = 'run',
-          },
-        },
-      }
-
-      wk.register(Nkeymaps, { mode = { 'n' } })
-      wk.register(Vkeymaps, { mode = { 'v' } })
-      wk.register(NVkeymaps, { mode = { 'n', 'v' } })
-    end,
   },
 }

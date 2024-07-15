@@ -1,16 +1,15 @@
 return {
   'JonasLeonhard/broil',
   dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",
+    'nvim-lua/plenary.nvim',
+    'nvim-tree/nvim-web-devicons',
     {
       'nvim-telescope/telescope-fzf-native.nvim',
       cond = function()
         return vim.fn.executable 'make' == 1
       end,
-      build =
-      'make'
-    }
+      build = 'make',
+    },
   },
   opts = {
     -- you could use different commands here, the default works for nushell and bash
