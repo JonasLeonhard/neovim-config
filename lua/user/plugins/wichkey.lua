@@ -96,17 +96,17 @@ return {
           '<leader>u',
           desc = 'Ui-Toggles',
           mode = { 'n', 'v' },
-          { 'leader>ug', desc = 'git' },
+          { '<leader>ug', desc = 'git' },
           {
-            'leader>ub',
+            '<leader>ub',
             desc = 'buffer',
             { '<leader>ubN', '<cmd> set nu! <CR>', desc = 'toggle line number' },
             { '<leader>ubn', '<cmd> set rnu! <CR>', desc = 'toggle relative line number' },
           },
           { '<leader>uf', '<cmd>:ToggleAutoFormat<cr>', desc = 'toggle autoformat on save' },
           { '<leader>ul', '<cmd>:ToggleAutoLint<cr>', desc = 'toggle autolint on save/insert leave/bufreadpost' },
-          { 'leader>ui', '<cmd>:ToggleInlayHints<cr>', desc = 'toggle inlay hints' },
-          { 'leader>ut', '<cmd>split | terminal<cr>', desc = 'toggle terminal split' },
+          { '<leader>ui', '<cmd>:ToggleInlayHints<cr>', desc = 'toggle inlay hints' },
+          { '<leader>ut', '<cmd>split | terminal<cr>', desc = 'toggle terminal split' },
         },
 
         -- ai group
