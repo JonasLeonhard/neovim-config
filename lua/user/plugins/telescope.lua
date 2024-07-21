@@ -2,7 +2,7 @@ return {
   -- Fuzzy Finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
-    version = '*',
+    branch = 'master',
     dependencies = {
       'nvim-lua/plenary.nvim',
       {
@@ -121,9 +121,8 @@ return {
           local actions = require 'telescope.actions'
 
           builtin.buffers {
-            sort_lastused = true,
-            sort_mru = true,
-            initial_mode = 'insert',
+            select_current = true,
+            initial_mode = 'normal',
             attach_mappings = function(prompt_bufnr, map)
               local delete_buf = function()
                 local current_picker = action_state.get_current_picker(prompt_bufnr)
@@ -132,8 +131,10 @@ return {
                 end)
               end
 
+              map('n', 'v', function() actions.add_selection(prompt_bufnr) end)
               map('n', 'd', delete_buf)
               map('i', '<C-l>', actions.close)
+              map('n', '<C-l>', actions.close)
 
               return true
             end,
@@ -142,12 +143,12 @@ return {
         desc = 'Buffers',
       },
       {
-        'gk',
+        'gj',
         '<cmd>bnext<cr>',
         desc = 'buffer next',
       },
       {
-        'gj',
+        'gk',
         '<cmd>bprevious<cr>',
         desc = 'buffer prev',
       },
@@ -180,10 +181,10 @@ return {
         },
         extensions = {
           fzf = {
-            fuzzy = true, -- false will only do exact matching
+            fuzzy = true,                   -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true, -- override the file sorter
-            case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
           },
         },
       }
