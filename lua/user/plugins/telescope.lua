@@ -2,6 +2,34 @@
 --- since you cannot swap buffers in vim.api.nvim_list_bufs() directly we store them temporarily
 local bufnrs_with_swap = {}
 
+local get_bufnrs_with_swap = function()
+  -- get all listed bufs
+  local bufnrs = vim.tbl_filter(function(bufnr)
+    if 1 ~= vim.fn.buflisted(bufnr) then
+      return false
+    end
+
+    return true
+  end, vim.api.nvim_list_bufs())
+
+  -- update bufnrs_with_swap
+  for _, bufnr in ipairs(bufnrs) do
+    -- add all newly created buffers to end of swaplist
+    if not vim.tbl_contains(bufnrs_with_swap, bufnr) then
+      table.insert(bufnrs_with_swap, bufnr)
+    end
+  end
+
+  for i, bufnr in ipairs(bufnrs_with_swap) do
+    -- remove all buffers that are not listed anymore
+    if not vim.tbl_contains(bufnrs, bufnr) then
+      table.remove(bufnrs_with_swap, i)
+    end
+  end
+
+  return bufnrs_with_swap
+end
+
 return {
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -128,69 +156,46 @@ return {
           -- 4. +Change buffer order with <C-j> and <C-k>
 
           local opts = {}
-          local pickers = require "telescope.pickers"
-          local finders = require "telescope.finders"
-          local conf = require("telescope.config").values
-          local make_entry = require "telescope.make_entry"
-          local action_state = require "telescope.actions.state"
-          local actions = require "telescope.actions"
-          local default_selection_idx = 1;
+          local pickers = require 'telescope.pickers'
+          local finders = require 'telescope.finders'
+          local conf = require('telescope.config').values
+          local make_entry = require 'telescope.make_entry'
+          local action_state = require 'telescope.actions.state'
+          local actions = require 'telescope.actions'
+          local default_selection_idx = 1
 
           local swap = function(bufnr, adj_bufnr)
-            local idx_bufnr = nil;
-            local idx_adj_bufnr = nil;
+            local idx_bufnr = nil
+            local idx_adj_bufnr = nil
 
             for i, buf in ipairs(bufnrs_with_swap) do
               if buf == bufnr then
-                idx_bufnr = i;
+                idx_bufnr = i
               end
               if buf == adj_bufnr then
-                idx_adj_bufnr = i;
+                idx_adj_bufnr = i
               end
             end
 
-            if (idx_bufnr and idx_adj_bufnr) then
-              bufnrs_with_swap[idx_bufnr], bufnrs_with_swap[idx_adj_bufnr] = bufnrs_with_swap[idx_adj_bufnr],
-                  bufnrs_with_swap[idx_bufnr]
+            if idx_bufnr and idx_adj_bufnr then
+              bufnrs_with_swap[idx_bufnr], bufnrs_with_swap[idx_adj_bufnr] = bufnrs_with_swap[idx_adj_bufnr], bufnrs_with_swap[idx_bufnr]
             end
           end
 
           -- only display listed buffers
-          local bufnrs = vim.tbl_filter(function(bufnr)
-            if 1 ~= vim.fn.buflisted(bufnr) then
-              return false
-            end
-
-            return true
-          end, vim.api.nvim_list_bufs())
-
-
-          -- update bufnrs_with_swap
-          for _, bufnr in ipairs(bufnrs) do
-            -- add all newly created buffers to end of swaplist
-            if not vim.tbl_contains(bufnrs_with_swap, bufnr) then
-              table.insert(bufnrs_with_swap, bufnr)
-            end
-          end
-
-          for i, bufnr in ipairs(bufnrs_with_swap) do
-            -- remove all buffers that are not listed anymore
-            if not vim.tbl_contains(bufnrs, bufnr) then
-              table.remove(bufnrs_with_swap, i)
-            end
-          end
+          local bufnrs = get_bufnrs_with_swap()
 
           -- create buffers
           local create_finder_from_swap = function()
-            local buffers = {};
-            for i, bufnr in ipairs(bufnrs_with_swap) do
-              local flag = bufnr == vim.fn.bufnr "" and "%" or (bufnr == vim.fn.bufnr "#" and "#" or " ")
+            local buffers = {}
+            for i, bufnr in ipairs(bufnrs) do
+              local flag = bufnr == vim.fn.bufnr '' and '%' or (bufnr == vim.fn.bufnr '#' and '#' or ' ')
               local element = {
                 bufnr = bufnr,
                 flag = flag,
                 info = vim.fn.getbufinfo(bufnr)[1],
               }
-              if flag == "%" then
+              if flag == '%' then
                 default_selection_idx = i
               end
               table.insert(buffers, element)
@@ -206,85 +211,111 @@ return {
             opts.bufnr_width = #tostring(max_bufnr)
           end
 
-          pickers.new(opts, {
-            initial_mode = 'normal',
-            prompt_title = "Buffers",
-            finder = create_finder_from_swap(),
-            previewer = conf.grep_previewer(opts),
-            sorter = conf.generic_sorter(opts),
-            default_selection_index = default_selection_idx,
+          pickers
+            .new(opts, {
+              initial_mode = 'normal',
+              prompt_title = 'Buffers',
+              finder = create_finder_from_swap(),
+              previewer = conf.grep_previewer(opts),
+              sorter = conf.generic_sorter(opts),
+              default_selection_index = default_selection_idx,
 
-            attach_mappings = function(prompt_bufnr, map)
-              local delete_buf = function()
-                local current_picker = action_state.get_current_picker(prompt_bufnr)
-                current_picker:delete_selection(function(selection)
-                  vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+              attach_mappings = function(prompt_bufnr, map)
+                local delete_buf = function()
+                  local current_picker = action_state.get_current_picker(prompt_bufnr)
+                  current_picker:delete_selection(function(selection)
+                    vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+                  end)
+                end
+
+                map('n', 'v', function()
+                  actions.add_selection(prompt_bufnr)
                 end)
-              end
+                map('n', 'd', delete_buf)
+                map('i', '<C-l>', actions.close)
+                map('n', '<C-l>', actions.close)
 
-              map('n', 'v', function() actions.add_selection(prompt_bufnr) end)
-              map('n', 'd', delete_buf)
-              map('i', '<C-l>', actions.close)
-              map('n', '<C-l>', actions.close)
+                --- @param up boolean: if true, move the buffer up
+                local buffer_swap = function(up)
+                  local hovered_buffer = action_state.get_selected_entry()
+                  local picker = action_state.get_current_picker(prompt_bufnr)
+                  local picker_results = picker.finder.results
 
-              --- @param up boolean: if true, move the buffer up
-              local buffer_swap = function(up)
-                local hovered_buffer = action_state.get_selected_entry();
-                local picker         = action_state.get_current_picker(prompt_bufnr);
-                local picker_results = picker.finder.results;
+                  for i, entry in ipairs(picker_results) do
+                    -- Find the hovered buffer in the picker results
+                    if entry.bufnr == hovered_buffer.bufnr then
+                      -- pick the adjacent entry and wrap around the ends
+                      local adj_entry
+                      local new_index
 
-                for i, entry in ipairs(picker_results) do
-                  -- Find the hovered buffer in the picker results
-                  if entry.bufnr == hovered_buffer.bufnr then
-                    -- pick the adjacent entry and wrap around the ends
-                    local adj_entry
-                    local new_index;
-
-                    if (up) then
-                      new_index = (i % #picker_results) + 1;
-                    else
-                      if i - 1 < 1 then
-                        new_index = #picker_results;
+                      if up then
+                        new_index = (i % #picker_results) + 1
                       else
-                        new_index = i - 1;
+                        if i - 1 < 1 then
+                          new_index = #picker_results
+                        else
+                          new_index = i - 1
+                        end
                       end
-                    end
 
-                    adj_entry = picker_results[new_index];
+                      adj_entry = picker_results[new_index]
 
-                    -- Swap the hovered buffer with the adjacent buffer based on direction (up)
-                    if adj_entry and adj_entry.bufnr ~= entry.bufnr then
-                      swap(entry.bufnr, adj_entry.bufnr)
-                      picker.default_selection_index = new_index;
-                      picker:refresh(create_finder_from_swap(), opts)
-                      break;
+                      -- Swap the hovered buffer with the adjacent buffer based on direction (up)
+                      if adj_entry and adj_entry.bufnr ~= entry.bufnr then
+                        swap(entry.bufnr, adj_entry.bufnr)
+                        picker.default_selection_index = new_index
+                        picker:refresh(create_finder_from_swap(), opts)
+                        break
+                      end
                     end
                   end
                 end
-              end
 
-              -- -- Mapping to swap buffer positions
-              map('n', '<C-j>', function()
-                buffer_swap(false)
-              end)
-              map('n', '<C-k>', function()
-                buffer_swap(true)
-              end)
+                -- -- Mapping to swap buffer positions
+                map('n', '<C-j>', function()
+                  buffer_swap(false)
+                end)
+                map('n', '<C-k>', function()
+                  buffer_swap(true)
+                end)
 
-              return true
-            end,
-          }):find();
+                return true
+              end,
+            })
+            :find()
         end,
         desc = 'Buffers',
       },
       {
         'gj',
-        '<cmd>bnext<cr>',
+        -- alternative to '<cmd>bnext<cr>', but using swaplist
+        function()
+          local bufnrs = get_bufnrs_with_swap()
+          local current_bufnr = vim.fn.bufnr '%'
+
+          for i, bufnr in ipairs(bufnrs) do
+            if bufnr == current_bufnr then
+              vim.cmd('buffer ' .. bufnrs[i % #bufnrs + 1])
+              break
+            end
+          end
+        end,
         desc = 'buffer next',
       },
       {
         'gk',
-        '<cmd>bprevious<cr>',
+        -- alternative to '<cmd>bprevious<cr>', but using swaplist
+        function()
+          local bufnrs = get_bufnrs_with_swap()
+          local current_bufnr = vim.fn.bufnr '%'
+
+          for i, bufnr in ipairs(bufnrs) do
+            if bufnr == current_bufnr then
+              vim.cmd('buffer ' .. bufnrs[(i - 2) % #bufnrs + 1])
+              break
+            end
+          end
+        end,
         desc = 'buffer prev',
       },
     },
@@ -316,10 +347,10 @@ return {
         },
         extensions = {
           fzf = {
-            fuzzy = true,                   -- false will only do exact matching
+            fuzzy = true, -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true,    -- override the file sorter
-            case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
+            override_file_sorter = true, -- override the file sorter
+            case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
           },
         },
       }
