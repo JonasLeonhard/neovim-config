@@ -29,3 +29,9 @@
 if string.match(vim.o.shell, '/nu$') then
   vim.opt.shellredir = '| save %s'
 end
+
+-- INFO: :r! ls alternative...
+-- generally i recommend using ":let a=system('ls')";
+-- or save it directly in a register using ":let @a=system('ls')
+-- you can echo the output via ":echo a" or ":echo @a"
+-- output paste the register via '"ap'
