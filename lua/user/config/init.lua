@@ -78,7 +78,24 @@ require 'user.config.statusline'
 vim.api.nvim_command 'command! Messages enew | execute "redir @a" | silent messages | redir END | normal! "ap'
 
 -- Netrw - keybinds + custom toggle function
--- callable like this:
--- { '<leader>e', '<cmd>ToggleNetrw %:p:h<cr>', desc = 'Netrw' },
--- { '<leader>E', '<cmd>ToggleNetrw<cr>', desc = 'Netrw (cwd)' },
+_G.Netrw_create_file = function()
+  local file_name = vim.fn.input 'Enter new file name: '
+
+  if file_name ~= '' then
+    local current_dir = vim.fn.expand '%:p:h'
+    local file_path = current_dir .. '/' .. file_name
+    if vim.fn.filereadable(file_path) == 1 then
+      print('File already exists: ' .. file_path)
+    else
+      vim.fn.writefile({}, file_path)
+      vim.cmd('edit ' .. current_dir) -- Refresh
+    end
+
+    -- Refresh
+    vim.cmd('edit ' .. current_dir)
+  else
+    print 'File name cannot be empty'
+  end
+end
 vim.cmd 'autocmd FileType netrw nnoremap ? :help netrw-quickmap<CR>'
+vim.cmd 'autocmd FileType netrw nnoremap <silent> f :lua Netrw_create_file()<CR>'
