@@ -1,7 +1,7 @@
 return {
   'stevearc/quicker.nvim',
   lazy = true,
-  ft = "qf",
+  ft = 'qf',
   ---@module "quicker"
   ---@type quicker.SetupOptions
   opts = {
@@ -10,29 +10,39 @@ return {
     },
     keys = {
       {
-        "<TAB>",
+        '<TAB>',
         function()
-          require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+          require('quicker').expand { before = 2, after = 2, add_to_existing = true }
         end,
-        desc = "Expand quickfix context",
+        desc = 'Expand quickfix context',
       },
       {
-        "<S-TAB>",
+        '<S-TAB>',
         function()
-          require("quicker").collapse()
+          require('quicker').collapse()
         end,
-        desc = "Collapse quickfix context",
+        desc = 'Collapse quickfix context',
       },
-    }
+    },
   },
   keys = {
     {
       '<leader>uq',
       function()
-        require('quicker').toggle({ focus = true })
+        require('quicker').toggle { focus = true }
       end,
       desc = 'Toggle Quicker',
       mode = 'n',
+    },
+    {
+      'gq',
+      '<cmd>:cnext<cr>',
+      desc = 'cnext (Quickfix)',
+    },
+    {
+      'gQ',
+      '<cmd>:cprevious<cr>',
+      desc = 'cprevious (Quickfix)',
     },
   },
 }
