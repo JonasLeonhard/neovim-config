@@ -26,8 +26,8 @@ return {
           mode = 'v',
           { '<', '<gv', desc = 'indent left' },
           { '>', '>gv', desc = 'indent right' },
-          { '<C-j>', ":m '>+1<cr>gv", desc = 'move lines down' },
-          { '<C-k>', ":m '<-2<cr>gv", desc = 'move lines up' },
+          { '<C-j>', ":m '>+1<CR>gv-gv", desc = 'move lines down' },
+          { '<C-k>', ":m '<-2<CR>gv-gv", desc = 'move lines up' },
         },
 
         -- nv keymaps
