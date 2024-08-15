@@ -33,13 +33,85 @@ return {
       desc = 'Move to nearest trailblazer',
     },
     {
+      'g1',
+      function()
+        local common = require 'trailblazer.trails.common'
+        common.focus_win_and_buf_by_trail_mark_index(nil, 1, false)
+      end,
+      desc = 'Trailblazer at pos 1',
+    },
+    {
+      'g2',
+      function()
+        local common = require 'trailblazer.trails.common'
+        common.focus_win_and_buf_by_trail_mark_index(nil, 2, false)
+      end,
+      desc = 'Trailblazer at pos 2',
+    },
+    {
+      'g3',
+      function()
+        local common = require 'trailblazer.trails.common'
+        common.focus_win_and_buf_by_trail_mark_index(nil, 3, false)
+      end,
+      desc = 'Trailblazer at pos 3',
+    },
+    {
+      'g4',
+      function()
+        local common = require 'trailblazer.trails.common'
+        common.focus_win_and_buf_by_trail_mark_index(nil, 4, false)
+      end,
+      desc = 'Trailblazer at pos 4',
+    },
+    {
+      'g5',
+      function()
+        local common = require 'trailblazer.trails.common'
+        common.focus_win_and_buf_by_trail_mark_index(nil, 5, false)
+      end,
+      desc = 'Trailblazer at pos 5',
+    },
+    {
+      'g6',
+      function()
+        local common = require 'trailblazer.trails.common'
+        common.focus_win_and_buf_by_trail_mark_index(nil, 6, false)
+      end,
+      desc = 'Trailblazer at pos 6',
+    },
+    {
+      'g7',
+      function()
+        local common = require 'trailblazer.trails.common'
+        common.focus_win_and_buf_by_trail_mark_index(nil, 7, false)
+      end,
+      desc = 'Trailblazer at pos 7',
+    },
+    {
+      'g8',
+      function()
+        local common = require 'trailblazer.trails.common'
+        common.focus_win_and_buf_by_trail_mark_index(nil, 8, false)
+      end,
+      desc = 'Trailblazer at pos 8',
+    },
+    {
+      'g9',
+      function()
+        local common = require 'trailblazer.trails.common'
+        common.focus_win_and_buf_by_trail_mark_index(nil, 9, false)
+      end,
+      desc = 'Trailblazer at pos 9',
+    },
+    {
       '<leader>mm',
       '<cmd>lua require("trailblazer").toggle_trail_mark_list()<cr>',
       mode = { 'v', 'n' },
       desc = 'Toggle Trailblazer List',
     },
     {
-      '<leader>mD',
+      '<leader>md',
       '<cmd>lua require("trailblazer").delete_all_trail_marks()<cr>',
       mode = { 'v', 'n' },
       desc = 'Delet all Trailblazers',
