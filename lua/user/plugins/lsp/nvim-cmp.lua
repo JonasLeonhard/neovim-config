@@ -6,11 +6,6 @@ return {
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-nvim-lsp-signature-help',
-    {
-      'zbirenbaum/copilot-cmp',
-      dependencies = { 'copilot.lua' },
-      opts = true,
-    },
   },
   event = { 'InsertEnter', 'CmdlineEnter' },
   lazy = true,
@@ -18,7 +13,6 @@ return {
     local cmp = require 'cmp'
 
     local kind_icons = {
-      Copilot = ' ',
       Class = '',
       Color = '',
       Constant = '',
@@ -53,10 +47,9 @@ return {
         },
       },
       sources = {
-        { name = 'copilot', group_index = 2 },
-        { name = 'nvim_lsp', group_index = 2 },
-        { name = 'path', group_index = 2 },
-        { name = 'buffer', group_index = 2 },
+        { name = 'nvim_lsp',               group_index = 2 },
+        { name = 'path',                   group_index = 2 },
+        { name = 'buffer',                 group_index = 2 },
         { name = 'nvim_lsp_signature_help' },
         {
           name = 'lazydev',
@@ -69,7 +62,6 @@ return {
           vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
           -- Source
           vim_item.menu = ({
-            copilot = '[Cop]',
             buffer = '[Buf]',
             cmdline = '[Cmd]',
             latex_symbols = '[Ltx]',
@@ -116,8 +108,6 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
-          require('copilot_cmp.comparators').prioritize,
-
           -- Below is the default comparitor list and order for nvim-cmp
           cmp.config.compare.offset,
           -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
