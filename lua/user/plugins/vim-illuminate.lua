@@ -5,20 +5,20 @@ return {
     lazy = true,
     keys = {
       {
-        'gh',
+        'gi',
         function()
           require('illuminate').goto_next_reference()
         end,
         desc = 'Go to next underlined reference (illiminate)',
-        mode = 'n'
+        mode = 'n',
       },
       {
-        'gH',
+        'gI',
         function()
           require('illuminate').goto_prev_reference()
         end,
         desc = 'Go to pref underlined reference (illiminate)',
-        mode = 'n'
+        mode = 'n',
       },
     },
     opts = {

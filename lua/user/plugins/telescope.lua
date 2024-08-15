@@ -287,7 +287,7 @@ return {
         desc = 'Buffers',
       },
       {
-        'gj',
+        '<leader>bj',
         -- alternative to '<cmd>bnext<cr>', but using swaplist
         function()
           local bufnrs = get_bufnrs_with_swap()
@@ -303,7 +303,7 @@ return {
         desc = 'buffer next',
       },
       {
-        'gk',
+        '<leader>bk',
         -- alternative to '<cmd>bprevious<cr>', but using swaplist
         function()
           local bufnrs = get_bufnrs_with_swap()
