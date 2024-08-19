@@ -146,7 +146,7 @@ return {
         desc = 'Find Marks',
       },
       {
-        '<C-l>',
+        '<leader>bl',
         function()
           -- define a custom picker for buffers with extended functionality.
           -- if you dont need this. Take a look at ':h telescope.builtin.buffers()'

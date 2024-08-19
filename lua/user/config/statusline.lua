@@ -242,6 +242,10 @@ local function list_linters()
 end
 
 local function list_lsps_and_status()
+  if not _G.plugin_lsp_progress_loaded then
+    return ''
+  end
+
   -- check if we have an actual file open, if not, lsp-progress is not loaded and we dont want to require it here for startup time reasons
   if vim.fn.expand '%:t' == '' then
     return ''
@@ -264,6 +268,15 @@ local function lineinfo()
   return ' %l:%c '
 end
 
+local function arrow()
+  if not _G.plugin_arrow_loaded then
+    return ''
+  end
+
+  local arrow_statusline = require 'arrow.statusline'
+  return arrow_statusline.text_for_statusline_with_icons()
+end
+
 ------------------------- StatusLine -----------------------------------------------------------------
 Statusline = {}
 
@@ -277,6 +290,7 @@ Statusline.active = function()
     filepath(),
     filename(),
     ' ',
+    arrow(),
     git_info.added,
     git_info.changed,
     git_info.removed,
