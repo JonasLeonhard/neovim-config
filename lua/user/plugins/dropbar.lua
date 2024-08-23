@@ -53,7 +53,7 @@ return {
     menu = {
       keymaps = {
         ['Q'] = function()
-          local menu = require('dropbar.api').get_current_dropbar_menu()
+          local menu = require('dropbar.utils').menu.get_current()
           if not menu then
             return
           end
@@ -61,7 +61,7 @@ return {
           menu:close(true)
         end,
         ['h'] = function()
-          local menu = require('dropbar.api').get_current_dropbar_menu()
+          local menu = require('dropbar.utils').menu.get_current()
           if not menu then
             return
           end
@@ -69,14 +69,14 @@ return {
           menu:close(true)
         end,
         ['q'] = function()
-          local menu = require('dropbar.api').get_current_dropbar_menu()
+          local menu = require('dropbar.utils').menu.get_current()
           if not menu then
             return
           end
           menu:close(false) -- close menu and dont restore view
         end,
         ['l'] = function()
-          local menu = require('dropbar.api').get_current_dropbar_menu()
+          local menu = require('dropbar.utils').menu.get_current()
           if not menu then
             return
           end
