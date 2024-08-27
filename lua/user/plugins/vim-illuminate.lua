@@ -5,7 +5,7 @@ return {
     lazy = true,
     keys = {
       {
-        'gi',
+        'gh',
         function()
           require('illuminate').goto_next_reference()
         end,
@@ -13,7 +13,7 @@ return {
         mode = 'n',
       },
       {
-        'gI',
+        'gh',
         function()
           require('illuminate').goto_prev_reference()
         end,
