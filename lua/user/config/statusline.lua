@@ -45,26 +45,41 @@ local function mode()
   return update_mode_colors() .. string.format(' %s ', modes[current_mode]):upper() .. '%#StatusLineNormal#'
 end
 
+local filepath_cache = nil
 local function filepath()
-  local fpath = vim.fn.fnamemodify(vim.fn.expand '%', ':~:.:h')
-  if fpath == '' or fpath == '.' then
-    return ''
+  -- Check if the cached value is still valid
+  if filepath_cache then
+    return filepath_cache
   end
 
-  return string.format('%%<%s/', fpath)
+  local fpath = vim.fn.fnamemodify(vim.fn.expand '%', ':~:.:h')
+  if fpath == '' or fpath == '.' then
+    filepath_cache = ''
+    return filepath_cache
+  end
+
+  filepath_cache = string.format('%%<%s/', fpath)
+  return filepath_cache
 end
 
+local filename_cache = nil
 local function filename()
+  if filename_cache then
+    return filename_cache
+  end
+
   local fname = vim.fn.expand '%:t'
   if fname == '' then
     return ''
   end
-  return '%#Normal#' .. fname .. '%#StatusLineNormal#'
+  filename_cache = '%#Normal#' .. fname .. '%#StatusLineNormal#'
+
+  return filename_cache
 end
 
 local git = function()
   -- check if we have an actual file open, if not, gitsigns is not loaded and we dont want to require it here for startup time reasons
-  if vim.fn.expand '%:t' == '' then
+  if vim.bo.filetype == '' then
     return {
       head = '',
       added = '',
@@ -255,21 +270,25 @@ local function list_lsps_and_status()
   return string.format(' %s ', lsp_progress.progress())
 end
 
+local filetype_cache = nil
 local function filetype()
-  return string.format(' %s ', vim.bo.filetype)
+  if filetype_cache ~= nil then
+    return filetype_cache
+  end
+
+  filetype_cache = string.format(' %s ', vim.bo.filetype)
+
+  return filetype_cache
 end
 
 local function lineinfo()
   return ' %l:%c '
 end
 
-local function arrow()
-  if not _G.plugin_arrow_loaded then
-    return ''
-  end
-
-  local arrow_statusline = require 'arrow.statusline'
-  return arrow_statusline.text_for_statusline_with_icons() .. ' '
+_G.clear_statusline_cache = function()
+  filepath_cache = nil
+  filename_cache = nil
+  filetype_cache = nil
 end
 
 ------------------------- StatusLine -----------------------------------------------------------------
@@ -285,7 +304,6 @@ Statusline.active = function()
     filepath(),
     filename(),
     ' ',
-    arrow(),
     git_info.added,
     git_info.changed,
     git_info.removed,
@@ -300,12 +318,13 @@ Statusline.active = function()
   }
 end
 
-vim.cmd(
-  [[
-  augroup Statusline
-  au!
-  au WinEnter,BufEnter,WinLeave,BufLeave * setlocal statusline=%!v:lua.Statusline.active()
+-- Example of how to use the cached filepath in the status line
+vim.o.statusline = '%!v:lua.Statusline.active()'
+
+-- Autocmd to clear the cache on buffer change
+vim.cmd [[
+  augroup StatusLineCache
+    autocmd!
+    autocmd BufEnter,BufLeave,BufWritePost * lua clear_statusline_cache()
   augroup END
-]],
-  false
-)
+]]
