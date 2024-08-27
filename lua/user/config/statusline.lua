@@ -45,38 +45,6 @@ local function mode()
   return update_mode_colors() .. string.format(' %s ', modes[current_mode]):upper() .. '%#StatusLineNormal#'
 end
 
-local filepath_cache = nil
-local function filepath()
-  -- Check if the cached value is still valid
-  if filepath_cache then
-    return filepath_cache
-  end
-
-  local fpath = vim.fn.fnamemodify(vim.fn.expand '%', ':~:.:h')
-  if fpath == '' or fpath == '.' then
-    filepath_cache = ''
-    return filepath_cache
-  end
-
-  filepath_cache = string.format('%%<%s/', fpath)
-  return filepath_cache
-end
-
-local filename_cache = nil
-local function filename()
-  if filename_cache then
-    return filename_cache
-  end
-
-  local fname = vim.fn.expand '%:t'
-  if fname == '' then
-    return ''
-  end
-  filename_cache = '%#Normal#' .. fname .. '%#StatusLineNormal#'
-
-  return filename_cache
-end
-
 local git = function()
   -- check if we have an actual file open, if not, gitsigns is not loaded and we dont want to require it here for startup time reasons
   if vim.bo.filetype == '' then
@@ -270,39 +238,20 @@ local function list_lsps_and_status()
   return string.format(' %s ', lsp_progress.progress())
 end
 
-local filetype_cache = nil
-local function filetype()
-  if filetype_cache ~= nil then
-    return filetype_cache
-  end
-
-  filetype_cache = string.format(' %s ', vim.bo.filetype)
-
-  return filetype_cache
-end
-
-local function lineinfo()
-  return ' %l:%c '
-end
-
-_G.clear_statusline_cache = function()
-  filepath_cache = nil
-  filename_cache = nil
-  filetype_cache = nil
-end
-
 ------------------------- StatusLine -----------------------------------------------------------------
 Statusline = {}
 
-Statusline.active = function()
+Statusline.render = function()
   local git_info = git()
 
-  return table.concat {
+  vim.o.statusline = table.concat {
     '%#StatusLineNormal#',
     mode(),
     git_info.head,
-    filepath(),
-    filename(),
+    '%{expand("%:.:h")}/', -- filedir path + /
+    '%#Normal#',
+    '%t',                  -- filename
+    '%#StatusLineNormal#',
     ' ',
     git_info.added,
     git_info.changed,
@@ -313,18 +262,18 @@ Statusline.active = function()
     list_lsps_and_status(),
     list_formatters(),
     list_linters(),
-    filetype(),
-    lineinfo(),
+    '%y',     -- [filetype]
+    ' %l:%c ' -- line:column
   }
 end
 
 -- Example of how to use the cached filepath in the status line
-vim.o.statusline = '%!v:lua.Statusline.active()'
+Statusline.render()
 
--- Autocmd to clear the cache on buffer change
+-- Autocmds, when to redraw the statusline
 vim.cmd [[
   augroup StatusLineCache
     autocmd!
-    autocmd BufEnter,BufLeave,BufWritePost * lua clear_statusline_cache()
+    autocmd BufEnter,BufLeave,BufWrite,RecordingEnter,RecordingLeave * lua Statusline.render()
   augroup END
 ]]
