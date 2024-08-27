@@ -182,14 +182,11 @@ local function list_formatters()
   end
 
   local names = {}
-  for _key, formatter in pairs(formatters) do
+  for _, formatter in pairs(formatters) do
     local is_installed = mason_registry.is_installed(formatter.name)
-    local name = formatter.name
-    if not is_installed then
-      name = '󰋗 ' .. name
+    if is_installed then
+      table.insert(names, formatter.name)
     end
-
-    table.insert(names, name)
   end
 
   formatter_list_cache[filetype] = string.format('󰉶 : [%s] ', table.concat(names, ','))
@@ -230,11 +227,9 @@ local function list_linters()
   local names = {}
   for _, linter in pairs(linters) do
     local is_installed = mason_registry.is_installed(linter)
-    local name = linter
     if not is_installed then
-      name = string.format('󰋗  %s', name)
+      table.insert(names, linter)
     end
-    table.insert(names, name)
   end
 
   linter_list_cache[filetype] = string.format('󱔲 : [%s] ', table.concat(names, ','))
@@ -274,7 +269,7 @@ local function arrow()
   end
 
   local arrow_statusline = require 'arrow.statusline'
-  return arrow_statusline.text_for_statusline_with_icons()
+  return arrow_statusline.text_for_statusline_with_icons() .. ' '
 end
 
 ------------------------- StatusLine -----------------------------------------------------------------

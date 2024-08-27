@@ -13,7 +13,7 @@ return {
         mode = 'n',
       },
       {
-        'gh',
+        'gH',
         function()
           require('illuminate').goto_prev_reference()
         end,
