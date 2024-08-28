@@ -1,7 +1,7 @@
 return {
   'windwp/nvim-ts-autotag',
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
-  event = 'User FileOpened',
+  event = 'InsertEnter',
   lazy = true,
   opts = {
     filetypes = {
@@ -24,5 +24,5 @@ return {
       'handlebars',
       'hbs',
     },
-  }
+  },
 }
