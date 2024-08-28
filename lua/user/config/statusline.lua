@@ -135,7 +135,8 @@ local function list_formatters()
     return ''
   end
 
-  if not _AutoFormatEnabled() then
+  local ok, enabled = pcall(_AutoFormatEnabled, nil)
+  if not ok or not enabled then
     return '󰉶 : --off '
   end
 
@@ -183,7 +184,8 @@ local function list_linters()
     return ''
   end
 
-  if not _AutoLintEnabled() then
+  local ok, enabled = pcall(_AutoLintEnabled, nil)
+  if not ok or not enabled then
     return '󱔲 : --off '
   end
 
@@ -250,7 +252,7 @@ Statusline.render = function()
     git_info.head,
     '%{expand("%:.:h")}/', -- filedir path + /
     '%#Normal#',
-    '%t',                  -- filename
+    '%t', -- filename
     '%#StatusLineNormal#',
     ' ',
     git_info.added,
@@ -262,8 +264,8 @@ Statusline.render = function()
     list_lsps_and_status(),
     list_formatters(),
     list_linters(),
-    '%y',     -- [filetype]
-    ' %l:%c ' -- line:column
+    '%y', -- [filetype]
+    ' %l:%c ', -- line:column
   }
 end
 
@@ -274,6 +276,15 @@ Statusline.render()
 vim.cmd [[
   augroup StatusLineCache
     autocmd!
-    autocmd BufEnter,BufLeave,BufWrite,RecordingEnter,RecordingLeave * lua Statusline.render()
+    autocmd BufEnter,BufLeave,BufWrite,ModeChanged,LspAttach,LspDetach,RecordingEnter,RecordingLeave * lua Statusline.render()
   augroup END
 ]]
+
+vim.api.nvim_create_autocmd('LspProgress', {
+  callback = function(o)
+    local status = o.data.params.value.percentage
+    if status then
+      Statusline.render()
+    end
+  end,
+})
