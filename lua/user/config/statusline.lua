@@ -88,7 +88,7 @@ end
 
 local function lsp_diagnostics()
   -- check if we have an actual file open, if not, lsp is not loaded and we dont want to require it here for startup time reasons
-  if vim.fn.expand '%:t' == '' then
+  if vim.bo.filetype == '' then
     return ''
   end
 
@@ -119,7 +119,11 @@ local function lsp_diagnostics()
   return errors .. warnings .. hints .. info .. '%#Normal#'
 end
 
-local function macro_recording() -- Macro recording register
+local function macro_recording(is_recording_leave)
+  if is_recording_leave then -- we have to manually check if we are called in the RecordingLeave autocmd, because RecordingLeave does not update reg_recording immediatly
+    return ''
+  end
+
   local register = vim.fn.reg_recording()
   if register ~= '' then
     return string.format('recording @ %s - to stop recording press q again. ', register)
@@ -131,7 +135,7 @@ end
 local formatter_list_cache = {}
 local function list_formatters()
   -- check if we have an actual file open, if not, formatters are not loaded and we dont want to require it here for startup time reasons
-  if vim.fn.expand '%:t' == '' then
+  if vim.bo.filetype == '' then
     return ''
   end
 
@@ -155,12 +159,7 @@ local function list_formatters()
 
   local formatters = conform.list_formatters(0)
 
-  if not formatters then
-    formatter_list_cache[filetype] = ''
-    return formatter_list_cache[filetype]
-  end
-
-  if #formatters == 0 then
+  if not formatters or #formatters == 0 then
     formatter_list_cache[filetype] = ''
     return formatter_list_cache[filetype]
   end
@@ -174,13 +173,14 @@ local function list_formatters()
   end
 
   formatter_list_cache[filetype] = string.format('󰉶 : [%s] ', table.concat(names, ','))
+
   return formatter_list_cache[filetype]
 end
 
 local linter_list_cache = {}
 local function list_linters()
   -- check if we have an actual file open, if not, linters are not loaded and we dont want to require it here for startup time reasons
-  if vim.fn.expand '%:t' == '' then
+  if vim.bo.filetype == '' then
     return ''
   end
 
@@ -204,11 +204,6 @@ local function list_linters()
 
   local linters = lint._resolve_linter_by_ft(filetype)
 
-  if not linters or #linters == 0 then
-    linter_list_cache[filetype] = ''
-    return linter_list_cache[filetype]
-  end
-
   local names = {}
   for _, linter in pairs(linters) do
     local is_installed = mason_registry.is_installed(linter)
@@ -217,33 +212,67 @@ local function list_linters()
     end
   end
 
+  if #names == 0 then
+    linter_list_cache[filetype] = ''
+    return linter_list_cache[filetype]
+  end
+
   linter_list_cache[filetype] = string.format('󱔲 : [%s] ', table.concat(names, ','))
   return linter_list_cache[filetype]
 end
 
-local function list_lsps_and_status()
-  if not _G.plugin_lsp_progress_loaded then
-    return ''
+local cached_lsp_list = nil
+local escape = function(text)
+  -- Escape special characters for statusline
+  return text:gsub('%%', '%%%%') -- Escape percentage signs
+end
+
+local function lsp_progress(event)
+  local display = '󱙋 : '
+
+  -- display report if given
+  if event and event.file == 'report' then
+    if event.data.params.value.title then
+      display = display .. escape(tostring(event.data.params.value.title))
+    end
+
+    if event.data.params.value.message then
+      display = display .. ' ' .. escape(tostring(event.data.params.value.message))
+    end
+
+    if event.data.params.value.percentage then
+      display = display .. ' ' .. escape(tostring(event.data.params.value.percentage)) .. '%%%% '
+    end
+    return display
   end
 
-  -- check if we have an actual file open, if not, lsp-progress is not loaded and we dont want to require it here for startup time reasons
-  if vim.fn.expand '%:t' == '' then
-    return ''
+  -- else we display the lsp list
+  if cached_lsp_list then
+    return cached_lsp_list
   end
 
-  local ok, lsp_progress = pcall(require, 'lsp-progress')
+  local clients = vim.lsp.get_clients { bufnr = 0 }
+  local client_names = {}
 
-  if not ok then
-    return ''
+  for _, client in ipairs(clients) do
+    table.insert(client_names, client.name) -- or use client.id for the ID
   end
 
-  return string.format(' %s ', lsp_progress.progress())
+  if #clients == 0 then
+    display = ''
+  else
+    display = display .. '[' .. table.concat(client_names, ',') .. ']'
+  end
+
+  -- cache the client list
+  cached_lsp_list = display .. ' '
+  return cached_lsp_list
 end
 
 ------------------------- StatusLine -----------------------------------------------------------------
 Statusline = {}
 
-Statusline.render = function()
+Statusline.render = function(lsp_progress_event, is_recording_leave)
   local git_info = git()
 
   vim.o.statusline = table.concat {
@@ -260,13 +289,18 @@ Statusline.render = function()
     git_info.removed,
     lsp_diagnostics(),
     '%=%#StatusLineNormal#', -- right side align
-    macro_recording(),
-    list_lsps_and_status(),
+    macro_recording(is_recording_leave),
+    lsp_progress(lsp_progress_event),
     list_formatters(),
     list_linters(),
-    '%y', -- [filetype]
+    ' : %y', -- [filetype]
     ' %l:%c ', -- line:column
   }
+end
+
+Statusline.clear_lsp_cache_and_render = function()
+  cached_lsp_list = nil
+  Statusline.render()
 end
 
 -- Example of how to use the cached filepath in the status line
@@ -276,15 +310,42 @@ Statusline.render()
 vim.cmd [[
   augroup StatusLineCache
     autocmd!
-    autocmd BufEnter,BufLeave,BufWrite,ModeChanged,LspAttach,LspDetach,RecordingEnter,RecordingLeave * lua Statusline.render()
+    autocmd BufWrite,ModeChanged,RecordingEnter * lua Statusline.render()
+  augroup END
+]]
+
+vim.cmd [[
+  augroup StatusLineCache2
+    autocmd!
+    autocmd RecordingLeave * lua Statusline.render(nil, true) -- reg_recording is only updated after RecordingLeave. So we have to pass that we're leaving manually
+  augroup END
+]]
+
+-- We dont want to use the cached lsp here
+vim.cmd [[
+  augroup StatusLineCache3
+    autocmd!
+    autocmd BufEnter,BufLeave,LspAttach,LspDetach * lua Statusline.clear_lsp_cache_and_render()
   augroup END
 ]]
 
 vim.api.nvim_create_autocmd('LspProgress', {
-  callback = function(o)
-    local status = o.data.params.value.percentage
-    if status then
-      Statusline.render()
-    end
+  callback = function(lsp_progress_event)
+    Statusline.render(lsp_progress_event)
+  end,
+})
+
+-- dispatched via vim.api.nvim_command 'doautocmd User AutoFormatToggled'
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'AutoFormatToggled',
+  callback = function()
+    Statusline.render()
+  end,
+})
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'ToggleAutoLint',
+  callback = function()
+    Statusline.render()
   end,
 })

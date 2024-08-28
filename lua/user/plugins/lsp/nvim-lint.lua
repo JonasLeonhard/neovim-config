@@ -6,6 +6,8 @@ vim.api.nvim_create_user_command('ToggleAutoLint', function()
   if not autolint_on then
     vim.diagnostic.reset()
   end
+
+  vim.api.nvim_command 'doautocmd User ToggleAutoLint'
 end, {})
 
 _AutoLintEnabled = function()
