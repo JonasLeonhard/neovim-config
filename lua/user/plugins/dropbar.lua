@@ -92,4 +92,8 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require('dropbar').setup(opts)
+    vim.ui.select = require('dropbar.utils.menu').select
+  end,
 }

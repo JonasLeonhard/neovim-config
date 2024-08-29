@@ -44,7 +44,6 @@ return {
         end,
         build = 'make',
       },
-      'nvim-telescope/telescope-ui-select.nvim',
     },
     lazy = true,
     keys = {
@@ -355,7 +354,6 @@ return {
         },
       }
       telescope.load_extension 'fzf'
-      telescope.load_extension 'ui-select'
 
       vim.keymap.set('n', '<C-e>', function() end)
     end,
