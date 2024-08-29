@@ -1,5 +1,8 @@
 return {
   'Bekaboo/dropbar.nvim',
+  dependencies = {
+    'nvim-telescope/telescope-fzf-native.nvim',
+  },
   event = 'User FileOpened',
   lazy = true,
   keys = {
@@ -88,6 +91,15 @@ return {
           if component then
             menu:click_on(component, nil, 1, 'l')
           end
+        end,
+        ['/'] = function()
+          local menu = require('dropbar.utils').menu.get_current()
+
+          if not menu then
+            return
+          end
+
+          menu:fuzzy_find_open()
         end,
       },
     },
