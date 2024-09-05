@@ -37,7 +37,6 @@ return {
       },
       custom_highlights = function(colors)
         return {
-          CursorLine = { bg = colors.crust },
           CmpCompletionWindowBorder = { bg = colors.mantle },
           TelescopePreviewBorder = { fg = colors.crust },
           TelescopePromptBorder = { fg = colors.crust },

@@ -1,3 +1,25 @@
+-- Create a new scratch buffer
+vim.api.nvim_create_user_command('Ns', function()
+  vim.cmd [[
+		execute 'vsplit | enew'
+		setlocal buftype=nofile
+		setlocal bufhidden=hide
+		setlocal noswapfile
+	]]
+end, { nargs = 0 })
+
+-- Compare clipboard to current buffer
+vim.api.nvim_create_user_command('CompareClipboard', function()
+  local ftype = vim.api.nvim_eval '&filetype' -- original filetype
+  vim.cmd [[
+		tabnew %
+		Ns
+		normal! P
+		windo diffthis
+	]]
+  vim.cmd('set filetype=' .. ftype)
+end, { nargs = 0 })
+
 return {
   'sindrets/diffview.nvim',
   dependencies = { 'nvim-lua/plenary.nvim' },
@@ -12,7 +34,7 @@ return {
     },
     {
       '<leader>gdH',
-      '<cmd>DiffviewFileHistory<cr>',
+      '<cmd>DiffviewFileHistory --follow %<cr>',
       desc = 'File history (global)',
     },
     {
@@ -67,6 +89,20 @@ return {
         require('diffview.actions').select_prev_entry()
       end,
       desc = 'Previous Entry',
+    },
+    {
+      '<leader>gdb',
+      function()
+        vim.ui.input({ prompt = 'Diff current branch agains branchname: ' }, function(input)
+          vim.cmd('DiffviewOpen ' .. input)
+        end)
+      end,
+      desc = 'Diff with branch',
+    },
+    {
+      '<leader>gdC',
+      '<cmd>CompareClipboard<cr>',
+      desc = 'Diff current buffer with Clipboard contents',
     },
   },
   config = function()
