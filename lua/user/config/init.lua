@@ -5,6 +5,8 @@ vim.g.maplocalleader = ' '
 
 local opt = vim.opt
 
+opt.smartindent = true -- smartly indent new lines
+opt.breakindent = true -- keep same indentation after break
 opt.autowrite = true -- Enable auto write
 opt.clipboard = 'unnamedplus' -- Sync with system clipboard
 opt.completeopt = 'menu,menuone,noselect'
