@@ -41,9 +41,12 @@ return {
     lint.linters.djlint.args = {
       '--linter-output-format',
       '{line}:{code}: {message}',
-      '--profile=nunjucks',
+      '--profile',
+      'nunjucks',
       '--preserve-blank-lines',
       '--line-break-after-multiline-tag',
+      '--indent',
+      '2',
       '-',
     }
 

@@ -44,4 +44,19 @@ return {
   init = function()
     vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
   end,
+  config = function(_, opts)
+    local conform = require 'conform'
+    conform.formatters.djlint = {
+      args = {
+        '--reformat',
+        '--preserve-blank-lines',
+        '--line-break-after-multiline-tag',
+        '--indent',
+        '2',
+        '-',
+      },
+    }
+
+    conform.setup(opts)
+  end,
 }
