@@ -6,7 +6,7 @@ end
 
 vim.diagnostic.config {
   float = {
-    source = 'always',
+    source = 'if_many',
   },
   severity_sort = true,
   signs = true,
