@@ -12,6 +12,14 @@ return {
       desc = 'Format',
       mode = { 'n', 'v' },
     },
+    {
+      '<leader>cF',
+      function()
+        require('conform').format { timeout_ms = tonumber(vim.fn.input 'timout_ms: '), lsp_format = 'fallback' }
+      end,
+      desc = 'Format (ask for timout_ms)',
+      mode = { 'n', 'v' },
+    },
   },
   opts = {
     log_level = vim.log.levels.DEBUG,
