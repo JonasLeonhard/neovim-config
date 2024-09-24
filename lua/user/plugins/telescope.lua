@@ -320,6 +320,7 @@ return {
     },
     config = function()
       local telescope = require 'telescope'
+      local actions = require 'telescope.actions'
 
       telescope.setup {
         defaults = {
@@ -331,6 +332,17 @@ return {
           },
           border = true,
           borderchars = { '─', '', '', '', '', '', '', '' }, -- only top border
+          mappings = {
+            n = {
+              ['<C-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
+            },
+            i = {
+              -- map actions.which_key to <C-h> (default: <C-/>)
+              -- actions.which_key shows the mappings for your picker,
+              -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+              ['<C-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
+            },
+          },
         },
         pickers = {
           find_files = {
