@@ -108,6 +108,13 @@ return {
           { '<leader>ui', '<cmd>:ToggleInlayHints<cr>', desc = 'toggle inlay hints' },
           { '<leader>ut', '<cmd>split | terminal<cr>',  desc = 'toggle terminal split' },
         },
+
+        -- multicursor
+        {
+          '<leader>v',
+          desc = 'Multicursor',
+          mode = { 'n', 'v' },
+        },
       },
     },
   },
