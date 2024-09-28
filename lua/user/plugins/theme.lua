@@ -19,7 +19,6 @@ return {
           enabled = true,
           color_mode = false,
         },
-        mason = true,
         treesitter = true,
         treesitter_context = true,
         which_key = true,

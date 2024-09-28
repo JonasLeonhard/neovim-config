@@ -1,10 +1,9 @@
-local mason_registry = require 'mason-registry'
 local dap = require 'dap'
 
 dap.adapters.php = {
   type = 'executable',
   command = 'node',
-  args = { mason_registry.get_package('php-debug-adapter'):get_install_path() .. '/extension/out/phpDebug.js' },
+  args = { os.getenv("HOME") .. '/("php-debug-adapter"):get_install_path() .. /extension/out/phpDebug.js' },
 }
 
 dap.configurations.php = {

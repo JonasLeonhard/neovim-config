@@ -1,7 +1,6 @@
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
-    'williamboman/mason.nvim',
     {
       'theHamsta/nvim-dap-virtual-text',
       opts = {},
@@ -160,7 +159,8 @@ return {
   },
   config = function()
     vim.fn.sign_define('DapBreakpoint', { text = ' ', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
-    vim.fn.sign_define('DapBreakpointCondition', { text = ' ', texthl = 'DapBreakpointCondition', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapBreakpointCondition',
+      { text = ' ', texthl = 'DapBreakpointCondition', linehl = '', numhl = '' })
     vim.fn.sign_define('DapLogPoint', { text = ' ', texthl = 'DapLogPoint', linehl = '', numhl = '' })
 
     require 'user.plugins.dap.configurations.codelldb'

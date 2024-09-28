@@ -149,10 +149,9 @@ local function list_formatters()
     return formatter_list_cache[filetype]
   end
 
-  local ok, conform = pcall(require, 'conform')
-  local mok, mason_registry = pcall(require, 'mason-registry')
+  local cok, conform = pcall(require, 'conform')
 
-  if not ok or not mok then
+  if not cok then
     formatter_list_cache[filetype] = ''
     return formatter_list_cache[filetype]
   end
@@ -166,10 +165,7 @@ local function list_formatters()
 
   local names = {}
   for _, formatter in pairs(formatters) do
-    local is_installed = mason_registry.is_installed(formatter.name)
-    if is_installed then
-      table.insert(names, formatter.name)
-    end
+    table.insert(names, formatter.name)
   end
 
   formatter_list_cache[filetype] = string.format('󰉶 : [%s] ', table.concat(names, ','))
@@ -194,10 +190,9 @@ local function list_linters()
     return linter_list_cache[filetype]
   end
 
-  local ok, lint = pcall(require, 'lint')
-  local mok, mason_registry = pcall(require, 'mason-registry')
+  local cok, lint = pcall(require, 'lint')
 
-  if not ok or not mok then
+  if not cok then
     linter_list_cache[filetype] = ''
     return linter_list_cache[filetype]
   end
@@ -206,10 +201,7 @@ local function list_linters()
 
   local names = {}
   for _, linter in pairs(linters) do
-    local is_installed = mason_registry.is_installed(linter)
-    if not is_installed then
-      table.insert(names, linter)
-    end
+    table.insert(names, linter)
   end
 
   if #names == 0 then
@@ -281,7 +273,7 @@ Statusline.render = function(lsp_progress_event, is_recording_leave)
     git_info.head,
     '%{expand("%:.:h")}/', -- filedir path + /
     '%#Normal#',
-    '%t', -- filename
+    '%t',                  -- filename
     '%#StatusLineNormal#',
     ' ',
     git_info.added,
