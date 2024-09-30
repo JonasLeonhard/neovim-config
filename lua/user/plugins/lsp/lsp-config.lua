@@ -33,8 +33,12 @@ return {
       },
     })
 
-    lspconfig.eslint.setup({
+    lspconfig.zls.setup({
       capabilities = capabilities,
+      settings = {
+        enable_build_on_save = true,
+        build_on_save_step = 'check',
+      },
     })
 
     lspconfig.gopls.setup({
@@ -71,6 +75,10 @@ return {
           hint = { enable = true },
         },
       },
+    })
+
+    lspconfig.intelephense.setup({
+      capabilities = capabilities,
     })
 
     lspconfig.ts_ls.setup({
@@ -116,6 +124,21 @@ return {
       },
     })
 
+    lspconfig.eslint.setup({
+      capabilities = capabilities,
+    })
+
+    lspconfig.html.setup({
+      capabilities = capabilities,
+      filetypes = {
+        'templ',
+      },
+    })
+
+    lspconfig.cssls.setup {
+      capabilities = capabilities,
+    }
+
     lspconfig.tailwindcss.setup({
       capabilities = capabilities,
       filetypes = {
@@ -133,19 +156,20 @@ return {
       },
     })
 
-    lspconfig.html.setup({
+    lspconfig.dockerls.setup({
       capabilities = capabilities,
-      filetypes = {
-        'templ',
-      },
     })
 
-    lspconfig.zls.setup({
+    lspconfig.jsonls.setup({
       capabilities = capabilities,
-      settings = {
-        enable_build_on_save = true,
-        build_on_save_step = 'check',
-      },
+    })
+
+    lspconfig.marksman.setup({
+      capabilities = capabilities,
+    })
+
+    lspconfig.twiggy_language_server.setup({
+      capabilities = capabilities,
     })
   end
 }
