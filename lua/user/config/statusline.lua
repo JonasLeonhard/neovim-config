@@ -197,7 +197,7 @@ local function list_linters()
     return linter_list_cache[filetype]
   end
 
-  local linters = lint._resolve_linter_by_ft(filetype)
+  local linters = lint.get_running()
 
   local names = {}
   for _, linter in pairs(linters) do
