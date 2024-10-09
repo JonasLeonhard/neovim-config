@@ -6,11 +6,7 @@ return {
     opts = {
       flavour = 'mocha',
       integrations = {
-        cmp = true,
         gitsigns = true,
-        telescope = {
-          enabled = true,
-        },
         dap = {
           enabled = true,
           enable_ui = true,
@@ -82,6 +78,10 @@ return {
             fg = colors.blue,
           },
           MiniIndentscopeSymbol = { link = 'Comment' },
+          Pmenu = { bg = colors.mantle, fg = colors.text },
+          PmenuSel = { bg = colors.surface0, fg = colors.text },
+          PmenuSbar = { bg = colors.mantle },
+          PmenuThumb = { bg = colors.overlay0 },
         }
       end,
     },

@@ -34,6 +34,7 @@ return {
   -- Fuzzy Finder (files, lsp, etc)
   {
     'nvim-telescope/telescope.nvim',
+    enabled = false,
     branch = 'master',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -177,7 +178,8 @@ return {
             end
 
             if idx_bufnr and idx_adj_bufnr then
-              bufnrs_with_swap[idx_bufnr], bufnrs_with_swap[idx_adj_bufnr] = bufnrs_with_swap[idx_adj_bufnr], bufnrs_with_swap[idx_bufnr]
+              bufnrs_with_swap[idx_bufnr], bufnrs_with_swap[idx_adj_bufnr] = bufnrs_with_swap[idx_adj_bufnr],
+                  bufnrs_with_swap[idx_bufnr]
             end
           end
 
@@ -211,77 +213,77 @@ return {
           end
 
           pickers
-            .new(opts, {
-              initial_mode = 'normal',
-              prompt_title = 'Buffers',
-              finder = create_finder_from_swap(),
-              previewer = conf.grep_previewer(opts),
-              sorter = conf.generic_sorter(opts),
-              default_selection_index = default_selection_idx,
+              .new(opts, {
+                initial_mode = 'normal',
+                prompt_title = 'Buffers',
+                finder = create_finder_from_swap(),
+                previewer = conf.grep_previewer(opts),
+                sorter = conf.generic_sorter(opts),
+                default_selection_index = default_selection_idx,
 
-              attach_mappings = function(prompt_bufnr, map)
-                local delete_buf = function()
-                  local current_picker = action_state.get_current_picker(prompt_bufnr)
-                  current_picker:delete_selection(function(selection)
-                    vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+                attach_mappings = function(prompt_bufnr, map)
+                  local delete_buf = function()
+                    local current_picker = action_state.get_current_picker(prompt_bufnr)
+                    current_picker:delete_selection(function(selection)
+                      vim.api.nvim_buf_delete(selection.bufnr, { force = true })
+                    end)
+                  end
+
+                  map('n', 'v', function()
+                    actions.add_selection(prompt_bufnr)
                   end)
-                end
+                  map('n', 'd', delete_buf)
+                  map('i', '<C-l>', actions.close)
+                  map('n', '<C-l>', actions.close)
 
-                map('n', 'v', function()
-                  actions.add_selection(prompt_bufnr)
-                end)
-                map('n', 'd', delete_buf)
-                map('i', '<C-l>', actions.close)
-                map('n', '<C-l>', actions.close)
+                  --- @param up boolean: if true, move the buffer up
+                  local buffer_swap = function(up)
+                    local hovered_buffer = action_state.get_selected_entry()
+                    local picker = action_state.get_current_picker(prompt_bufnr)
+                    local picker_results = picker.finder.results
 
-                --- @param up boolean: if true, move the buffer up
-                local buffer_swap = function(up)
-                  local hovered_buffer = action_state.get_selected_entry()
-                  local picker = action_state.get_current_picker(prompt_bufnr)
-                  local picker_results = picker.finder.results
+                    for i, entry in ipairs(picker_results) do
+                      -- Find the hovered buffer in the picker results
+                      if entry.bufnr == hovered_buffer.bufnr then
+                        -- pick the adjacent entry and wrap around the ends
+                        local adj_entry
+                        local new_index
 
-                  for i, entry in ipairs(picker_results) do
-                    -- Find the hovered buffer in the picker results
-                    if entry.bufnr == hovered_buffer.bufnr then
-                      -- pick the adjacent entry and wrap around the ends
-                      local adj_entry
-                      local new_index
-
-                      if up then
-                        new_index = (i % #picker_results) + 1
-                      else
-                        if i - 1 < 1 then
-                          new_index = #picker_results
+                        if up then
+                          new_index = (i % #picker_results) + 1
                         else
-                          new_index = i - 1
+                          if i - 1 < 1 then
+                            new_index = #picker_results
+                          else
+                            new_index = i - 1
+                          end
                         end
-                      end
 
-                      adj_entry = picker_results[new_index]
+                        adj_entry = picker_results[new_index]
 
-                      -- Swap the hovered buffer with the adjacent buffer based on direction (up)
-                      if adj_entry and adj_entry.bufnr ~= entry.bufnr then
-                        swap(entry.bufnr, adj_entry.bufnr)
-                        picker.default_selection_index = new_index
-                        picker:refresh(create_finder_from_swap(), opts)
-                        break
+                        -- Swap the hovered buffer with the adjacent buffer based on direction (up)
+                        if adj_entry and adj_entry.bufnr ~= entry.bufnr then
+                          swap(entry.bufnr, adj_entry.bufnr)
+                          picker.default_selection_index = new_index
+                          picker:refresh(create_finder_from_swap(), opts)
+                          break
+                        end
                       end
                     end
                   end
-                end
 
-                -- -- Mapping to swap buffer positions
-                map('n', '<C-j>', function()
-                  buffer_swap(false)
-                end)
-                map('n', '<C-k>', function()
-                  buffer_swap(true)
-                end)
+                  -- -- Mapping to swap buffer positions
+                  map('n', '<C-j>', function()
+                    buffer_swap(false)
+                  end)
+                  map('n', '<C-k>', function()
+                    buffer_swap(true)
+                  end)
 
-                return true
-              end,
-            })
-            :find()
+                  return true
+                end,
+              })
+              :find()
         end,
         desc = 'Buffers',
       },
@@ -358,10 +360,10 @@ return {
         },
         extensions = {
           fzf = {
-            fuzzy = true, -- false will only do exact matching
+            fuzzy = true,                   -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true, -- override the file sorter
-            case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
           },
         },
       }

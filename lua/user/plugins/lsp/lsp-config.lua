@@ -5,7 +5,6 @@ return {
   config = function()
     local lspconfig = require('lspconfig')
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
     -- This will filter out any warnings like this:
     -- "/usr/local/share/nvim/runtime/lua/vim/lsp/rpc.lua:804:
