@@ -8,8 +8,8 @@ return {
       show = '<C-space>',
       hide = { '<C-q>' },
       accept = '<ENTER>',
-      select_prev = { '<C-k>', '<S-Tab>' },
-      select_next = { '<C-j>', '<Tab>' },
+      select_prev = '<S-Tab>',
+      select_next = '<Tab>',
 
       show_documentation = {},
       hide_documentation = {},
