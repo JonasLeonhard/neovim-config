@@ -52,6 +52,16 @@ return {
 
         -- buffer group
         { '<leader>b', desc = 'buffer', mode = { 'n', 'v' } },
+        {
+          '<leader>bj',
+          '<cmd>bnext<cr>',
+          desc = 'buffer next',
+        },
+        {
+          '<leader>bk',
+          '<cmd>bprevious<cr>',
+          desc = 'buffer prev',
+        },
 
         -- code group,
         {
