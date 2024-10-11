@@ -24,7 +24,7 @@ return {
       completion = {
         show_on_insert_on_trigger_character = false,
       },
-      signature_help = { enabled = true }
+      -- signature_help = { enabled = true }
     },
 
     -- experimental auto-brackets support
