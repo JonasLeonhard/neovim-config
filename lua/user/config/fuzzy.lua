@@ -58,59 +58,57 @@ M.fuzzy_search = function(command, callback)
 end
 
 -- Keybinds
-if vim.fn.executable('fzy') == 1 then
-  vim.keymap.set('n', '<leader>f', function()
-    M.fuzzy_search("git ls-files", function(stdout)
-      print("stdout: " .. stdout)
-      vim.api.nvim_command("edit " .. stdout)
-    end)
-  end, { desc = "find files (git)", silent = true })
+vim.keymap.set('n', '<leader>f', function()
+  M.fuzzy_search("git ls-files", function(stdout)
+    print("stdout: " .. stdout)
+    vim.api.nvim_command("edit " .. stdout)
+  end)
+end, { desc = "find files (git)", silent = true })
 
-  vim.keymap.set('n', '<leader>sf', function()
-    M.fuzzy_search("fd --no-ignore --hidden .", function(stdout)
-      vim.api.nvim_command("edit " .. stdout)
-    end)
-  end, { desc = "find files (all)", silent = true })
+vim.keymap.set('n', '<leader>sf', function()
+  M.fuzzy_search("rg --files --no-ignore --hidden .", function(stdout)
+    vim.api.nvim_command("edit " .. stdout)
+  end)
+end, { desc = "find files (all)", silent = true })
 
-  vim.keymap.set('n', '<leader>bl', function()
-    local buffers = vim.api.nvim_cmd(
-      { cmd = 'buffers' },
-      { output = true }
+vim.keymap.set('n', '<leader>bl', function()
+  local buffers = vim.api.nvim_cmd(
+    { cmd = 'buffers' },
+    { output = true }
+  )
+  M.fuzzy_search("echo '" .. buffers .. "'", function(stdout)
+    vim.api.nvim_cmd(
+      { cmd = 'buffer', args = { stdout:match("%d+") or 1 } },
+      { output = false }
     )
-    M.fuzzy_search("echo '" .. buffers .. "'", function(stdout)
-      vim.api.nvim_cmd(
-        { cmd = 'buffer', args = { stdout:match("%d+") or 1 } },
-        { output = false }
-      )
-    end)
-  end, { desc = "buffers", silent = true })
+  end)
+end, { desc = "buffers", silent = true })
 
-  vim.keymap.set('n', '<leader>sg', function()
-    vim.ui.input({ prompt = "rg " },
-      function(input)
-        if not input then
-          return
-        end
-        M.fuzzy_search(
-          "rg --column --line-number --no-heading --smart-case " ..
-          input,
-          function(stdout)
-            local file, line, col = stdout:match("([^:]+):(%d+):(%d+):")
-            if file then
-              vim.api.nvim_command("edit +" .. line .. " " .. file)
-              vim.api.nvim_win_set_cursor(0, { tonumber(line), tonumber(col) - 1 })
-            end
-          end)
-      end)
-  end, { desc = "ripgrep", silent = true })
-
-  vim.keymap.set('n', '<leader>sr', function()
-    M.fuzzy_search("echo '" .. table.concat(vim.v.oldfiles, "\n") .. "'", function(stdout)
-      vim.api.nvim_cmd(
-        { cmd = 'edit', args = { stdout:gsub("%s+", "") } }, -- trim trailing whitespace
-        { output = false }
-      )
+vim.keymap.set('n', '<leader>sg', function()
+  vim.ui.input({ prompt = "rg " },
+    function(input)
+      if not input then
+        return
+      end
+      M.fuzzy_search(
+        "rg --column --line-number --no-heading --smart-case " ..
+        input,
+        function(stdout)
+          local file, line, col = stdout:match("([^:]+):(%d+):(%d+):")
+          if file then
+            vim.api.nvim_command("edit +" .. line .. " " .. file)
+            vim.api.nvim_win_set_cursor(0, { tonumber(line), tonumber(col) - 1 })
+          end
+        end)
     end)
-  end, { desc = "oldfiles", silent = true })
-end
+end, { desc = "ripgrep", silent = true })
+
+vim.keymap.set('n', '<leader>sr', function()
+  M.fuzzy_search("echo '" .. table.concat(vim.v.oldfiles, "\n") .. "'", function(stdout)
+    vim.api.nvim_cmd(
+      { cmd = 'edit', args = { stdout:gsub("%s+", "") } },   -- trim trailing whitespace
+      { output = false }
+    )
+  end)
+end, { desc = "oldfiles", silent = true })
 return M
