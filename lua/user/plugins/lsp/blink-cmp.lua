@@ -1,8 +1,7 @@
 return {
   'saghen/blink.cmp',
-  lazy = false, -- lazy loading handled internally
-  build = 'cargo +nightly build --release',
-  -- version = 'v0.*', -- use a release tag to download pre-built binaries
+  lazy = false,     -- lazy loading handled internally
+  version = 'v0.*', -- use a release tag to download pre-built binaries
 
   opts = {
     keymap = {
