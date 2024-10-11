@@ -23,14 +23,12 @@ return {
     trigger = {
       completion = {
         show_on_insert_on_trigger_character = false,
-      }
+      },
+      signature_help = { enabled = true }
     },
 
     -- experimental auto-brackets support
     accept = { auto_brackets = { enabled = true } },
-
-    -- TODO: this isn't quite usable yet - it overrides written text. Turn on once this is fixed. experimental signature help support
-    -- trigger = { signature_help = { enabled = true } },
 
     sources = {
       providers = {
