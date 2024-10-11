@@ -67,7 +67,7 @@ if vim.fn.executable('fzy') == 1 then
   end, { desc = "find files (git)", silent = true })
 
   vim.keymap.set('n', '<leader>sf', function()
-    M.fuzzy_search("find .", function(stdout)
+    M.fuzzy_search("fd --no-ignore --hidden .", function(stdout)
       vim.api.nvim_command("edit " .. stdout)
     end)
   end, { desc = "find files (all)", silent = true })
