@@ -106,7 +106,7 @@ end, { desc = "ripgrep", silent = true })
 vim.keymap.set('n', '<leader>sr', function()
   M.fuzzy_search("echo '" .. table.concat(vim.v.oldfiles, "\n") .. "'", function(stdout)
     vim.api.nvim_cmd(
-      { cmd = 'edit', args = { stdout:gsub("%s+", "") } },   -- trim trailing whitespace
+      { cmd = 'edit', args = { stdout:match("^%s*(.-)%s*$") } }, -- trim whitespace
       { output = false }
     )
   end)
