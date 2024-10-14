@@ -8,6 +8,7 @@ M.fuzzy_search = function(command, callback)
 
   -- Create command and input buffers
   local command_buffer = vim.api.nvim_create_buf(false, true);
+  local buffer_height = math.floor(vim.o.lines / 4)
   vim.api.nvim_open_win(
     command_buffer,
     true,
@@ -16,7 +17,7 @@ M.fuzzy_search = function(command, callback)
       style = 'minimal',
       border = 'none',
       width = vim.o.columns,
-      height = math.floor(vim.o.lines / 4),
+      height = buffer_height,
       col = 0,
       row = vim.o.lines,
       noautocmd = true,
@@ -28,7 +29,7 @@ M.fuzzy_search = function(command, callback)
   local shell_command = {
     '/bin/sh',
     '-c',
-    command .. ' | fzy > ' .. file
+    command .. ' | fzy --lines ' .. buffer_height .. ' > ' .. file
   }
 
   vim.api.nvim_cmd({ cmd = 'startinsert' }, { output = false })
