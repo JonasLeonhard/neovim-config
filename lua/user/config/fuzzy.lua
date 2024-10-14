@@ -92,7 +92,7 @@ vim.keymap.set('n', '<leader>sg', function()
         return
       end
       M.fuzzy_search(
-        "rg --column --line-number --no-heading --smart-case " ..
+        "rg --column --line-number --no-heading --smart-case --hidden " ..
         input,
         function(stdout)
           local file, line, col = stdout:match("([^:]+):(%d+):(%d+):")
