@@ -30,14 +30,18 @@ return {
     -- experimental auto-brackets support
     accept = { auto_brackets = { enabled = true } },
 
+    windows = {
+      documentation = {
+        auto_show = true,
+      },
+    },
+
     sources = {
       providers = {
-        {
-          { 'blink.cmp.sources.lsp' },
-          { 'blink.cmp.sources.path' },
-          { 'blink.cmp.sources.buffer' },
-          { 'blink.cmp.sources.snippets', score_offset = -3 },
-        },
+        { 'blink.cmp.sources.lsp',      name = 'LSP' },
+        { 'blink.cmp.sources.path',     name = 'Path',     score_offset = 3 },
+        { 'blink.cmp.sources.snippets', name = 'Snippets', score_offset = -3 },
+        { 'blink.cmp.sources.buffer',   name = 'Buffer' },
       },
     }
   },
