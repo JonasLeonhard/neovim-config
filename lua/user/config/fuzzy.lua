@@ -1,4 +1,30 @@
-local M = {}
+local M = {
+  rg_default_opts = {
+    "--column",
+    "--line-number",
+    "--no-heading",
+    "--smart-case",
+    "--hidden",
+    "-g !.astro/",
+    "-g !.git/",
+    "-g !.godot/",
+    "-g !.next/",
+    "-g !.svelte-kit/",
+    "-g !build/",
+    "-g !dist/",
+    "-g !media/",
+    "-g !node_modules/",
+    "-g !release/",
+    "-g !storybook-static/",
+    "-g !target/",
+    "-g !tmp/",
+    "-g !vendor/",
+    "-g !.zig-cache/",
+    "-g !zig-out/",
+    "-g !yarn.lock",
+    "-g !package.lock"
+  },
+}
 
 --- @param command string command to pipe to fzf "<command> | fzf"
 --- @param callback function callback(stdout_string) ...do your thing here... end
@@ -67,7 +93,7 @@ vim.keymap.set('n', '<leader>f', function()
 end, { desc = "find files (git)", silent = true })
 
 vim.keymap.set('n', '<leader>sf', function()
-  M.fuzzy_search("rg --files --no-ignore --hidden .", function(stdout)
+  M.fuzzy_search("rg --files " .. table.concat(M.rg_default_opts, " ") .. " .", function(stdout)
     vim.api.nvim_command("edit " .. stdout)
   end)
 end, { desc = "find files (all)", silent = true })
@@ -92,7 +118,7 @@ vim.keymap.set('n', '<leader>sg', function()
         return
       end
       M.fuzzy_search(
-        "rg --column --line-number --no-heading --smart-case --hidden " ..
+        "rg " .. table.concat(M.rg_default_opts, " ") .. " " ..
         input,
         function(stdout)
           local file, line, col = stdout:match("([^:]+):(%d+):(%d+):")
