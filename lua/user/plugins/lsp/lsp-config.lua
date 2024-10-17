@@ -172,5 +172,9 @@ return {
     lspconfig.twiggy_language_server.setup({
       capabilities = capabilities,
     })
+
+    lspconfig.nushell.setup({
+      capabilities = capabilities,
+    })
   end
 }

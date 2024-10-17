@@ -1,37 +1,35 @@
--- I had trouble using nushell withing neovim.
---
--- if you use :r !ls with nvim running inside of nushell i get the same error as you above: "cant read file ...".
---
--- I think this might happen because of the "set shellredir" option.
--- By default this is set to "shellredir=>". ">" in this nushell context is not a valid file redirector.
--- It should be something like "| save %s".
---
--- There is one more step to get "r !ls" working in nushell after setting "set shellredir=| save %s".
--- You will still get the same error as above. When you run :5verbose r!ls you will see which command nvim tries to execute:
---
--- Log:
--- Executing command: "(ls) | save /var/folders/d7/6dndt7v55hnfdw_lb6vqfz0dmwspnq/T/nvim.jonas.leonhard/bXLj5v/0"
---
--- And if you run this command in nushell you will get:
---
--- Error: nu::shell::cant_convert
---
---   × Can't convert to string.
---    ╭─[entry #2:1:1]
---  1 │ (ls) | save /var/folders/d7/6dndt7v55hnfdw_lb6vqfz0dmwspnq/T/nvim.jonas.leonhard/Lvs8Cz/2
---    ·  ─┬
---    ·   ╰── can't convert record<name: string, type: string, size: filesize, modified: date> to string
---    ╰────
---
--- This is because ls returns a record instead of a string, which cannot be saved into a file. To fix this you could run something like:
--- ":r !ls | to text" or ":r !ls | get name"
+-- This file will add support for tempfiles and rusing stuff like ":r! ls"
+-- credits: https://www.kiils.dk/en/blog/2024-06-22-using-nushell-in-neovim/
 
 if string.match(vim.o.shell, '/nu$') then
-  vim.opt.shellredir = '| save %s'
-end
+  -- INFO: disable the usage of temp files for shell commands
+  -- because Nu doesn't support `input redirection` which Neovim uses to send buffer content to a command:
+  --      `{shell_command} < {temp_file_with_selected_buffer_content}`
+  -- When set to `false` the stdin pipe will be used instead.
+  -- NOTE: some info about `shelltemp`: https://github.com/neovim/neovim/issues/1008
+  vim.opt.shelltemp = false
 
--- INFO: :r! ls alternative...
--- generally i recommend using ":let a=system('ls')";
--- or save it directly in a register using ":let @a=system('ls')
--- you can echo the output via ":echo a" or ":echo @a"
--- output paste the register via '"ap'
+  -- string to be used to put the output of shell commands in a temp file
+  -- 1. when 'shelltemp' is `true`
+  -- 2. in the `diff-mode` (`nvim -d file1 file2`) when `diffopt` is set
+  --    to use an external diff command: `set diffopt-=internal`
+  vim.opt.shellredir = "out+err> %s"
+
+  -- flags for nu:
+  -- * `--stdin`       redirect all input to -c
+  -- * `--no-newline`  do not append `\n` to stdout
+  -- * `--commands -c` execute a command
+  vim.opt.shellcmdflag = "--stdin --no-newline -c"
+
+  -- disable all escaping and quoting
+  vim.opt.shellxescape = ""
+  vim.opt.shellxquote = ""
+  vim.opt.shellquote = ""
+
+  -- string to be used with `:make` command to:
+  -- 1. save the stderr of `makeprg` in the temp file which Neovim reads using `errorformat` to populate the `quickfix` buffer
+  -- 2. show the stdout, stderr and the return_code on the screen
+  -- NOTE: `ansi strip` removes all ansi coloring from nushell errors
+  vim.opt.shellpipe =
+  '| complete | update stderr { ansi strip } | tee { get stderr | save --force --raw %s } | into record'
+end
