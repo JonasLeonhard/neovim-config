@@ -34,7 +34,6 @@ M.fuzzy_search = function(command, callback)
 
   -- Create command and input buffers
   local command_buffer = vim.api.nvim_create_buf(false, true);
-  local buffer_height = math.floor(vim.o.lines / 4)
   vim.api.nvim_open_win(
     command_buffer,
     true,
@@ -43,7 +42,7 @@ M.fuzzy_search = function(command, callback)
       style = 'minimal',
       border = 'none',
       width = vim.o.columns,
-      height = buffer_height,
+      height = math.floor(vim.o.lines / 4),
       col = 0,
       row = vim.o.lines,
       noautocmd = true,
@@ -55,7 +54,9 @@ M.fuzzy_search = function(command, callback)
   local shell_command = {
     '/bin/sh',
     '-c',
-    command .. ' | fzy --lines ' .. buffer_height .. ' > ' .. file
+    command ..
+    ' | fzf -m --pointer="" --prompt "" --separator="" --info="right" --color=bg+:#1e1e2e,fg+:#cdd6f4,hl:#f9e2af,hl+::#f9e2af > ' ..
+    file
   }
 
   vim.api.nvim_cmd({ cmd = 'startinsert' }, { output = false })
@@ -87,14 +88,19 @@ end
 -- Keybinds
 vim.keymap.set('n', '<leader>f', function()
   M.fuzzy_search("git ls-files", function(stdout)
-    print("stdout: " .. stdout)
-    vim.api.nvim_command("edit " .. stdout)
+    local selected_files = vim.split(stdout, "\n")
+    for _, file in ipairs(selected_files) do
+      vim.api.nvim_command("edit " .. file)
+    end
   end)
 end, { desc = "find files (git)", silent = true })
 
 vim.keymap.set('n', '<leader>sf', function()
   M.fuzzy_search("rg --files " .. table.concat(M.rg_default_opts, " ") .. " .", function(stdout)
-    vim.api.nvim_command("edit " .. stdout)
+    local selected_files = vim.split(stdout, "\n")
+    for _, file in ipairs(selected_files) do
+      vim.api.nvim_command("edit " .. file)
+    end
   end)
 end, { desc = "find files (all)", silent = true })
 
