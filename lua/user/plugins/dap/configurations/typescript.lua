@@ -3,13 +3,13 @@ local dap = require 'dap'
 dap.adapters.node2 = {
   type = 'executable',
   command = 'node',
-  args = { "mason_registry.get_package('node-debug2-adapter'):get_install_path() .. '/out/src/nodeDebug.js" },
+  args = { vim.fn.stdpath 'data' .. '/mason' .. '/packages/node-debug2-adapter/out/src/nodeDebug.js' },
 }
 
 dap.adapters.firefox = {
   type = 'executable',
   command = 'node',
-  args = { "mason_registry.get_package('firefox-debug-adapter'):get_install_path() .. '/dist/adapter.bundle.js'" },
+  args = { vim.fn.stdpath 'data' .. '/mason' .. '/packages/firefox-debug-adapter/dist/adapter.bundle.js' },
 }
 
 local configurations = {
@@ -46,8 +46,7 @@ local configurations = {
     firefoxExecutable = '/Applications/Firefox.app/Contents/MacOS/firefox-bin',
   },
   {
-    name =
-    'Debug with Firefox (Attach -> requires /Applications/Firefox.app/Contents/MacOS/firefox -start-debugger-server)',
+    name = 'Debug with Firefox (Attach -> requires /Applications/Firefox.app/Contents/MacOS/firefox -start-debugger-server)',
     type = 'firefox',
     request = 'attach',
     reAttach = true,

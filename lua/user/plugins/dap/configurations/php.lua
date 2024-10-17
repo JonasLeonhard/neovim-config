@@ -3,7 +3,7 @@ local dap = require 'dap'
 dap.adapters.php = {
   type = 'executable',
   command = 'node',
-  args = { os.getenv("HOME") .. '/("php-debug-adapter"):get_install_path() .. /extension/out/phpDebug.js' },
+  args = { vim.fn.stdpath 'data' .. '/mason' .. '/packages/php-debug-adapter/extension/out/phpDebug.js' },
 }
 
 dap.configurations.php = {
@@ -50,7 +50,7 @@ dap.configurations.php = {
     pathMappings = function()
       local path = vim.fn.input 'Path: '
       return { ['/' .. path] = '${workspaceFolder}/' .. path }
-    end
+    end,
   },
   {
     name = 'Debug currently open script',
