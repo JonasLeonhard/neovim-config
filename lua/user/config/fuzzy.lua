@@ -191,7 +191,7 @@ end, { desc = "ripgrep", silent = true })
 
 --- Search through oldfiles list
 vim.keymap.set('n', '<leader>sr', function()
-  local cmd = "echo '" .. table.concat(vim.v.oldfiles, "\n") .. "' | fzf" .. M.default_fuzzy_opts;
+  local cmd = "echo '" .. table.concat(vim.v.oldfiles, "\n") .. "' | fzf " .. table.concat(M.default_fuzzy_opts, " ");
   local callback = function(stdout)
     vim.api.nvim_cmd(
       { cmd = 'edit', args = { stdout:match("^%s*(.-)%s*$") } }, -- trim whitespace
