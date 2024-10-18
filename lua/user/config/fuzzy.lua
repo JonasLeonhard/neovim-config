@@ -156,7 +156,7 @@ vim.keymap.set('n', '<leader>sg', function()
           [[ | fzf ]] .. table.concat(M.default_fuzzy_opts, " ") ..
           [[ --delimiter ':' ]] ..
           [[--preview 'bat --color=always --highlight-line {2} {1}' ]] ..
-          [[--preview-window '~4,+{2}+4/3,<80(up)' ]]
+          [[--preview-window '+{2}/2,<80(up)' ]]
 
       local callback = function(stdout)
         local selected_files = vim.tbl_filter(function(item) return item ~= "" end, vim.split(stdout, "\n"))
