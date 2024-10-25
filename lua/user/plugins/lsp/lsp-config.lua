@@ -136,6 +136,10 @@ return {
       },
     })
 
+    lspconfig.svelte.setup({
+      capabilities = capabilities
+    })
+
     lspconfig.cssls.setup {
       capabilities = capabilities,
     }
