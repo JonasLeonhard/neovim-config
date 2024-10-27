@@ -41,12 +41,12 @@ return {
       twig = { 'djlint' },
       astro = { 'prettierd', 'prettier', stop_after_first = true },
     },
-    format_on_save = function()
+    format_after_save = function()
       if not _AutoFormatEnabled() then
         return
       end
 
-      return { async = false, timeout_ms = 500, lsp_fallback = true }
+      return { timeout_ms = 500, lsp_format = "fallback", }
     end,
   },
   init = function()
