@@ -67,6 +67,7 @@ require 'user.config.fold'
 require 'user.config.nushell'
 require 'user.config.statusline'
 require 'user.config.fuzzy'
+require 'user.config.filetype'
 
 -- info: this creates a detailed flamegraph profiler using plenary plugin. You can copy paste this to profile performance issues
 -- create a detailed profile logs as flamegraph: https://www.speedscope.app/
