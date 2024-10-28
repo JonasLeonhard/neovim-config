@@ -15,10 +15,8 @@ return {
     },
   },
   opts = {
-    general = {
-      update_interval = 90,
-    },
     bar = {
+      update_debounce = 90,
       sources = function(buf, _)
         local sources = require 'dropbar.sources'
         local utils = require 'dropbar.utils'
