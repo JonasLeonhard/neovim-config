@@ -149,13 +149,11 @@ local function list_formatters()
     return formatter_list_cache[filetype]
   end
 
-  local cok, conform = pcall(require, 'conform')
-
-  if not cok then
-    formatter_list_cache[filetype] = ''
-    return formatter_list_cache[filetype]
+  if not package.loaded['conform'] then
+    return ''
   end
 
+  local conform = require('conform')
   local formatters = conform.list_formatters(0)
 
   if not formatters or #formatters == 0 then
@@ -190,13 +188,10 @@ local function list_linters()
     return linter_list_cache[filetype]
   end
 
-  local cok, lint = pcall(require, 'lint')
-
-  if not cok then
-    linter_list_cache[filetype] = ''
-    return linter_list_cache[filetype]
+  if not package.loaded['lint'] then
+    return ''
   end
-
+  local lint = require('lint')
   local linters = lint.get_running()
 
   local names = {}
