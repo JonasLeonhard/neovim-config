@@ -102,6 +102,7 @@ _G.Netrw_create_file = function()
   end
 end
 
+vim.g.netrw_bufsettings = 'nu' -- line numbers in netrw
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "netrw",
   callback = function()
