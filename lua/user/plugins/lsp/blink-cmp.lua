@@ -4,26 +4,22 @@ return {
   version = 'v0.*', -- use a release tag to download pre-built binaries
   opts = {
     keymap = {
-      show = '<C-space>',
-      hide = { '<C-q>' },
-      accept = '<ENTER>',
-      select_prev = '<S-Tab>',
-      select_next = '<Tab>',
+      ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+      ['<C-e>'] = { 'hide' },
+      ['<ENTER>'] = { 'select_and_accept', 'fallback' },
 
-      show_documentation = {},
-      hide_documentation = {},
-      scroll_documentation_up = '<C-u>',
-      scroll_documentation_down = '<C-d>',
+      ['<S-TAB>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+      ['<TAB>'] = { 'select_next', 'snippet_forward', 'fallback' },
 
-      snippet_forward = '<Tab>',
-      snippet_backward = '<S-Tab>',
+      ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+      ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
     },
 
     trigger = {
       completion = {
         show_on_insert_on_trigger_character = false,
       },
-      -- signature_help = { enabled = true }
+      signature_help = { enabled = true }
     },
 
     -- experimental auto-brackets support
