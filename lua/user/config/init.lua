@@ -51,7 +51,6 @@ opt.winminwidth = 5                -- Minimum window width
 opt.wrap = false                   -- Disable line wrap
 
 opt.laststatus = 3
-opt.ch = 0 -- no cmdheight
 opt.nrformats = 'bin,hex,alpha,octal,'
 
 -- Fix markdown indentation settings

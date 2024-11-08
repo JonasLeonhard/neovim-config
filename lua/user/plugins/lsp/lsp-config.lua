@@ -6,19 +6,6 @@ return {
     local lspconfig = require('lspconfig')
     local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-    -- This will filter out any warnings like this:
-    -- "/usr/local/share/nvim/runtime/lua/vim/lsp/rpc.lua:804:
-    -- Spawning language server with cmd: { "vscode-eslint-language-server", "--stdio" } failed.
-    -- The language server is either not installed, missing from PATH, or not executable."
-    -- -> You can view this info easily in :LspInfo
-    local notify = vim.notify
-    vim.notify = function(msg, ...)
-      if msg:match("The language server is either not installed, missing from PATH, or not executable.") then
-        return
-      end
-      notify(msg, ...)
-    end
-
     -- INFO: Installation Instruction for lsp's can be found here:
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
