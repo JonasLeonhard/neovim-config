@@ -100,10 +100,14 @@ return {
   ---@module 'oil'
   ---@type oil.SetupOpts
   opts = {
+    view_options = {
+      -- Show files and directories that start with "."
+      show_hidden = true,
+    },
     keymaps = {
       ["<CR>"] = {
         callback = function()
-          require("oil").select(nil, function(buf)
+          require("oil").select(nil, function()
             -- maximize the selected buffer if we're not in an oil buffer anymore
             -- (meaning we opened a file rather than entered a directory)
             if vim.bo.filetype ~= "oil" then
