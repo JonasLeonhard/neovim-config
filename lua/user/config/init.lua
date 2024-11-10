@@ -102,6 +102,7 @@ _G.Netrw_create_file = function()
 end
 
 vim.g.netrw_bufsettings = 'nu' -- line numbers in netrw
+vim.g.netrw_keepdir = 0        -- fix changing from main directory causing "this command does not work"
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "netrw",
   callback = function()
