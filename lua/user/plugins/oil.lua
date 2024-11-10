@@ -63,6 +63,12 @@ local search_grep = function()
     end)
 end
 
+local terminal_dir = function()
+  local oil = require("oil")
+  local current_dir = oil.get_current_dir()
+  vim.cmd("split | lcd " .. current_dir .. " | terminal")
+end
+
 local search_dir = function()
   local M = require("user.config.fuzzy");
   local oil = require("oil");
@@ -135,6 +141,12 @@ return {
         nowait = true,
         desc = "Find subdirectories in the current (Oil) directory"
       },
+      ["g$"] = {
+        terminal_dir,
+        mode = "n",
+        nowait = true,
+        desc = "Terminal in (Oil) directory"
+      }
     },
   },
   -- Optional dependencies
