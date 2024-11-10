@@ -68,15 +68,6 @@ require 'user.config.statusline'
 require 'user.config.fuzzy'
 require 'user.config.filetype'
 
--- info: this creates a detailed flamegraph profiler using plenary plugin. You can copy paste this to profile performance issues
--- create a detailed profile logs as flamegraph: https://www.speedscope.app/
-
--- vim.api.nvim_create_user_command("ProfileStart", function()
---   require("plenary.profile").start(("profile-%s.log"):format(vim.version()), { flame = true })
--- end, {})
-
--- vim.api.nvim_create_user_command("ProfileStop", require("plenary.profile").stop, {})
-
 -- put :messages in a new buffer
 vim.api.nvim_command 'command! Messages enew | execute "redir @a" | silent messages | redir END | normal! "ap'
 
@@ -103,11 +94,14 @@ end
 
 vim.g.netrw_bufsettings = 'nu' -- line numbers in netrw
 vim.g.netrw_keepdir = 0        -- fix changing from main directory causing "this command does not work"
+vim.g.netrw_sizestyle = "H"    -- human readable file sizes (KB, MB, etc)
+vim.g.netrw_banner = 0         -- hide the banner at the top (You can show it via: 'I')
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "netrw",
   callback = function()
     -- Set up buffer-local keybindings
     vim.api.nvim_buf_set_keymap(0, 'n', '?', ':help netrw-quickmap<CR>', { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(0, 'n', 'f', ':lua _G.Netrw_create_file()<CR>', { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(0, 'n', 'f', ':lua _G.Netrw_create_file()<CR>', { noremap = true, silent = true }) -- alternative to '%', doesn't enter the buffer
   end
 })
