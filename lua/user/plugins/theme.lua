@@ -82,6 +82,7 @@ return {
           PmenuSel = { bg = colors.surface0, fg = colors.text },
           PmenuSbar = { bg = colors.mantle },
           PmenuThumb = { bg = colors.overlay0 },
+          netrwMarkFile = { link = "Visual" },
         }
       end,
     },
