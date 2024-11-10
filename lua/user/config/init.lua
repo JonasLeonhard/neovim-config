@@ -72,36 +72,36 @@ require 'user.config.filetype'
 vim.api.nvim_command 'command! Messages enew | execute "redir @a" | silent messages | redir END | normal! "ap'
 
 -- Netrw - keybinds + custom toggle function
-_G.Netrw_create_file = function()
-  local file_name = vim.fn.input 'Enter new file name: '
-
-  if file_name ~= '' then
-    local current_dir = vim.fn.expand '%:p:h'
-    local file_path = current_dir .. '/' .. file_name
-    if vim.fn.filereadable(file_path) == 1 then
-      print('File already exists: ' .. file_path)
-    else
-      vim.fn.writefile({}, file_path)
-      vim.cmd('edit ' .. current_dir) -- Refresh
-    end
-
-    -- Refresh
-    vim.cmd('edit ' .. current_dir)
-  else
-    print 'File name cannot be empty'
-  end
-end
-
-vim.g.netrw_bufsettings = 'nu' -- line numbers in netrw
-vim.g.netrw_keepdir = 0        -- fix changing from main directory causing "this command does not work"
-vim.g.netrw_sizestyle = "H"    -- human readable file sizes (KB, MB, etc)
-vim.g.netrw_banner = 0         -- hide the banner at the top (You can show it via: 'I')
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "netrw",
-  callback = function()
-    -- Set up buffer-local keybindings
-    vim.api.nvim_buf_set_keymap(0, 'n', '?', ':help netrw-quickmap<CR>', { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(0, 'n', 'f', ':lua _G.Netrw_create_file()<CR>', { noremap = true, silent = true }) -- alternative to '%', doesn't enter the buffer
-  end
-})
+-- _G.Netrw_create_file = function()
+--   local file_name = vim.fn.input 'Enter new file name: '
+--
+--   if file_name ~= '' then
+--     local current_dir = vim.fn.expand '%:p:h'
+--     local file_path = current_dir .. '/' .. file_name
+--     if vim.fn.filereadable(file_path) == 1 then
+--       print('File already exists: ' .. file_path)
+--     else
+--       vim.fn.writefile({}, file_path)
+--       vim.cmd('edit ' .. current_dir) -- Refresh
+--     end
+--
+--     -- Refresh
+--     vim.cmd('edit ' .. current_dir)
+--   else
+--     print 'File name cannot be empty'
+--   end
+-- end
+--
+-- vim.g.netrw_bufsettings = 'nu' -- line numbers in netrw
+-- vim.g.netrw_keepdir = 0        -- fix changing from main directory causing "this command does not work"
+-- vim.g.netrw_sizestyle = "H"    -- human readable file sizes (KB, MB, etc)
+-- vim.g.netrw_banner = 0         -- hide the banner at the top (You can show it via: 'I')
+--
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "netrw",
+--   callback = function()
+--     -- Set up buffer-local keybindings
+--     vim.api.nvim_buf_set_keymap(0, 'n', '?', ':help netrw-quickmap<CR>', { noremap = true, silent = true })
+--     vim.api.nvim_buf_set_keymap(0, 'n', 'f', ':lua _G.Netrw_create_file()<CR>', { noremap = true, silent = true }) -- alternative to '%', doesn't enter the buffer
+--   end
+-- })
