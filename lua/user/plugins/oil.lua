@@ -8,6 +8,7 @@ local search_files = function()
     local selected_files = vim.split(stdout, "\n")
     for _, file in ipairs(selected_files) do
       vim.api.nvim_command("edit " .. file)
+      vim.cmd("only")
     end
   end
 
@@ -57,6 +58,7 @@ local search_grep = function()
           if #qf_list > 0 then
             vim.cmd("cfirst")
           end
+          vim.cmd("only")
         end
       end
       M.fuzzy_search({ cmd = cmd, callback = callback })
