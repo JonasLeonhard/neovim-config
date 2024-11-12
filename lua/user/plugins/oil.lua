@@ -143,6 +143,7 @@ return {
   ---@module 'oil'
   ---@type oil.SetupOpts
   opts = {
+    cleanup_delay_ms = 0,
     view_options = {
       -- Show files and directories that start with "."
       show_hidden = true,
