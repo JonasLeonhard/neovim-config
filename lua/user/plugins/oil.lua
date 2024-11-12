@@ -96,6 +96,28 @@ local search_dir = function()
   M.fuzzy_search({ cmd = cmd, callback = callback })
 end
 
+local toggle_oil = function(cmd)
+  -- Check if any oil buffers are open
+  local oil_windows = {}
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local buf_name = vim.api.nvim_buf_get_name(buf)
+    if buf_name:match("^oil://") then
+      table.insert(oil_windows, win)
+    end
+  end
+
+  if #oil_windows > 0 then
+    -- Close all oil windows
+    for _, win in ipairs(oil_windows) do
+      vim.api.nvim_win_close(win, false)
+    end
+  else
+    -- Open new oil window
+    vim.cmd(cmd)
+  end
+end
+
 local detail = false
 
 return {
@@ -103,8 +125,20 @@ return {
   lazy = true,
   cmd = { "Oil" },
   keys = {
-    { '<leader>e', '<cmd>split | Oil %:p:h<cr>', desc = 'Netrw' },
-    { '<leader>E', '<cmd>split | Oil<cr>',       desc = 'Netrw (cwd)' },
+    {
+      '<leader>e',
+      function()
+        toggle_oil('split | Oil %:p:h')
+      end,
+      desc = 'Oil'
+    },
+    {
+      '<leader>E',
+      function()
+        toggle_oil('split | Oil' .. vim.fn.getcwd())
+      end,
+      desc = 'Oil (cwd)'
+    },
   },
   ---@module 'oil'
   ---@type oil.SetupOpts
