@@ -96,6 +96,7 @@ local search_dir = function()
   M.fuzzy_search({ cmd = cmd, callback = callback })
 end
 
+local detail = false
 
 return {
   'stevearc/oil.nvim',
@@ -148,7 +149,18 @@ return {
         mode = "n",
         nowait = true,
         desc = "Terminal in (Oil) directory"
-      }
+      },
+      ["gd"] = {
+        desc = "Toggle file detail view",
+        callback = function()
+          detail = not detail
+          if detail then
+            require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
+          else
+            require("oil").set_columns({ "icon" })
+          end
+        end,
+      },
     },
   },
   -- Optional dependencies
