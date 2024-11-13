@@ -1,14 +1,32 @@
 local search_files = function()
   local M = require("user.config.fuzzy");
   local oil = require("oil");
+  local current_dir = oil.get_current_dir()
 
-  local cmd = "cd " .. oil.get_current_dir() .. "; rg --files " ..
+  local cmd = "cd " .. current_dir .. "; rg --files " ..
       table.concat(M.rg_default_opts, " ") .. " . | fzf " .. table.concat(M.default_fuzzy_opts, " ");
+
   local callback = function(stdout)
     local selected_files = vim.split(stdout, "\n")
-    for _, file in ipairs(selected_files) do
-      vim.api.nvim_command("edit " .. file)
-      vim.cmd("only")
+    local qf_list = {}
+    for idx, file in ipairs(selected_files) do
+      if (idx ~= #selected_files) then -- the first path is the start dir
+        local joined_path = vim.fn.simplify(current_dir .. file)
+
+        table.insert(qf_list, {
+          filename = joined_path,
+          lnum = 1,
+        })
+      end
+      if #qf_list > 0 then
+        vim.cmd("edit " .. qf_list[1].filename)
+        vim.cmd("only")
+
+        if (#qf_list > 1) then
+          vim.fn.setqflist(qf_list)
+          vim.cmd("copen")
+        end
+      end
     end
   end
 

@@ -125,6 +125,13 @@ return {
           desc = 'Multicursor',
           mode = { 'n', 'v' },
         },
+
+        -- ai
+        {
+          '<leader>a',
+          desc = 'Ai',
+          mode = { 'n', 'v' },
+        },
       },
     },
   },

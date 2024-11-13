@@ -96,13 +96,57 @@ M.fuzzy_search = function(options)
   })
 end
 
+M.ui_select = function(items, opts, on_choice)
+  local item_map = {}
+  local item_strings = vim.tbl_map(function(item)
+    local item_string = opts.format_item and opts.format_item(item) or tostring(item)
+    item_map[item_string] = item
+    return item_string
+  end, items)
+
+  local cmd = "echo '" .. table.concat(item_strings, "\n") .. "' | fzf " ..
+      table.concat(M.default_fuzzy_opts, " ") ..
+      (opts.prompt and (" --prompt '" .. opts.prompt .. " '") or "")
+
+  local callback = function(stdout)
+    if stdout and stdout ~= "" then
+      local selected = vim.trim(stdout)
+      local original_item = item_map[selected]
+      on_choice(original_item, selected and vim.v.null or nil)
+    else
+      on_choice(nil, nil)
+    end
+  end
+
+  M.fuzzy_search({ cmd = cmd, callback = callback })
+end
+
+-- Set up the ui.select handler
+vim.ui.select = function(items, opts, on_choice)
+  M.ui_select(items, opts, on_choice)
+end
+
+
 -- Seach all git files
 vim.keymap.set('n', '<leader>f', function()
   local cmd = "git ls-files | fzf " .. table.concat(M.default_fuzzy_opts, " ");
   local callback = function(stdout)
     local selected_files = vim.split(stdout, "\n")
+    local qf_list = {}
     for _, file in ipairs(selected_files) do
-      vim.api.nvim_command("edit " .. file)
+      if (file ~= "") then
+        table.insert(qf_list, {
+          filename = file,
+          lnum = 1,
+        })
+      end
+    end
+    if #qf_list > 0 then
+      vim.cmd("edit " .. selected_files[1])
+      if (#qf_list > 1) then
+        vim.fn.setqflist(qf_list)
+        vim.cmd("copen")
+      end
     end
   end
 
@@ -118,8 +162,21 @@ vim.keymap.set('n', '<leader>sf', function()
       table.concat(M.rg_default_opts, " ") .. " . | fzf " .. table.concat(M.default_fuzzy_opts, " ");
   local callback = function(stdout)
     local selected_files = vim.split(stdout, "\n")
+    local qf_list = {}
     for _, file in ipairs(selected_files) do
-      vim.api.nvim_command("edit " .. file)
+      if (file ~= "") then
+        table.insert(qf_list, {
+          filename = file,
+          lnum = 1,
+        })
+      end
+    end
+    if #qf_list > 0 then
+      vim.cmd("edit " .. selected_files[1])
+      if (#qf_list > 1) then
+        vim.fn.setqflist(qf_list)
+        vim.cmd("copen")
+      end
     end
   end
 

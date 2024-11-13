@@ -1,7 +1,10 @@
 return {
   'Bekaboo/dropbar.nvim',
   dependencies = {
-    'nvim-telescope/telescope-fzf-native.nvim',
+    {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      build = "make"
+    }
   },
   event = 'User FileOpened',
   lazy = true,
@@ -102,8 +105,4 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    require('dropbar').setup(opts)
-    vim.ui.select = require('dropbar.utils.menu').select
-  end,
 }
