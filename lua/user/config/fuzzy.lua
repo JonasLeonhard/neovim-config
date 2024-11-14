@@ -246,6 +246,21 @@ vim.keymap.set('n', '<leader>sg', function()
     end)
 end, { desc = "ripgrep", silent = true })
 
+--- Search directories
+vim.keymap.set('n', '<leader>sd', function()
+  local cmd = "fd --type d --hidden " ..
+      ". | fzf " .. table.concat(M.default_fuzzy_opts, " ");
+
+  local callback = function(stdout)
+    if stdout and stdout ~= "" then
+      local selected_dir = vim.trim(stdout)
+      vim.cmd("split | Oil " .. selected_dir)
+    end
+  end
+
+  M.fuzzy_search({ cmd = cmd, callback = callback })
+end, { desc = "find directories", silent = true })
+
 --- Search through oldfiles list
 vim.keymap.set('n', '<leader>sr', function()
   local cmd = "echo '" .. table.concat(vim.v.oldfiles, "\n") .. "' | fzf " .. table.concat(M.default_fuzzy_opts, " ");
