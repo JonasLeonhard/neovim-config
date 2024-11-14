@@ -43,8 +43,9 @@ local search_grep = function()
         return
       end
 
+      local current_dir = oil.get_current_dir()
       local cmd =
-          [[cd ]] .. oil.get_current_dir() .. "; " ..
+          [[cd ]] .. current_dir .. "; " ..
           [[rg ]] .. table.concat(M.rg_default_opts, " ") .. " " .. input ..
           [[ | fzf ]] .. table.concat(M.default_fuzzy_opts, " ") ..
           [[ --delimiter ':' ]] ..
@@ -57,26 +58,33 @@ local search_grep = function()
         if #selected_files == 1 then
           -- If we have a single selected file, we just open it.
           local file_path, line, col = selected_files[1]:match("([^:]+):(%d+):(%d+):")
-          vim.api.nvim_command("edit +" .. line .. " " .. file_path)
+          local joined_path = vim.fn.simplify(current_dir .. file_path)
+
+          vim.api.nvim_command("edit +" .. line .. " " .. joined_path)
           vim.api.nvim_win_set_cursor(0, { tonumber(line), tonumber(col) - 1 })
+          vim.cmd("only")
         else
           -- For Multiple results: add all to quickfix list and open the first one
           local qf_list = {}
           for _, file in ipairs(selected_files) do
             local file_path, line, col, text = file:match("([^:]+):(%d+):(%d+):(.*)")
+            local joined_path = vim.fn.simplify(current_dir .. file_path)
+
             table.insert(qf_list, {
-              filename = file_path,
+              filename = joined_path,
               lnum = tonumber(line),
               col = tonumber(col),
               text = text
             })
           end
+
           vim.fn.setqflist(qf_list)
-          vim.cmd("copen")
+
           if #qf_list > 0 then
             vim.cmd("cfirst")
+            vim.cmd("only")
+            vim.cmd("copen")
           end
-          vim.cmd("only")
         end
       end
       M.fuzzy_search({ cmd = cmd, callback = callback })
