@@ -139,8 +139,25 @@ local toggle_oil = function(cmd)
       vim.api.nvim_win_close(win, false)
     end
   else
-    -- Open new oil window
-    vim.cmd(cmd)
+    local bufname = vim.fn.expand('%:t')
+
+    if (bufname ~= '') then
+      -- Open new oil window
+      vim.cmd(cmd)
+
+      vim.defer_fn(function()
+        -- Get the current window
+        local win = vim.api.nvim_get_current_win()
+        local buf = vim.api.nvim_win_get_buf(win)
+
+        -- Only search if we're in an oil buffer
+        if vim.bo[buf].filetype == "oil" then
+          pcall(vim.cmd, '/' .. bufname .. '$') -- dont throw an error if we cant find the bufname
+        end
+      end, 50)
+    else
+      vim.cmd(cmd)
+    end
   end
 end
 
