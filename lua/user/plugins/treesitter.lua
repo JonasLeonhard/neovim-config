@@ -17,7 +17,18 @@ return {
         'markdown' },
       -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
       auto_install = true,
-      highlight = { enable = true },
+      highlight = {
+        enable = true,
+        disable = function(lang, buf)
+          local max_line_width = 500
+
+          -- Check first line width
+          local first_line = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1]
+          if first_line and #first_line > max_line_width then
+            return true
+          end
+        end,
+      },
       indent = { enable = true },
       incremental_selection = {
         enable = true,

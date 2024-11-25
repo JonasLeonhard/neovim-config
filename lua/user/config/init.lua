@@ -5,6 +5,7 @@ vim.g.maplocalleader = ' '
 
 local opt = vim.opt
 
+opt.synmaxcol = 500           -- disable "set syntax" for large files for better performance
 opt.smartindent = true         -- smartly indent new lines
 opt.breakindent = true         -- keep same indentation after break
 opt.autowrite = true           -- Enable auto write
