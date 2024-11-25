@@ -1,3 +1,13 @@
+local disable_func = function(lang, buf)
+  local max_line_width = 500
+
+  -- Check first line width
+  local first_line = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1]
+  if first_line and #first_line > max_line_width then
+    return true
+  end
+end
+
 return {
   {
     -- Highlight, edit, and navigate code
@@ -19,17 +29,9 @@ return {
       auto_install = true,
       highlight = {
         enable = true,
-        disable = function(lang, buf)
-          local max_line_width = 500
-
-          -- Check first line width
-          local first_line = vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1]
-          if first_line and #first_line > max_line_width then
-            return true
-          end
-        end,
+        disable = disable_func,
       },
-      indent = { enable = true },
+      indent = { enable = true, disable = disable_func },
       incremental_selection = {
         enable = true,
         keymaps = {

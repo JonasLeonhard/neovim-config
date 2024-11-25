@@ -6,6 +6,21 @@ return {
     local lspconfig = require('lspconfig')
     local capabilities = vim.lsp.protocol.make_client_capabilities()
 
+    -- Stop servers when the file lines are too large. This helps with large file performance
+    vim.api.nvim_create_autocmd("LspAttach", {
+      callback = function(args)
+        local first_line = vim.api.nvim_buf_get_lines(args.buf, 0, 1, false)[1]
+        local first_line_too_large = (first_line and #first_line > 500)
+
+        if first_line_too_large then
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client then
+            client.stop()
+          end
+        end
+      end
+    })
+
     -- INFO: Installation Instruction for lsp's can be found here:
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
