@@ -6,46 +6,43 @@ return {
     local lspconfig = require('lspconfig')
     local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-    -- Stop servers when the file lines are too large. This helps with large file performance
-    vim.api.nvim_create_autocmd("LspAttach", {
-      callback = function(args)
-        local first_line = vim.api.nvim_buf_get_lines(args.buf, 0, 1, false)[1]
-        local first_line_too_large = (first_line and #first_line > 500)
-
-        if first_line_too_large then
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          if client then
-            client.stop()
-          end
-        end
-      end
-    })
+    -- i had performance issues (nvim was frozen) when using lspconfig.rust_analyzer.setup({...}) directly.
+    local setup_lsp = function(server, config)
+      vim.schedule(function()
+        server.setup(config);
+        vim.cmd('LspStart')
+      end)
+    end
 
     -- INFO: Installation Instruction for lsp's can be found here:
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-
-    lspconfig.rust_analyzer.setup({
-      capabilities = capabilities,
-      settings = {
-        ['rust-analyzer'] = {
-          cargo = { allFeatures = true },
-          checkOnSave = {
-            command = 'clippy',
+    setup_lsp(lspconfig.rust_analyzer, {
+      {
+        capabilities = capabilities,
+        filetypes = { "rust" },
+        settings = {
+          ['rust-analyzer'] = {
+            cargo = { allFeatures = true },
+            checkOnSave = {
+              command = 'clippy',
+            },
           },
         },
-      },
+      }
     })
 
-    lspconfig.zls.setup({
+    setup_lsp(lspconfig.zls, {
       capabilities = capabilities,
+      filetypes = { "zig" },
       settings = {
         enable_build_on_save = true,
         build_on_save_step = 'check',
       },
     })
 
-    lspconfig.gopls.setup({
+    setup_lsp(lspconfig.gopls, {
       capabilities = capabilities,
+      filetypes = { "go" },
       hints = {
         assignVariableTypes = true,
         compositeLiteralFields = true,
@@ -57,8 +54,9 @@ return {
       },
     })
 
-    lspconfig.lua_ls.setup({
+    setup_lsp(lspconfig.lua_ls, {
       capabilities = capabilities,
+      filetypes = { "lua" },
       settings = {
         Lua = {
           runtime = {
@@ -80,12 +78,19 @@ return {
       },
     })
 
-    lspconfig.intelephense.setup({
+    setup_lsp(lspconfig.intelephense, {
       capabilities = capabilities,
+      filetypes = { "php" }
     })
 
-    lspconfig.ts_ls.setup({
+    setup_lsp(lspconfig.ts_ls, {
       capabilities = capabilities,
+      filetypes = {
+        'javascript',
+        'typescript',
+        'vue',
+        'javascriptreact',
+      },
       init_options = {
         plugins = {
           {
@@ -94,12 +99,6 @@ return {
             languages = { 'javascript', 'typescript', 'vue' },
           },
         },
-      },
-      filetypes = {
-        'javascript',
-        'typescript',
-        'vue',
-        'javascriptreact',
       },
       settings = {
         javascript = {
@@ -127,26 +126,35 @@ return {
       },
     })
 
-    lspconfig.eslint.setup({
-      capabilities = capabilities,
-    })
-
-    lspconfig.html.setup({
+    setup_lsp(lspconfig.eslint, {
       capabilities = capabilities,
       filetypes = {
+        'javascript',
+        'typescript',
+        'vue',
+        'javascriptreact',
+      },
+    })
+
+    setup_lsp(lspconfig.html, {
+      capabilities = capabilities,
+      filetypes = {
+        "html",
         'templ',
       },
     })
 
-    lspconfig.svelte.setup({
-      capabilities = capabilities
+    setup_lsp(lspconfig.svelte, {
+      capabilities = capabilities,
+      filetypes = { "svelte" }
     })
 
-    lspconfig.cssls.setup {
+    setup_lsp(lspconfig.cssls, {
       capabilities = capabilities,
-    }
+      filetypes = { "css", "scss" }
+    })
 
-    lspconfig.tailwindcss.setup({
+    setup_lsp(lspconfig.tailwindcss, {
       capabilities = capabilities,
       filetypes = {
         'templ', 'aspnetcorerazor', 'astro', 'astro-markdown', 'blade', 'django-html', 'edge',
@@ -163,24 +171,29 @@ return {
       },
     })
 
-    lspconfig.dockerls.setup({
+    setup_lsp(lspconfig.dockerls, {
       capabilities = capabilities,
+      filetypes = { "docker" }
     })
 
-    lspconfig.jsonls.setup({
+    setup_lsp(lspconfig.jsonls, {
       capabilities = capabilities,
+      filetypes = { "json" }
     })
 
-    lspconfig.marksman.setup({
+    setup_lsp(lspconfig.marksman, {
       capabilities = capabilities,
+      filetypes = { "markdown" }
     })
 
-    lspconfig.twiggy_language_server.setup({
+    setup_lsp(lspconfig.twiggy_language_server, {
       capabilities = capabilities,
+      filetypes = { "twig" }
     })
 
-    lspconfig.nushell.setup({
+    setup_lsp(lspconfig.nushell, {
       capabilities = capabilities,
+      filetypes = { "nu" }
     })
   end
 }
