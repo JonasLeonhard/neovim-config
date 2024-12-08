@@ -16,7 +16,7 @@ return {
       'nvim-treesitter/nvim-treesitter-textobjects',
       {
         "chrisgrieser/nvim-various-textobjs",
-        opts = { useDefaultKeymaps = true },
+        opts = { keymaps = { useDefaults = true } },
       }
     },
     event = 'VeryLazy',
