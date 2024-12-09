@@ -151,7 +151,7 @@ return {
 
     setup_lsp(lspconfig.cssls, {
       capabilities = capabilities,
-      filetypes = { "css", "scss" }
+      filetypes = { "css", "scss", "vue" }
     })
 
     setup_lsp(lspconfig.tailwindcss, {
