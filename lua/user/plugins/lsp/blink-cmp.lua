@@ -5,11 +5,10 @@ return {
   opts = {
     keymap = {
       ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
-      ['<C-e>'] = { 'hide' },
       ['<ENTER>'] = { 'select_and_accept', 'fallback' },
 
-      ['<S-TAB>'] = { 'select_prev', 'snippet_backward', 'fallback' },
-      ['<TAB>'] = { 'select_next', 'snippet_forward', 'fallback' },
+      ['<C-k>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+      ['<C-j>'] = { 'select_next', 'snippet_forward', 'fallback' },
 
       ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
       ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
