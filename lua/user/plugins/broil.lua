@@ -12,9 +12,11 @@ return {
       'make'
     }
   },
+  dev = true,
   opts = {
     -- rm_command = 'rm <FROM>', -- optional...(default 'rm'). you could use a trash command here. Or rm --trash for nushell...
     -- ... you can find more opts in ":h broil" or lua/broil/config.lua
+    netrw_command = "split | Oil "
   },
   keys = {
     {
