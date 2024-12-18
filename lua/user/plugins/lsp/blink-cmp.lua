@@ -14,21 +14,20 @@ return {
       ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
     },
 
-    trigger = {
-      completion = {
+
+
+    completion = {
+      trigger = {
         show_on_insert_on_trigger_character = false,
+        signature_help = { enabled = true }
       },
-      signature_help = { enabled = true }
+      accept = { auto_brackets = { enabled = true } },
+      documentation = { auto_show = true },
+    },
+    signature = {
+      enabled = true
     },
 
-    -- experimental auto-brackets support
-    accept = { auto_brackets = { enabled = true } },
-
-    windows = {
-      documentation = {
-        auto_show = true,
-      },
-    },
 
     sources = {
       providers = {

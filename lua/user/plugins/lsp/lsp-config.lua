@@ -4,7 +4,8 @@ return {
   event = 'VeryLazy',
   config = function()
     local lspconfig = require('lspconfig')
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     -- i had performance issues (nvim was frozen) when using lspconfig.rust_analyzer.setup({...}) directly.
     local setup_lsp = function(server, config)
