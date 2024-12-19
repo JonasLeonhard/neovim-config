@@ -196,5 +196,10 @@ return {
       capabilities = capabilities,
       filetypes = { "nu" }
     })
+
+    setup_lsp(lspconfig.wgsl_analyzer, {
+      capabilities = capabilities,
+      filetypes = { "wgsl" }
+    })
   end
 }
