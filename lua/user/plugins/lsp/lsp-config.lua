@@ -201,5 +201,10 @@ return {
       capabilities = capabilities,
       filetypes = { "wgsl" }
     })
+
+    setup_lsp(lspconfig.ols, {
+      capabilities = capabilities,
+      filetypes = { "odin" }
+    })
   end
 }
