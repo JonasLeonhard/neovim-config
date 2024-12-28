@@ -4,20 +4,12 @@ return {
   version = 'v0.*', -- use a release tag to download pre-built binaries
   opts = {
     keymap = {
+      preset = "enter",
       ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
       ['<C-e>'] = { 'hide' },
-      ['<Tab>'] = {
-        function(cmp)
-          if cmp.snippet_active() then
-            return cmp.accept()
-          else
-            return cmp.select_and_accept()
-          end
-        end,
-        'snippet_forward',
-        'fallback'
-      },
-      ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+      ['<CR>'] = { 'accept', 'fallback' },
+      ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+      ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
 
       ['<C-k>'] = { 'select_prev', 'snippet_backward', 'fallback' },
       ['<C-j>'] = { 'select_next', 'snippet_forward', 'fallback' },
@@ -28,6 +20,11 @@ return {
 
     completion = {
       documentation = { auto_show = true },
+      list = {
+        selection = function(ctx)
+          return ctx.mode == 'cmdline' and 'manual' or 'preselect'
+        end
+      }
     },
     signature = {
       enabled = true
