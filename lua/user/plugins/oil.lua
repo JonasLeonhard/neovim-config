@@ -136,7 +136,7 @@ local toggle_oil = function(cmd)
   if #oil_windows > 0 then
     -- Close all oil windows
     for _, win in ipairs(oil_windows) do
-      vim.api.nvim_win_close(win, false)
+      pcall(vim.api.nvim_win_close, win, false)
     end
   else
     local bufname = vim.fn.expand('%:t')
