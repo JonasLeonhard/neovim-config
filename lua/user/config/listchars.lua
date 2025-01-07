@@ -9,7 +9,7 @@ local highlightListchars = function()
   local filename = vim.fn.expand('%');
 
   -- skip highlighting for non-files (eg- alpha dashboard.)
-  if (filename == '' or vim.bo.buftype == 'terminal') then
+  if (filename == '' or vim.bo.buftype == 'terminal' or vim.bo.buftype == 'nofile') then
     return
   end
 
