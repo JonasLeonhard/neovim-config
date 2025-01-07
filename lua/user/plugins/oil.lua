@@ -204,6 +204,12 @@ return {
         end,
         desc = "Open file and maximize window",
       },
+      ["g<CR>"] = {
+        callback = function()
+          require("oil").select(nil)
+        end,
+        desc = "Open file",
+      },
       ["<leader>sf"] = {
         search_files,
         mode = "n",
