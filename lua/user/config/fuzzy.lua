@@ -47,20 +47,9 @@ M.fuzzy_search = function(options)
 
   -- Create command and input buffers
   local command_buffer = vim.api.nvim_create_buf(false, true);
-  vim.api.nvim_open_win(
-    command_buffer,
-    true,
-    {
-      relative = 'editor',
-      style = 'minimal',
-      border = 'none',
-      width = vim.o.columns,
-      height = math.floor(vim.o.lines / 4),
-      col = 0,
-      row = vim.o.lines,
-      noautocmd = true,
-    }
-  )
+  vim.cmd('split')
+  local split_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_buf(split_win, command_buffer)
 
   -- Create a terminal job
   local file = vim.fn.tempname()
@@ -71,7 +60,8 @@ M.fuzzy_search = function(options)
   }
 
   vim.api.nvim_cmd({ cmd = 'startinsert' }, { output = false })
-  vim.fn.termopen(shell_command, {
+  vim.fn.jobstart(shell_command, {
+    term = true,
     on_exit = function()
       vim.api.nvim_cmd(
         { cmd = 'bdelete', bang = true },
