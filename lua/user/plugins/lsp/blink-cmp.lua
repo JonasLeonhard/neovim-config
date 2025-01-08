@@ -21,39 +21,15 @@ return {
     completion = {
       documentation = { auto_show = true },
       list = {
-        selection = function(ctx)
-          return ctx.mode == 'cmdline' and 'manual' or 'preselect'
-        end
+        selection = {
+          preselect = function(ctx)
+            return ctx.mode ~= 'cmdline'
+          end
+        }
       }
     },
     signature = {
       enabled = true
     },
-
-
-    sources = {
-      providers = {
-        lsp = {
-          module = 'blink.cmp.sources.lsp',
-          name = 'LSP',
-          score_offset = 999,
-        },
-        buffer = {
-          module = 'blink.cmp.sources.buffer',
-          name = 'Buffer',
-          score_offset = 0
-        },
-        path = {
-          module = 'blink.cmp.sources.path',
-          name = 'Path',
-          score_offset = -3
-        },
-        snippets = {
-          module = 'blink.cmp.sources.snippets',
-          name = 'Snippets',
-          score_offset = -3
-        },
-      },
-    }
   },
 }
