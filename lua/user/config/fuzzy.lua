@@ -47,7 +47,7 @@ M.fuzzy_search = function(options)
 
   -- Create command and input buffers
   local command_buffer = vim.api.nvim_create_buf(false, true);
-  vim.cmd('split')
+  vim.cmd('botright split')
   local split_win = vim.api.nvim_get_current_win()
   vim.api.nvim_win_set_buf(split_win, command_buffer)
 
@@ -244,7 +244,7 @@ vim.keymap.set('n', '<leader>sd', function()
   local callback = function(stdout)
     if stdout and stdout ~= "" then
       local selected_dir = vim.trim(stdout)
-      vim.cmd("split | Oil " .. selected_dir)
+      vim.cmd("botright split | Oil " .. selected_dir)
     end
   end
 

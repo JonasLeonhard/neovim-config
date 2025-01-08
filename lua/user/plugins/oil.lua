@@ -94,7 +94,7 @@ end
 local terminal_dir = function()
   local oil = require("oil")
   local current_dir = oil.get_current_dir()
-  vim.cmd("split | lcd " .. current_dir .. " | terminal")
+  vim.cmd("botright split | lcd " .. current_dir .. " | terminal")
 end
 
 local search_dir = function()
@@ -171,14 +171,14 @@ return {
     {
       '<leader>e',
       function()
-        toggle_oil('split | Oil %:p:h')
+        toggle_oil('botright split | Oil %:p:h')
       end,
       desc = 'Oil'
     },
     {
       '<leader>E',
       function()
-        toggle_oil('split | Oil' .. vim.fn.getcwd())
+        toggle_oil('botright split | Oil' .. vim.fn.getcwd())
       end,
       desc = 'Oil (cwd)'
     },
@@ -252,7 +252,7 @@ return {
           local current_dir = oil.get_current_dir()
           local broil = require("broil")
 
-          toggle_oil('split | Oil %:p:h') -- close all oil windows
+          toggle_oil('botright split | Oil %:p:h') -- close all oil windows
           broil.open(current_dir)
         end
       }
