@@ -22,7 +22,8 @@ local M = {
     "-g !.zig-cache/",
     "-g !zig-out/",
     "-g !yarn.lock",
-    "-g !package.lock"
+    "-g !package.lock",
+    "-g !.cache/"
   },
   default_fuzzy_opts = {
     '-m',
