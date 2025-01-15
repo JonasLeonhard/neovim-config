@@ -33,16 +33,16 @@ local M = {
     "--info='right'",
     "--preview-window 'noborder'",
     "--color=bg+:#1e1e2e,fg+:#cdd6f4,hl:#f9e2af,hl+::#f9e2af"
-  }
+  },
 }
 
 --- @class FuzzySearchOptions
---- @field cmd string command to run in the window, eg: "git ls-file | fzf"
+--- @field cmd string command to run in a seperate split, eg: "git ls-file | fzf".
 --- @field callback function callback(stdout_string) ...do your thing here... end
 
 --- @param options FuzzySearchOptions
 --- @return nil
-M.fuzzy_search = function(options)
+M.run_in_split = function(options)
   -- save some state from before opening
   local open_winid = vim.fn.win_getid()
 
@@ -109,7 +109,7 @@ M.ui_select = function(items, opts, on_choice)
     end
   end
 
-  M.fuzzy_search({ cmd = cmd, callback = callback })
+  M.run_in_split({ cmd = cmd, callback = callback })
 end
 
 -- Set up the ui.select handler
@@ -117,151 +117,201 @@ vim.ui.select = function(items, opts, on_choice)
   M.ui_select(items, opts, on_choice)
 end
 
-
--- Seach all git files
-vim.keymap.set('n', '<leader>f', function()
-  local cmd = "git ls-files | fzf " .. table.concat(M.default_fuzzy_opts, " ");
-  local callback = function(stdout)
-    local selected_files = vim.split(stdout, "\n")
-    local qf_list = {}
-    for _, file in ipairs(selected_files) do
-      if (file ~= "") then
-        table.insert(qf_list, {
-          filename = file,
-          lnum = 1,
-        })
-      end
-    end
-    if #qf_list > 0 then
-      vim.cmd("edit " .. selected_files[1])
-      if (#qf_list > 1) then
-        vim.fn.setqflist(qf_list)
-        vim.cmd("copen")
-      end
-    end
-  end
-
-  M.fuzzy_search({
-    cmd = cmd,
-    callback = callback,
-  })
-end, { desc = "find files (git)", silent = true })
-
---- Search all files
-vim.keymap.set('n', '<leader>sf', function()
-  local cmd = "rg --files " ..
-      table.concat(M.rg_default_opts, " ") .. " . | fzf " .. table.concat(M.default_fuzzy_opts, " ");
-  local callback = function(stdout)
-    local selected_files = vim.split(stdout, "\n")
-    local qf_list = {}
-    for _, file in ipairs(selected_files) do
-      if (file ~= "") then
-        table.insert(qf_list, {
-          filename = file,
-          lnum = 1,
-        })
-      end
-    end
-    if #qf_list > 0 then
-      vim.cmd("edit " .. selected_files[1])
-      if (#qf_list > 1) then
-        vim.fn.setqflist(qf_list)
-        vim.cmd("copen")
-      end
-    end
-  end
-
-  M.fuzzy_search({ cmd = cmd, callback = callback })
-end, { desc = "find files (all)", silent = true })
-
---- Search open buffer list
-vim.keymap.set('n', '<leader>bl', function()
-  local buffers = vim.api.nvim_cmd(
-    { cmd = 'buffers' },
-    { output = true }
-  )
-  local cmd = "echo '" .. buffers .. "' | fzf " .. table.concat(M.default_fuzzy_opts, " ");
-  local callback = function(stdout)
-    vim.api.nvim_cmd(
-      { cmd = 'buffer', args = { stdout:match("%d+") or 1 } },
-      { output = false }
-    )
-  end
-
-  M.fuzzy_search({ cmd = cmd, callback = callback })
-end, { desc = "buffers", silent = true })
-
---- Search via ripgrep
-vim.keymap.set('n', '<leader>sg', function()
-  vim.ui.input({ prompt = "rg " },
-    function(input)
-      if not input then
-        return
-      end
-
-      local cmd =
-          [[rg ]] .. table.concat(M.rg_default_opts, " ") .. " " .. input ..
-          [[ | fzf ]] .. table.concat(M.default_fuzzy_opts, " ") ..
-          [[ --delimiter ':' ]] ..
-          [[--preview 'bat --color=always --highlight-line {2} {1}' ]] ..
-          [[--preview-window '+{2}/2,<80(up)' ]]
-
+M.pickers = {
+  {
+    key = "<leader>f",
+    description = "find files (git)",
+    callback = function()
+      local cmd = "git ls-files | fzf " .. table.concat(M.default_fuzzy_opts, " ")
       local callback = function(stdout)
-        local selected_files = vim.tbl_filter(function(item) return item ~= "" end, vim.split(stdout, "\n"))
-
-        if #selected_files == 1 then
-          -- If we have a single selected file, we just open it.
-          local file_path, line, col = selected_files[1]:match("([^:]+):(%d+):(%d+):")
-          vim.api.nvim_command("edit +" .. line .. " " .. file_path)
-          vim.api.nvim_win_set_cursor(0, { tonumber(line), tonumber(col) - 1 })
-        else
-          -- For Multiple results: add all to quickfix list and open the first one
-          local qf_list = {}
-          for _, file in ipairs(selected_files) do
-            local file_path, line, col, text = file:match("([^:]+):(%d+):(%d+):(.*)")
+        local selected_files = vim.split(stdout, "\n")
+        local qf_list = {}
+        for _, file in ipairs(selected_files) do
+          if (file ~= "") then
             table.insert(qf_list, {
-              filename = file_path,
-              lnum = tonumber(line),
-              col = tonumber(col),
-              text = text
+              filename = file,
+              lnum = 1,
             })
           end
-          vim.fn.setqflist(qf_list)
-          vim.cmd("copen")
-          if #qf_list > 0 then
-            vim.cmd("cfirst")
+        end
+        if #qf_list > 0 then
+          vim.cmd("edit " .. selected_files[1])
+          if (#qf_list > 1) then
+            vim.fn.setqflist(qf_list)
+            vim.cmd("copen")
           end
         end
       end
-      M.fuzzy_search({ cmd = cmd, callback = callback })
-    end)
-end, { desc = "ripgrep", silent = true })
 
---- Search directories
-vim.keymap.set('n', '<leader>sd', function()
-  local cmd = "fd --type d --hidden " ..
-      ". | fzf " .. table.concat(M.default_fuzzy_opts, " ");
+      M.run_in_split({
+        cmd = cmd,
+        callback = callback,
+      })
+    end
+  },
+  {
+    key = "<leader>sf",
+    description = "find files (all)",
+    callback = function()
+      local cmd = "rg --files " ..
+          table.concat(M.rg_default_opts, " ") .. " . | fzf " .. table.concat(M.default_fuzzy_opts, " ")
+      local callback = function(stdout)
+        local selected_files = vim.split(stdout, "\n")
+        local qf_list = {}
+        for _, file in ipairs(selected_files) do
+          if (file ~= "") then
+            table.insert(qf_list, {
+              filename = file,
+              lnum = 1,
+            })
+          end
+        end
+        if #qf_list > 0 then
+          vim.cmd("edit " .. selected_files[1])
+          if (#qf_list > 1) then
+            vim.fn.setqflist(qf_list)
+            vim.cmd("copen")
+          end
+        end
+      end
 
-  local callback = function(stdout)
-    if stdout and stdout ~= "" then
-      local selected_dir = vim.trim(stdout)
-      vim.cmd("botright split | Oil " .. selected_dir)
+      M.run_in_split({ cmd = cmd, callback = callback })
+    end
+  },
+  {
+    key = "<leader>bl",
+    description = "buffers",
+    callback = function()
+      local buffers = vim.api.nvim_cmd(
+        { cmd = 'buffers' },
+        { output = true }
+      )
+      local cmd = "echo '" .. buffers .. "' | fzf " .. table.concat(M.default_fuzzy_opts, " ")
+      local callback = function(stdout)
+        vim.api.nvim_cmd(
+          { cmd = 'buffer', args = { stdout:match("%d+") or 1 } },
+          { output = false }
+        )
+      end
+
+      M.run_in_split({ cmd = cmd, callback = callback })
+    end
+  },
+  {
+    key = "<leader>sg",
+    description = "ripgrep",
+    callback = function()
+      vim.ui.input({ prompt = "rg " },
+        function(input)
+          if not input then
+            return
+          end
+
+          local cmd =
+              [[rg ]] .. table.concat(M.rg_default_opts, " ") .. " " .. input ..
+              [[ | fzf ]] .. table.concat(M.default_fuzzy_opts, " ") ..
+              [[ --delimiter ':' ]] ..
+              [[--preview 'bat --color=always --highlight-line {2} {1}' ]] ..
+              [[--preview-window '+{2}/2,<80(up)' ]]
+
+          local callback = function(stdout)
+            local selected_files = vim.tbl_filter(function(item) return item ~= "" end, vim.split(stdout, "\n"))
+
+            if #selected_files == 1 then
+              local file_path, line, col = selected_files[1]:match("([^:]+):(%d+):(%d+):")
+              vim.api.nvim_command("edit +" .. line .. " " .. file_path)
+              vim.api.nvim_win_set_cursor(0, { tonumber(line), tonumber(col) - 1 })
+            else
+              local qf_list = {}
+              for _, file in ipairs(selected_files) do
+                local file_path, line, col, text = file:match("([^:]+):(%d+):(%d+):(.*)")
+                table.insert(qf_list, {
+                  filename = file_path,
+                  lnum = tonumber(line),
+                  col = tonumber(col),
+                  text = text
+                })
+              end
+              vim.fn.setqflist(qf_list)
+              vim.cmd("copen")
+              if #qf_list > 0 then
+                vim.cmd("cfirst")
+              end
+            end
+          end
+          M.run_in_split({ cmd = cmd, callback = callback })
+        end)
+    end
+  },
+  {
+    key = "<leader>sd",
+    description = "find directories",
+    callback = function()
+      local cmd = "fd --type d --hidden " ..
+          ". | fzf " .. table.concat(M.default_fuzzy_opts, " ")
+
+      local callback = function(stdout)
+        if stdout and stdout ~= "" then
+          local selected_dir = vim.trim(stdout)
+          vim.cmd("botright split | Oil " .. selected_dir)
+        end
+      end
+
+      M.run_in_split({ cmd = cmd, callback = callback })
+    end
+  },
+  {
+    key = "<leader>sr",
+    description = "oldfiles",
+    callback = function()
+      local cmd = "echo '" .. table.concat(vim.v.oldfiles, "\n") .. "' | fzf " .. table.concat(M.default_fuzzy_opts, " ")
+      local callback = function(stdout)
+        vim.api.nvim_cmd(
+          { cmd = 'edit', args = { stdout:match("^%s*(.-)%s*$") } },
+          { output = false }
+        )
+      end
+
+      M.run_in_split({ cmd = cmd, callback = callback })
+    end
+  },
+}
+
+-- Function to set up all picker keybindings
+M.setup_pickers = function()
+  -- keybinds
+  for _, picker in ipairs(M.pickers) do
+    if picker.key then
+      vim.keymap.set('n', picker.key, picker.callback, {
+        desc = picker.description,
+        silent = true
+      })
     end
   end
 
-  M.fuzzy_search({ cmd = cmd, callback = callback })
-end, { desc = "find directories", silent = true })
+  -- A selector for each picker
+  vim.keymap.set('n', '<leader>sp', function()
+    -- Extract just the descriptions for the picker list
+    local descriptions = vim.tbl_map(function(picker)
+      return picker.description
+    end, M.pickers)
 
---- Search through oldfiles list
-vim.keymap.set('n', '<leader>sr', function()
-  local cmd = "echo '" .. table.concat(vim.v.oldfiles, "\n") .. "' | fzf " .. table.concat(M.default_fuzzy_opts, " ");
-  local callback = function(stdout)
-    vim.api.nvim_cmd(
-      { cmd = 'edit', args = { stdout:match("^%s*(.-)%s*$") } }, -- trim whitespace
-      { output = false }
-    )
-  end
+    vim.ui.select(descriptions, {
+      prompt = "Select picker: "
+    }, function(choice)
+      if choice then
+        -- Find and execute the chosen picker's callback
+        for _, picker in ipairs(M.pickers) do
+          if picker.description == choice then
+            picker.callback()
+            break
+          end
+        end
+      end
+    end)
+  end, { desc = "select picker", silent = true })
+end
 
-  M.fuzzy_search({ cmd = cmd, callback = callback })
-end, { desc = "oldfiles", silent = true })
+M.setup_pickers()
+
 return M

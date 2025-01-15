@@ -30,7 +30,7 @@ local search_files = function()
     end
   end
 
-  M.fuzzy_search({ cmd = cmd, callback = callback })
+  M.run_in_split({ cmd = cmd, callback = callback })
 end
 
 local search_grep = function()
@@ -87,7 +87,7 @@ local search_grep = function()
           end
         end
       end
-      M.fuzzy_search({ cmd = cmd, callback = callback })
+      M.run_in_split({ cmd = cmd, callback = callback })
     end)
 end
 
@@ -119,7 +119,7 @@ local search_dir = function()
     end
   end
 
-  M.fuzzy_search({ cmd = cmd, callback = callback })
+  M.run_in_split({ cmd = cmd, callback = callback })
 end
 
 local toggle_oil = function(cmd)
