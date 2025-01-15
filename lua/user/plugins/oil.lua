@@ -4,7 +4,8 @@ local search_files = function()
   local current_dir = oil.get_current_dir()
 
   local cmd = "cd " .. current_dir .. "; rg --files " ..
-      table.concat(M.rg_default_opts, " ") .. " . | fzf " .. table.concat(M.default_fuzzy_opts, " ");
+      table.concat(M.rg_default_opts, " ") ..
+      " . | fzf " .. table.concat(M.fzf_default_opts, " ") .. " --preview='bat --color=always {}'";
 
   local callback = function(stdout)
     local selected_files = vim.split(stdout, "\n")
@@ -47,7 +48,7 @@ local search_grep = function()
       local cmd =
           [[cd ]] .. current_dir .. "; " ..
           [[rg ]] .. table.concat(M.rg_default_opts, " ") .. " " .. input ..
-          [[ | fzf ]] .. table.concat(M.default_fuzzy_opts, " ") ..
+          [[ | fzf ]] .. table.concat(M.fzf_default_opts, " ") ..
           [[ --delimiter ':' ]] ..
           [[--preview 'bat --color=always --highlight-line {2} {1}' ]] ..
           [[--preview-window '+{2}/2,<80(up)' ]]
@@ -106,7 +107,8 @@ local search_dir = function()
       or "find . -type d -not -path '*/.git/*'"
 
   local cmd = "cd " ..
-      oil.get_current_dir() .. "; " .. find_cmd .. " | fzf " .. table.concat(M.default_fuzzy_opts, " ");
+      oil.get_current_dir() ..
+      "; " .. find_cmd .. " | fzf " .. table.concat(M.fzf_default_opts, " ") .. " --preview='tree {}'";
 
   local callback = function(stdout)
     if stdout and stdout ~= "" then

@@ -1,5 +1,7 @@
 local M = {
-  rg_default_opts    = {
+  -- some options that help with creating pickers. They get used in pickers later:
+  -- table.conact(M.rg_default_opts)
+  rg_default_opts  = {
     "--column",
     "--line-number",
     "--no-heading",
@@ -25,22 +27,26 @@ local M = {
     "-g !package.lock",
     "-g !.cache/"
   },
-  default_fuzzy_opts = {
+  -- local cmd = "git ls-files | fzf " .. table.concat(M.fzf_default_opts, " ")
+  fzf_default_opts = {
     '-m',
     "--pointer=''",
     "--prompt ''",
     "--separator=''",
     "--info='right'",
     "--preview-window 'noborder'",
-    "--color=bg+:#1e1e2e,fg+:#cdd6f4,hl:#f9e2af,hl+::#f9e2af"
+    "--color=bg+:#1e1e2e,fg+:#cdd6f4,hl:#f9e2af,hl+::#f9e2af",
+    "--bind ctrl-u:page-up,ctrl-d:page-down,ctrl-b:preview-page-up,ctrl-f:preview-page-down"
   },
 }
 
---- @class FuzzySearchOptions
+--- Run a command in a split, returning the stdout_string in the options.callback function.
+--- Usage: run_in_split({ cmd = 'git ls-file | fzf', callback = function(stdout_string) -- do something with the ls-file data here -- end})
+--- @class RunOptions
 --- @field cmd string command to run in a seperate split, eg: "git ls-file | fzf".
 --- @field callback function callback(stdout_string) ...do your thing here... end
 
---- @param options FuzzySearchOptions
+--- @param options RunOptions
 --- @return nil
 M.run_in_split = function(options)
   -- save some state from before opening
@@ -87,6 +93,7 @@ M.run_in_split = function(options)
   })
 end
 
+-- pipe the select items to fzf and run_in_split ---------------------------------------------------
 M.ui_select = function(items, opts, on_choice)
   local item_map = {}
   local item_strings = vim.tbl_map(function(item)
@@ -96,7 +103,7 @@ M.ui_select = function(items, opts, on_choice)
   end, items)
 
   local cmd = "echo '" .. table.concat(item_strings, "\n") .. "' | fzf " ..
-      table.concat(M.default_fuzzy_opts, " ") ..
+      table.concat(M.fzf_default_opts, " ") ..
       (opts.prompt and (" --prompt '" .. opts.prompt .. " '") or "")
 
   local callback = function(stdout)
@@ -112,17 +119,23 @@ M.ui_select = function(items, opts, on_choice)
   M.run_in_split({ cmd = cmd, callback = callback })
 end
 
--- Set up the ui.select handler
+-- Use our fzf version of vim.ui.select ---------------------------------------------------------
 vim.ui.select = function(items, opts, on_choice)
   M.ui_select(items, opts, on_choice)
 end
 
+-- we iterate over these pickers later, and setup their key keybind -----------------------------
+-- 1. get the data with cmd
+-- 2. Act on the data in callback
 M.pickers = {
   {
     key = "<leader>f",
     description = "find files (git)",
     callback = function()
-      local cmd = "git ls-files | fzf " .. table.concat(M.default_fuzzy_opts, " ")
+      local cmd = [[git ls-files | fzf ]] ..
+          table.concat(M.fzf_default_opts, " ") ..
+          [[ --preview 'bat --color=always {}']]
+
       local callback = function(stdout)
         local selected_files = vim.split(stdout, "\n")
         local qf_list = {}
@@ -153,8 +166,9 @@ M.pickers = {
     key = "<leader>sf",
     description = "find files (all)",
     callback = function()
-      local cmd = "rg --files " ..
-          table.concat(M.rg_default_opts, " ") .. " . | fzf " .. table.concat(M.default_fuzzy_opts, " ")
+      local cmd = [[rg --files ]] ..
+          table.concat(M.rg_default_opts, " ") .. [[ . | fzf ]] .. table.concat(M.fzf_default_opts, " ") ..
+          [[ --preview 'bat --color=always {}']]
       local callback = function(stdout)
         local selected_files = vim.split(stdout, "\n")
         local qf_list = {}
@@ -186,7 +200,7 @@ M.pickers = {
         { cmd = 'buffers' },
         { output = true }
       )
-      local cmd = "echo '" .. buffers .. "' | fzf " .. table.concat(M.default_fuzzy_opts, " ")
+      local cmd = "echo '" .. buffers .. "' | fzf " .. table.concat(M.fzf_default_opts, " ")
       local callback = function(stdout)
         vim.api.nvim_cmd(
           { cmd = 'buffer', args = { stdout:match("%d+") or 1 } },
@@ -209,7 +223,7 @@ M.pickers = {
 
           local cmd =
               [[rg ]] .. table.concat(M.rg_default_opts, " ") .. " " .. input ..
-              [[ | fzf ]] .. table.concat(M.default_fuzzy_opts, " ") ..
+              [[ | fzf ]] .. table.concat(M.fzf_default_opts, " ") ..
               [[ --delimiter ':' ]] ..
               [[--preview 'bat --color=always --highlight-line {2} {1}' ]] ..
               [[--preview-window '+{2}/2,<80(up)' ]]
@@ -247,8 +261,10 @@ M.pickers = {
     key = "<leader>sd",
     description = "find directories",
     callback = function()
-      local cmd = "fd --type d --hidden " ..
-          ". | fzf " .. table.concat(M.default_fuzzy_opts, " ")
+      local cmd = [[fd --type d --hidden ]] ..
+          [[. | fzf ]] ..
+          table.concat(M.fzf_default_opts, " ") ..
+          [[ --preview='tree -C {}']]
 
       local callback = function(stdout)
         if stdout and stdout ~= "" then
@@ -264,7 +280,7 @@ M.pickers = {
     key = "<leader>sr",
     description = "oldfiles",
     callback = function()
-      local cmd = "echo '" .. table.concat(vim.v.oldfiles, "\n") .. "' | fzf " .. table.concat(M.default_fuzzy_opts, " ")
+      local cmd = "echo '" .. table.concat(vim.v.oldfiles, "\n") .. "' | fzf " .. table.concat(M.fzf_default_opts, " ")
       local callback = function(stdout)
         vim.api.nvim_cmd(
           { cmd = 'edit', args = { stdout:match("^%s*(.-)%s*$") } },
@@ -277,41 +293,36 @@ M.pickers = {
   },
 }
 
--- Function to set up all picker keybindings
-M.setup_pickers = function()
-  -- keybinds
-  for _, picker in ipairs(M.pickers) do
-    if picker.key then
-      vim.keymap.set('n', picker.key, picker.callback, {
-        desc = picker.description,
-        silent = true
-      })
-    end
+-- Setup Pickers -----------------------------------
+
+-- create a keybind for M.pickers picker
+for _, picker in ipairs(M.pickers) do
+  if picker.key then
+    vim.keymap.set('n', picker.key, picker.callback, {
+      desc = picker.description,
+      silent = true
+    })
   end
-
-  -- A selector for each picker
-  vim.keymap.set('n', '<leader>sp', function()
-    -- Extract just the descriptions for the picker list
-    local descriptions = vim.tbl_map(function(picker)
-      return picker.description
-    end, M.pickers)
-
-    vim.ui.select(descriptions, {
-      prompt = "Select picker: "
-    }, function(choice)
-      if choice then
-        -- Find and execute the chosen picker's callback
-        for _, picker in ipairs(M.pickers) do
-          if picker.description == choice then
-            picker.callback()
-            break
-          end
-        end
-      end
-    end)
-  end, { desc = "select picker", silent = true })
 end
 
-M.setup_pickers()
+-- This creates a picker for all existing M.pickers
+vim.keymap.set('n', '<leader>sp', function()
+  local descriptions = vim.tbl_map(function(picker)
+    return picker.description
+  end, M.pickers)
+
+  vim.ui.select(descriptions, {
+    prompt = "Select picker: "
+  }, function(choice)
+    if choice then
+      for _, picker in ipairs(M.pickers) do
+        if picker.description == choice then
+          picker.callback()
+          break
+        end
+      end
+    end
+  end)
+end, { desc = "select picker", silent = true })
 
 return M
