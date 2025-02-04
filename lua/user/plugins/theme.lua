@@ -38,6 +38,7 @@ return {
           TelescopeResultsBorder = { fg = colors.crust },
           TelescopePreviewTitle = { fg = colors.crust },
           TelescopeResultsTitle = { fg = colors.crust },
+          CursorLine = { bg = '#252538' },
           StatusLineNormal = {
             fg = colors.overlay0,
           },
