@@ -9,6 +9,9 @@ return {
       item = { '', ' ' },
       hunk = { '', '' },
     },
+    commit_editor = {
+      show_staged_diff = false, -- INFO: Disabled because this freezes neogit for very large commits
+    }
   },
   lazy = true,
   keys = {
