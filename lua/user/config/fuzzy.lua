@@ -54,7 +54,7 @@ M.run_in_split = function(options)
 
   -- Create command and input buffers
   local command_buffer = vim.api.nvim_create_buf(false, true);
-  vim.cmd('botright split')
+  M.smart_split()
   local split_win = vim.api.nvim_get_current_win()
   vim.api.nvim_win_set_buf(split_win, command_buffer)
 
@@ -92,6 +92,34 @@ M.run_in_split = function(options)
     end,
   })
 end
+
+-- This will create a horizontal split, unless we are in a floating window. Then it creates a floating window with the same size as a normal horizontal split.
+-- Why do we need this?
+-- Opening a botright split in neogit's logPopup floating window for "limit to files" will cause z-index issues, where the logPopup will be above the fuzzy finder.
+M.smart_split = function()
+  local win_config = vim.api.nvim_win_get_config(0)
+
+  if win_config.relative ~= '' then
+    -- we are in a floating window, we want to avoid z-index issues with a split below it
+    -- so we open a floating window above, that is the same height as a normal botright split
+    local height = math.floor(vim.o.lines * 0.5)
+
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_open_win(buf, true, {
+      relative = 'editor',
+      width = vim.o.columns,
+      height = height,
+      row = vim.o.lines - height - 2,
+      col = 0,
+      style = 'minimal',
+      border = nil
+    })
+  else
+    -- We're in a normal window, do a regular split
+    vim.cmd('botright split')
+  end
+end
+
 
 -- pipe the select items to fzf and run_in_split ---------------------------------------------------
 M.ui_select = function(items, opts, on_choice)
