@@ -11,10 +11,6 @@ return {
           enabled = true,
           enable_ui = true,
         },
-        dropbar = {
-          enabled = true,
-          color_mode = false,
-        },
         treesitter = true,
         treesitter_context = true,
         which_key = true,
