@@ -15,6 +15,11 @@ return {
       end)
     end
 
+    local mason_registry = require('mason-registry')
+    local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() ..
+        '/node_modules/@vue/language-server'
+
+
     -- INFO: Installation Instruction for lsp's can be found here:
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     setup_lsp(lspconfig.rust_analyzer, {
@@ -96,32 +101,8 @@ return {
         plugins = {
           {
             name = '@vue/typescript-plugin',
-            location = os.getenv('HOME') .. '/.config/yarn/global/node_modules/@vue/typescript-plugin',
-            languages = { 'javascript', 'typescript', 'vue' },
-          },
-        },
-      },
-      settings = {
-        javascript = {
-          inlayHints = {
-            includeInlayEnumMemberValueHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayParameterNameHints = 'all',
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayVariableTypeHints = true,
-          },
-        },
-        typescript = {
-          inlayHints = {
-            includeInlayEnumMemberValueHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayParameterNameHints = 'all',
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayVariableTypeHints = true,
+            location = vue_language_server_path,
+            languages = { 'vue' },
           },
         },
       },
