@@ -1,6 +1,3 @@
--- neovim 0.9 expirimental loader to speed up startup time
-vim.loader.enable()
-
 -- Install global configuration
 require 'user.config'
 
