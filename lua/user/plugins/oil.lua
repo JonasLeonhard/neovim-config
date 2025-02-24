@@ -124,7 +124,7 @@ local search_dir = function()
   M.run_in_split({ cmd = cmd, callback = callback })
 end
 
-local toggle_oil = function(cmd)
+local toggle_oil = function(dir)
   -- Check if any oil buffers are open
   local oil_windows = {}
   for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -143,23 +143,18 @@ local toggle_oil = function(cmd)
   else
     local bufname = vim.fn.expand('%:t')
 
-    if (bufname ~= '') then
-      -- Open new oil window
-      vim.cmd(cmd)
+    local oil = require('oil');
+    vim.cmd("belowright split");
+    oil.open(dir, nil, function()
+      -- Get the current window
+      local win = vim.api.nvim_get_current_win()
+      local buf = vim.api.nvim_win_get_buf(win)
 
-      vim.defer_fn(function()
-        -- Get the current window
-        local win = vim.api.nvim_get_current_win()
-        local buf = vim.api.nvim_win_get_buf(win)
-
-        -- Only search if we're in an oil buffer
-        if vim.bo[buf].filetype == "oil" then
-          pcall(vim.cmd, '/' .. bufname .. '$') -- dont throw an error if we cant find the bufname
-        end
-      end, 50)
-    else
-      vim.cmd(cmd)
-    end
+      -- Only search if we're in an oil buffer
+      if vim.bo[buf].filetype == "oil" then
+        pcall(vim.cmd, '/' .. bufname .. '$') -- dont throw an error if we cant find the bufname
+      end
+    end)
   end
 end
 
@@ -173,14 +168,14 @@ return {
     {
       '<leader>e',
       function()
-        toggle_oil('botright split | Oil %:p:h')
+        toggle_oil(vim.fn.expand('%:p:h'))
       end,
       desc = 'Oil'
     },
     {
       '<leader>E',
       function()
-        toggle_oil('botright split | Oil' .. vim.fn.getcwd())
+        toggle_oil(vim.fn.getcwd())
       end,
       desc = 'Oil (cwd)'
     },
