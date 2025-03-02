@@ -28,12 +28,6 @@ return {
       },
       custom_highlights = function(colors)
         return {
-          CmpCompletionWindowBorder = { bg = colors.mantle },
-          TelescopePreviewBorder = { fg = colors.crust },
-          TelescopePromptBorder = { fg = colors.crust },
-          TelescopeResultsBorder = { fg = colors.crust },
-          TelescopePreviewTitle = { fg = colors.crust },
-          TelescopeResultsTitle = { fg = colors.crust },
           CursorLine = { bg = '#252538' },
           StatusLineNormal = {
             fg = colors.overlay0,
@@ -56,9 +50,6 @@ return {
           StatuslineVisualAccent = {
             fg = colors.flamingo,
           },
-          StatusLineGit = {
-            fg = colors.blue,
-          },
           StatuslineTerminalAccent = {
             fg = colors.green,
           },
@@ -74,7 +65,6 @@ return {
           LspDiagnosticsSignInformation = {
             fg = colors.blue,
           },
-          MiniIndentscopeSymbol = { link = 'Comment' },
           Pmenu = { bg = colors.mantle, fg = colors.text },
           PmenuSel = { bg = colors.surface0, fg = colors.text },
           PmenuSbar = { bg = colors.mantle },
