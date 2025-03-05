@@ -36,7 +36,7 @@ dap.configurations.php = {
     },
   },
   {
-    name = 'Debug with Xdebug (remote with server->local pathMappings [/<input> <--> ${workspaceFolder}/<input>)]',
+    name = 'Debug with Xdebug (remote with server->local pathMappings',
     type = 'php',
     request = 'launch',
     port = function()
@@ -48,8 +48,9 @@ dap.configurations.php = {
     end,
     -- server -> local mappings
     pathMappings = function()
-      local path = vim.fn.input 'Path: '
-      return { ['/' .. path] = '${workspaceFolder}/' .. path }
+      local path = vim.fn.input 'Path (server): <yourinput>: '
+      local pathLocal = vim.fn.input 'Path (local): ${workspaceFolder}<yourinput>: '
+      return { [path] = '${workspaceFolder}' .. pathLocal }
     end,
   },
   {
