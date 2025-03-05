@@ -1,7 +1,6 @@
 return {
   'NeogitOrg/neogit',
   cmd = 'Neogit',
-  event = "VeryLazy",
   dependencies = 'nvim-lua/plenary.nvim',
   opts = {
     commit_editor = {
