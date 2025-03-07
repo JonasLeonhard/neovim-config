@@ -23,17 +23,23 @@ return {
     -- INFO: Installation Instruction for lsp's can be found here:
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     setup_lsp(lspconfig.rust_analyzer, {
-      {
-        capabilities = capabilities,
-        filetypes = { "rust" },
-        settings = {
-          ['rust-analyzer'] = {
-            cargo = { allFeatures = true },
-            checkOnSave = {
-              command = 'clippy',
-            },
+      capabilities = capabilities,
+      filetypes = { "rust" },
+      settings = {
+        ['rust-analyzer'] = {
+          diagnostics = {
+            enable = true,
           },
-        },
+          checkOnSave = true,
+          check = {
+            enable = true,
+            command = 'clippy',
+            features = 'all',
+          },
+          procMacro = {
+            enable = true,
+          },
+        }
       }
     })
 
