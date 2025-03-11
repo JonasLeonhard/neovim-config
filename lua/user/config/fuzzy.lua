@@ -116,7 +116,7 @@ M.smart_split = function()
     })
   else
     -- We're in a normal window, do a regular split
-    vim.cmd('botright split')
+    vim.cmd('botright 30split')
   end
 end
 

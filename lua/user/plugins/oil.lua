@@ -144,7 +144,7 @@ local toggle_oil = function(dir)
     local bufname = vim.fn.expand('%:t')
 
     local oil = require('oil');
-    vim.cmd("belowright split");
+    vim.cmd("botright 30split");
     oil.open(dir, nil, function()
       -- Get the current window
       local win = vim.api.nvim_get_current_win()
