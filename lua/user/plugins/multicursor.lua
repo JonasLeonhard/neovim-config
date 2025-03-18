@@ -6,9 +6,30 @@ return {
     {
       '<leader>vn',
       function()
-        require('multicursor-nvim').addCursor '*'
+        require('multicursor-nvim').matchAddCursor(1)
       end,
       desc = 'Add a cursor and jump to the next word under cursor',
+    },
+    {
+      '<leader>vN',
+      function()
+        require('multicursor-nvim').matchAddCursor(-1)
+      end,
+      desc = 'Add a cursor and jump to the prev word under cursor',
+    },
+    {
+      '<leader>vs',
+      function()
+        require('multicursor-nvim').matchSkipCursor(1)
+      end,
+      desc = 'Skip a cursor and jump to the next word under cursor',
+    },
+    {
+      '<leader>vS',
+      function()
+        require('multicursor-nvim').matchSkipCursor(-1)
+      end,
+      desc = 'Skip a cursor and jump to the prev word under cursor',
     },
     {
       '<leader>vk',
