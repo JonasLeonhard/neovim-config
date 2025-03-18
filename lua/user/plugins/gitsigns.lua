@@ -53,6 +53,13 @@ return {
       desc = 'Blame line',
     },
     {
+      '<leader>gB',
+      function()
+        require('gitsigns').blame();
+      end,
+      desc = 'Blame Menu',
+    },
+    {
       '<leader>ugd',
       function()
         require('gitsigns').toggle_deleted()
