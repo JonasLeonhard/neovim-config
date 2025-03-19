@@ -95,24 +95,24 @@ return {
       filetypes = { "php" }
     })
 
-    setup_lsp(lspconfig.ts_ls, {
-      capabilities = capabilities,
-      filetypes = {
-        'javascript',
-        'typescript',
-        'vue',
-        'javascriptreact',
-      },
-      init_options = {
-        plugins = {
-          {
-            name = '@vue/typescript-plugin',
-            location = vue_language_server_path,
-            languages = { 'vue' },
-          },
-        },
-      },
-    })
+    -- setup_lsp(lspconfig.ts_ls, {
+    --   capabilities = capabilities,
+    --   filetypes = {
+    --     'javascript',
+    --     'typescript',
+    --     'vue',
+    --     'javascriptreact',
+    --   },
+    --   init_options = {
+    --     plugins = {
+    --       {
+    --         name = '@vue/typescript-plugin',
+    --         location = vue_language_server_path,
+    --         languages = { 'vue' },
+    --       },
+    --     },
+    --   },
+    -- })
 
     setup_lsp(lspconfig.denols, {
       capabilities = capabilities
