@@ -114,6 +114,10 @@ return {
       },
     })
 
+    setup_lsp(lspconfig.denols, {
+      capabilities = capabilities
+    })
+
     setup_lsp(lspconfig.eslint, {
       capabilities = capabilities,
       filetypes = {
