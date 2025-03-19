@@ -37,7 +37,7 @@ return {
       typescript = { 'prettierd', 'prettier', stop_after_first = true },
       typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       vue = { 'prettierd', 'prettier', stop_after_first = true },
-      yaml = { 'deno_fmt', 'prettierd', 'prettier', stop_after_first = true },
+      yaml = { 'prettierd', 'prettier', stop_after_first = true },
       twig = { 'djlint' },
       astro = { 'prettierd', 'prettier', stop_after_first = true },
     },

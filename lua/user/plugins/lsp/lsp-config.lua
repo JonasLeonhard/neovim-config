@@ -102,6 +102,7 @@ return {
         'typescript',
         'vue',
         'javascriptreact',
+        'typescriptreact',
       },
       init_options = {
         plugins = {
@@ -125,6 +126,7 @@ return {
         'typescript',
         'vue',
         'javascriptreact',
+        'typescriptreact',
       },
     })
 
