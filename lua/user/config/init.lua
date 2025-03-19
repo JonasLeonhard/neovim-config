@@ -75,7 +75,7 @@ vim.filetype.add({
 -- Diagnostic's:
 vim.diagnostic.config {
   float = {
-    source = 'if_many',
+    source = true,
   },
   severity_sort = true,
   signs = {
