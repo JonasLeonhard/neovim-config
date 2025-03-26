@@ -1,5 +1,5 @@
 local search_files = function()
-  local M = require("user.config.fuzzy");
+  local M = require("fuzzy");
   local oil = require("oil");
   local current_dir = oil.get_current_dir()
 
@@ -35,7 +35,7 @@ local search_files = function()
 end
 
 local search_grep = function()
-  local M = require("user.config.fuzzy");
+  local M = require("fuzzy");
   local oil = require("oil");
 
   vim.ui.input({ prompt = "rg (Oil) " },
@@ -99,7 +99,7 @@ local terminal_dir = function()
 end
 
 local search_dir = function()
-  local M = require("user.config.fuzzy");
+  local M = require("fuzzy");
   local oil = require("oil");
   -- Use fd to find only directories, or fall back to find if fd isn't available
   local find_cmd = vim.fn.executable("fd") == 1

@@ -14,10 +14,8 @@ Feel free to base your own config off, or to create a fork from.
 
 # How do i get started?
 
-Read my <a href="https://jonasleonhard.de/posts/neovim/" target="_blank">Neovim, from zero to hero</a> blogpost, where
-i teach you how you could write your own config like this from scratch. It alse teaches some more basics & advanced neovim features.
-
-Thereafter, clone this repository into your neovim configuration folder. Make sure to backup your old config first!
+This config is mainly for my personal use! If you still want to use it:
+Clone this repository into your neovim configuration folder. Make sure to backup your old config first!
 
 ```bash
 git clone https://github.com/JonasLeonhard/neovim-config ~/.config/nvim
@@ -28,7 +26,7 @@ git clone https://github.com/JonasLeonhard/neovim-config ~/.config/nvim
 : How to learn neovim?
 - Read my Blog post: <a href="https://jonasleonhard.de/posts/neovim/" target="_blank">Neovim, from zero to hero</a>
 
-: Where can i find more awsome neovim plugins?
+: Where can i find more awesome neovim plugins?
 - Checkout <a href="https://github.com/rockerBOO/awesome-neovim/tree/main">Awesome Neovim</a>
 
 # Licence:

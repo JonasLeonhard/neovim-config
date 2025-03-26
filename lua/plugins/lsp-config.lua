@@ -125,6 +125,7 @@ return {
         'javascript',
         'typescript',
         'vue',
+        'svelte',
         'javascriptreact',
         'typescriptreact',
       },

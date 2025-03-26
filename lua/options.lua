@@ -175,7 +175,3 @@ function _Set_terminal_keymaps()
 end
 
 vim.cmd 'autocmd! TermOpen term://* lua _Set_terminal_keymaps()'
-
-require 'user.config.listchars'
-require 'user.config.nushell'
-require 'user.config.fuzzy'
