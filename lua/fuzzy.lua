@@ -93,27 +93,31 @@ M.run_in_split = function(options)
   })
 end
 
--- This will create a horizontal split, unless we are in a floating window. Then it creates a floating window with the same size as a normal horizontal split.
+-- This will create a horizontal split, unless we are in a floating window. Then it creates a tab instead.
 -- Why do we need this?
 -- Opening a botright split in neogit's logPopup floating window for "limit to files" will cause z-index issues, where the logPopup will be above the fuzzy finder.
+-- Opening a split in nvim dap causes other splits to resize. Which is most likely not what we want
 M.smart_split = function()
+  local open_as_tab = false
+
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local win_buffer = vim.api.nvim_win_get_buf(win);
+    local name = vim.api.nvim_buf_get_name(win_buffer)
+
+    -- Look for dapui buffers which typically have names like "DAP Scopes" or contain "dapui_"
+    if name:find("DAP") then
+      open_as_tab = true
+      break
+    end
+  end
+
   local win_config = vim.api.nvim_win_get_config(0)
+  if (win_config.relative ~= '') then
+    open_as_tab = true
+  end
 
-  if win_config.relative ~= '' then
-    -- we are in a floating window, we want to avoid z-index issues with a split below it
-    -- so we open a floating window above, that is the same height as a normal botright split
-    local height = math.floor(vim.o.lines * 0.5)
-
-    local buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_open_win(buf, true, {
-      relative = 'editor',
-      width = vim.o.columns,
-      height = height,
-      row = vim.o.lines - height - 2,
-      col = 0,
-      style = 'minimal',
-      border = nil
-    })
+  if open_as_tab then
+    vim.cmd('tabnew')
   else
     -- We're in a normal window, do a regular split
     vim.cmd('botright 30split')

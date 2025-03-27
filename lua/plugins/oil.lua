@@ -144,7 +144,9 @@ local toggle_oil = function(dir)
     local bufname = vim.fn.expand('%:t')
 
     local oil = require('oil');
-    vim.cmd("botright 30split");
+    local M = require("fuzzy");
+    M.smart_split()
+
     oil.open(dir, nil, function()
       -- Get the current window
       local win = vim.api.nvim_get_current_win()
@@ -195,6 +197,7 @@ return {
             -- maximize the selected buffer if we're not in an oil buffer anymore
             -- (meaning we opened a file rather than entered a directory)
             if vim.bo.filetype ~= "oil" then
+              vim.cmd("tabonly")
               vim.cmd("only")
             end
           end)
