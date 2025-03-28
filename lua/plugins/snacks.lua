@@ -2,67 +2,136 @@ return {
   "folke/snacks.nvim",
   lazy = true,
   event = "VeryLazy",
-  opts = {
-    picker = {
-      prompt = "",
-      ui_select = true,
-      auto_close = false,
-      layout = { preset = "ivy" },
-      layouts = {
-        ivy = {
-          reverse = true,
-          layout = {
-            box = "vertical",
-            backdrop = false,
-            row = -1,
-            width = 0,
-            height = 0.4,
-            border = "none",
-            title = " {title} {live} {flags}",
-            title_pos = "left",
-            {
-              box = "horizontal",
-              { win = "list",    border = "none" },
-              { win = "preview", title = "{preview}", width = 0.4, border = "none" },
+  opts = function()
+    local multiSendToQfConfirm = function(picker, item, action)
+      local selected = picker:selected()
+      if #selected > 1 then
+        Snacks.picker.actions.qflist(picker)
+        picker:close()
+      else
+        Snacks.picker.actions.jump(picker, item, action)
+      end
+    end
+
+    return {
+      picker = {
+        prompt = "",
+        ui_select = true,
+        auto_close = false,
+        layout = { preset = "ivy" },
+        layouts = {
+          ivy = {
+            reverse = true,
+            layout = {
+              box = "vertical",
+              backdrop = false,
+              row = -1,
+              width = 0,
+              height = 0.4,
+              border = "none",
+              title = " {title} {live} {flags}",
+              title_pos = "left",
+              {
+                box = "horizontal",
+                { win = "list",    border = "none" },
+                { win = "preview", title = "{preview}", width = 0.4, border = "none" },
+              },
+              { win = "input", height = 1, border = "none" },
             },
-            { win = "input", height = 1, border = "none" },
+          }
+        },
+        sources = {
+          select = {
+            layout = { preset = "ivy" }, -- This ensures ui_select uses your ivy layout
           },
-        }
-      },
-      sources = {
-        select = {
-          layout = { preset = "ivy" }, -- This ensures ui_select uses your ivy layout
-        }
-      },
-      win = {
-        -- input window
-        input = {
-          keys = {
-            ["∂"] = { "inspect", mode = { "n", "i" }, desc = false, }, -- alt-d
-            ["ƒ"] = { "toggle_follow", mode = { "i", "n" }, desc = false }, -- alt-f
-            ["ª"] = { "toggle_hidden", mode = { "i", "n" }, desc = false }, --alt-h
-            ["⁄"] = { "toggle_ignored", mode = { "i", "n" }, desc = false }, --alt-i
-            ["µ"] = { "toggle_maximize", mode = { "i", "n" }, desc = false }, --alt-m
-            ["π"] = { "toggle_preview", mode = { "i", "n" }, desc = false }, --alt-p
-            ["<C-TAB>"] = { "select_all", mode = { "n", "i" }, desc = false },
-            ["∑"] = { "cycle_win", mode = { "n", "i" }, desc = false }, --alt-w
+          grep = {
+            confirm = multiSendToQfConfirm
+          },
+          files = {
+            confirm = multiSendToQfConfirm
+          },
+          smart = {
+            confirm = multiSendToQfConfirm
+          },
+          git_files = {
+            confirm = multiSendToQfConfirm
+          },
+          recent = {
+            confirm = multiSendToQfConfirm
+          },
+          buffers = {
+            confirm = multiSendToQfConfirm
+          },
+          lines = {
+            confirm = multiSendToQfConfirm
+          },
+          grep_buffers = {
+            confirm = multiSendToQfConfirm
+          },
+          diagnostic = {
+            confirm = multiSendToQfConfirm
+          },
+          diagnostics_buffer = {
+            confirm = multiSendToQfConfirm
+          },
+          jumps = {
+            confirm = multiSendToQfConfirm
+          },
+          marks = {
+            confirm = multiSendToQfConfirm
+          },
+          lsp_definitions = {
+            confirm = multiSendToQfConfirm
+          },
+          lsp_declarations = {
+            confirm = multiSendToQfConfirm
+          },
+          lsp_references = {
+            confirm = multiSendToQfConfirm
+          },
+          lsp_implementation = {
+            confirm = multiSendToQfConfirm
+          },
+          lsp_type_definitions = {
+            confirm = multiSendToQfConfirm
+          },
+          lsp_symbols = {
+            confirm = multiSendToQfConfirm
+          },
+          lsp_workspace_symbols = {
+            confirm = multiSendToQfConfirm
+          }
+        },
+        win = {
+          -- input window
+          input = {
+            keys = {
+              ["∂"] = { "inspect", mode = { "n", "i" }, desc = false, }, -- alt-d
+              ["ƒ"] = { "toggle_follow", mode = { "i", "n" }, desc = false }, -- alt-f
+              ["ª"] = { "toggle_hidden", mode = { "i", "n" }, desc = false }, --alt-h
+              ["⁄"] = { "toggle_ignored", mode = { "i", "n" }, desc = false }, --alt-i
+              ["µ"] = { "toggle_maximize", mode = { "i", "n" }, desc = false }, --alt-m
+              ["π"] = { "toggle_preview", mode = { "i", "n" }, desc = false }, --alt-p
+              ["<C-TAB>"] = { "select_all", mode = { "n", "i" }, desc = false },
+              ["∑"] = { "cycle_win", mode = { "n", "i" }, desc = false }, --alt-w
+            },
+          },
+          list = {
+            keys = {
+              ["∂"] = { "inspect", mode = { "n", "i" }, desc = false }, -- alt-d
+              ["ƒ"] = { "toggle_follow", mode = { "i", "n" }, desc = false }, -- alt-f
+              ["ª"] = { "toggle_hidden", mode = { "i", "n" }, desc = false }, --alt-h
+              ["⁄"] = { "toggle_ignored", mode = { "i", "n" }, desc = false }, --alt-i
+              ["µ"] = { "toggle_maximize", mode = { "i", "n" }, desc = false }, --alt-m
+              ["π"] = { "toggle_preview", mode = { "i", "n" }, desc = false }, --alt-p
+              ["<C-TAB>"] = { "select_all", mode = { "n", "i" }, desc = false },
+              ["∑"] = { "cycle_win", mode = { "n", "i" }, desc = false }, --alt-w
+            },
           },
         },
-        list = {
-          keys = {
-            ["∂"] = { "inspect", mode = { "n", "i" }, desc = false }, -- alt-d
-            ["ƒ"] = { "toggle_follow", mode = { "i", "n" }, desc = false }, -- alt-f
-            ["ª"] = { "toggle_hidden", mode = { "i", "n" }, desc = false }, --alt-h
-            ["⁄"] = { "toggle_ignored", mode = { "i", "n" }, desc = false }, --alt-i
-            ["µ"] = { "toggle_maximize", mode = { "i", "n" }, desc = false }, --alt-m
-            ["π"] = { "toggle_preview", mode = { "i", "n" }, desc = false }, --alt-p
-            ["<C-TAB>"] = { "select_all", mode = { "n", "i" }, desc = false },
-            ["∑"] = { "cycle_win", mode = { "n", "i" }, desc = false }, --alt-w
-          },
-        },
       },
-    },
-  },
+    }
+  end,
   keys = {
     -- Top Pickers
     { "<leader>f",      function() Snacks.picker.smart() end,                 desc = "Smart Find Files" },
