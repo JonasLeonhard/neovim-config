@@ -205,7 +205,7 @@ return {
                 picker:close()
                 vim.schedule(function()
                   toggle_oil() -- TODO: find better way to open in split
-                  toggle_oil(item.text)
+                  toggle_oil(current_dir .. item.text)
                 end)
               end
             end,
