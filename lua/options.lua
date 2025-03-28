@@ -58,12 +58,11 @@ opt.nrformats = 'bin,hex,alpha,octal,'
 vim.g.markdown_recommended_style = 0
 
 -- Folding
+vim.o.foldmethod = "manual"
 vim.o.foldcolumn = '1'
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
-
-vim.o.foldmethod = 'manual' -- for treesitter / lsp folding, the rest of ufo gets used
 
 -- Filetype's:
 vim.filetype.add({
