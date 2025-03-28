@@ -17,7 +17,7 @@ end
 return {
   'mfussenegger/nvim-lint',
   lazy = true,
-  event = 'User FileOpened',
+  event = 'VeryLazy',
   keys = {
     {
       '<leader>cl',
