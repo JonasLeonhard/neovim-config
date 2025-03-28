@@ -1,128 +1,4 @@
-local search_files = function()
-  local M = require("fuzzy");
-  local oil = require("oil");
-  local current_dir = oil.get_current_dir()
-
-  local cmd = "cd " .. current_dir .. "; rg --files " ..
-      table.concat(M.rg_default_opts, " ") ..
-      " . | fzf " .. table.concat(M.fzf_default_opts, " ") .. " --preview='bat --color=always {}'";
-
-  local callback = function(stdout)
-    local selected_files = vim.split(stdout, "\n")
-    local qf_list = {}
-    for idx, file in ipairs(selected_files) do
-      if (idx ~= #selected_files) then -- the first path is the start dir
-        local joined_path = vim.fn.simplify(current_dir .. file)
-
-        table.insert(qf_list, {
-          filename = joined_path,
-          lnum = 1,
-        })
-      end
-      if #qf_list > 0 then
-        vim.cmd("edit " .. qf_list[1].filename)
-        vim.cmd("only")
-
-        if (#qf_list > 1) then
-          vim.fn.setqflist(qf_list)
-          vim.cmd("copen")
-        end
-      end
-    end
-  end
-
-  M.run_in_split({ cmd = cmd, callback = callback })
-end
-
-local search_grep = function()
-  local M = require("fuzzy");
-  local oil = require("oil");
-
-  vim.ui.input({ prompt = "rg (Oil) " },
-    function(input)
-      if not input then
-        return
-      end
-
-      local current_dir = oil.get_current_dir()
-      local cmd =
-          [[cd ]] .. current_dir .. "; " ..
-          [[rg ]] .. table.concat(M.rg_default_opts, " ") .. " " .. input ..
-          [[ | fzf ]] .. table.concat(M.fzf_default_opts, " ") ..
-          [[ --delimiter ':' ]] ..
-          [[--preview 'bat --color=always --highlight-line {2} {1}' ]] ..
-          [[--preview-window '+{2}/2,<80(up)' ]]
-
-      local callback = function(stdout)
-        local selected_files = vim.tbl_filter(function(item) return item ~= "" end, vim.split(stdout, "\n"))
-
-        if #selected_files == 1 then
-          -- If we have a single selected file, we just open it.
-          local file_path, line, col = selected_files[1]:match("([^:]+):(%d+):(%d+):")
-          local joined_path = vim.fn.simplify(current_dir .. file_path)
-
-          vim.api.nvim_command("edit +" .. line .. " " .. joined_path)
-          vim.api.nvim_win_set_cursor(0, { tonumber(line), tonumber(col) - 1 })
-          vim.cmd("only")
-        else
-          -- For Multiple results: add all to quickfix list and open the first one
-          local qf_list = {}
-          for _, file in ipairs(selected_files) do
-            local file_path, line, col, text = file:match("([^:]+):(%d+):(%d+):(.*)")
-            local joined_path = vim.fn.simplify(current_dir .. file_path)
-
-            table.insert(qf_list, {
-              filename = joined_path,
-              lnum = tonumber(line),
-              col = tonumber(col),
-              text = text
-            })
-          end
-
-          vim.fn.setqflist(qf_list)
-
-          if #qf_list > 0 then
-            vim.cmd("cfirst")
-            vim.cmd("only")
-            vim.cmd("copen")
-          end
-        end
-      end
-      M.run_in_split({ cmd = cmd, callback = callback })
-    end)
-end
-
-local terminal_dir = function()
-  local oil = require("oil")
-  local current_dir = oil.get_current_dir()
-  vim.cmd("botright split | lcd " .. current_dir .. " | terminal")
-end
-
-local search_dir = function()
-  local M = require("fuzzy");
-  local oil = require("oil");
-  -- Use fd to find only directories, or fall back to find if fd isn't available
-  local find_cmd = vim.fn.executable("fd") == 1
-      and "fd --type d --hidden --exclude .git"
-      or "find . -type d -not -path '*/.git/*'"
-
-  local cmd = "cd " ..
-      oil.get_current_dir() ..
-      "; " .. find_cmd .. " | fzf " .. table.concat(M.fzf_default_opts, " ") .. " --preview='tree {}'";
-
-  local callback = function(stdout)
-    if stdout and stdout ~= "" then
-      -- Remove trailing newline if present
-      stdout = stdout:gsub("\n$", "")
-      -- Convert the selected path to absolute path
-      local selected_dir = vim.fn.fnamemodify(oil.get_current_dir() .. "/" .. stdout, ":p")
-      -- Open Oil in the selected directory
-      vim.api.nvim_command("Oil " .. selected_dir)
-    end
-  end
-
-  M.run_in_split({ cmd = cmd, callback = callback })
-end
+local detail = false
 
 local toggle_oil = function(dir)
   -- Check if any oil buffers are open
@@ -144,7 +20,7 @@ local toggle_oil = function(dir)
     local bufname = vim.fn.expand('%:t')
 
     local oil = require('oil');
-    local M = require("fuzzy");
+    local M = require("helper");
     M.smart_split()
 
     oil.open(dir, nil, function()
@@ -159,8 +35,6 @@ local toggle_oil = function(dir)
     end)
   end
 end
-
-local detail = false
 
 return {
   'stevearc/oil.nvim',
@@ -181,6 +55,53 @@ return {
       end,
       desc = 'Oil (cwd)'
     },
+    {
+      "<leader>sd",
+      function()
+        Snacks.picker.pick({
+          source = "Directories",
+          cwd = vim.fn.getcwd(),
+          finder = function(opts, ctx)
+            return require("snacks.picker.source.proc").proc({
+              opts,
+              {
+                cmd = "fd",
+                args = {
+                  "--type",
+                  "d",
+                  "--hidden",
+                  "--exclude",
+                  ".git",
+                },
+              },
+            }, ctx)
+          end,
+          format = "text",
+
+          -- Configure action to open the selected directory in Oil
+          confirm = function(picker, item)
+            if item then
+              picker:close()
+              vim.schedule(function()
+                toggle_oil(item.text)
+              end)
+            end
+          end,
+
+          -- Enable preview with tree if available
+          preview = function(ctx)
+            local item = ctx.item
+            if not item or not item.text then return false end
+
+            local tree_output = vim.fn.system({ "tree", item.text })
+            vim.bo[ctx.buf].modifiable = true
+            vim.api.nvim_buf_set_lines(ctx.buf, 0, -1, false, vim.split(tree_output, "\n"))
+            return true
+          end,
+        })
+      end,
+      desc = "Search Directories"
+    }
   },
   ---@module 'oil'
   ---@type oil.SetupOpts
@@ -211,25 +132,106 @@ return {
         desc = "Open file",
       },
       ["<leader>sf"] = {
-        search_files,
+        callback = function()
+          local oil = require("oil")
+          local current_dir = oil.get_current_dir()
+
+          Snacks.picker.files({
+            cwd = current_dir,
+            confirm = function(picker, item)
+              picker:close()
+              if item then
+                vim.cmd("edit " .. item.file)
+                vim.cmd("only")
+              end
+            end
+          })
+        end,
         mode = "n",
         nowait = true,
         desc = "Find files in the current (Oil) directory"
       },
       ["<leader>sg"] = {
-        search_grep,
+        callback = function()
+          local oil = require("oil")
+          local current_dir = oil.get_current_dir()
+
+          Snacks.picker.grep({
+            cwd = current_dir,
+            confirm = function(picker, item)
+              picker:close()
+              if item then
+                vim.cmd("edit +" .. (item.pos and item.pos[1] or 1) .. " " .. item.file)
+                if item.pos then
+                  vim.api.nvim_win_set_cursor(0, { item.pos[1], item.pos[2] - 1 })
+                end
+                vim.cmd("only")
+              end
+            end
+          })
+        end,
         mode = "n",
         nowait = true,
         desc = "ripgrep in the current (Oil) directory"
       },
       ["<leader>sd"] = {
-        search_dir,
+        callback = function()
+          local oil = require("oil")
+          local current_dir = oil.get_current_dir()
+
+          Snacks.picker.pick({
+            source = "Directories",
+            cwd = current_dir,
+            finder = function(opts, ctx)
+              return require("snacks.picker.source.proc").proc({
+                opts,
+                {
+                  cmd = "fd",
+                  args = {
+                    "--type",
+                    "d",
+                    "--hidden",
+                    "--exclude",
+                    ".git",
+                  },
+                },
+              }, ctx)
+            end,
+            format = "text",
+
+            -- Configure action to open the selected directory in Oil
+            confirm = function(picker, item)
+              if item then
+                picker:close()
+                vim.schedule(function()
+                  toggle_oil() -- TODO: find better way to open in split
+                  toggle_oil(item.text)
+                end)
+              end
+            end,
+
+            -- Enable preview with tree if available
+            preview = function(ctx)
+              local item = ctx.item
+              if not item or not item.text then return false end
+
+              local tree_output = vim.fn.system({ "tree", item.text })
+              vim.bo[ctx.buf].modifiable = true
+              vim.api.nvim_buf_set_lines(ctx.buf, 0, -1, false, vim.split(tree_output, "\n"))
+              return true
+            end,
+          })
+        end,
         mode = "n",
         nowait = true,
         desc = "Find subdirectories in the current (Oil) directory"
       },
       ["g$"] = {
-        terminal_dir,
+        callback = function()
+          local oil = require("oil")
+          local current_dir = oil.get_current_dir()
+          vim.cmd("botright split | lcd " .. current_dir .. " | terminal")
+        end,
         mode = "n",
         nowait = true,
         desc = "Terminal in (Oil) directory"

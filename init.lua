@@ -1,6 +1,6 @@
 -- Install global configuration
 require 'options'
-require 'fuzzy'
+require 'helper'
 require 'listchars'
 require 'nushell'
 

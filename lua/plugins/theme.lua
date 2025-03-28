@@ -70,6 +70,7 @@ return {
           PmenuSbar = { bg = colors.mantle },
           PmenuThumb = { bg = colors.overlay0 },
           netrwMarkFile = { link = "Visual" },
+          SnacksPickerMatch = { fg = colors.yellow },
         }
       end,
     },
