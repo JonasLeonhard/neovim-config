@@ -112,7 +112,7 @@ return {
               ["⁄"] = { "toggle_ignored", mode = { "i", "n" }, desc = false }, --alt-i
               ["µ"] = { "toggle_maximize", mode = { "i", "n" }, desc = false }, --alt-m
               ["π"] = { "toggle_preview", mode = { "i", "n" }, desc = false }, --alt-p
-              ["<C-TAB>"] = { "select_all", mode = { "n", "i" }, desc = false },
+              ["<C-b>"] = { "select_all", mode = { "n", "i" }, desc = false },
               ["∑"] = { "cycle_win", mode = { "n", "i" }, desc = false }, --alt-w
             },
           },
@@ -124,7 +124,7 @@ return {
               ["⁄"] = { "toggle_ignored", mode = { "i", "n" }, desc = false }, --alt-i
               ["µ"] = { "toggle_maximize", mode = { "i", "n" }, desc = false }, --alt-m
               ["π"] = { "toggle_preview", mode = { "i", "n" }, desc = false }, --alt-p
-              ["<C-TAB>"] = { "select_all", mode = { "n", "i" }, desc = false },
+              ["<C-b>"] = { "select_all", mode = { "n", "i" }, desc = false },
               ["∑"] = { "cycle_win", mode = { "n", "i" }, desc = false }, --alt-w
             },
           },
