@@ -33,3 +33,6 @@ require('lazy').setup({
     path = os.getenv("NVIM_DEV_PATH") or "~/projects"
   },
 })
+
+-- Stuff that requires packages
+require 'lsp'
