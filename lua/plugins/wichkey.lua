@@ -33,7 +33,22 @@ return {
         -- nv keymaps
         {
           mode = { 'n', 'v' },
-          { 'K',     vim.lsp.buf.hover,          desc = 'Hover Documentation' },
+          {
+            'K',
+            function()
+              vim.lsp.buf.hover()
+
+              local lspStatus = vim.lsp.status();
+              if lspStatus ~= '' then
+                if #lspStatus > 100 then
+                  lspStatus = string.sub(lspStatus, 1, 100) .. "..."
+                end
+                vim.notify(lspStatus, vim.log.levels.INFO, {})
+              else
+              end
+            end,
+            desc = 'Hover Documentation'
+          },
           { '<C-,>', vim.lsp.buf.signature_help, desc = 'Signature Documentation' },
         },
 
