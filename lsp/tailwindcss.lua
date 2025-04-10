@@ -92,6 +92,11 @@ return {
         templ = 'html',
         htmlangular = 'html',
       },
+      experimental = {
+        classRegex = {
+          { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" } -- for tailwind-variants tv helper
+        },
+      },
     },
   },
 }
