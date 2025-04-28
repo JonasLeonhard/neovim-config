@@ -13,6 +13,9 @@ return {
       end
     end
 
+    Snacks.toggle.profiler():map("<leader>up")
+    Snacks.toggle.profiler_highlights():map("<leader>uP")
+
     return {
       picker = {
         prompt = "",

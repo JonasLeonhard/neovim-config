@@ -48,7 +48,7 @@ return {
     -- This path is relative to the workspace folder (root dir) of the server instance.
     nodePath = '',
     -- use the workspace folder location or the file location (if no workspace folder is open) as the working directory
-    workingDirectory = { mode = 'location' },
+    -- workingDirectory = { mode = 'location' },
     codeAction = {
       disableRuleComment = {
         enable = true,
