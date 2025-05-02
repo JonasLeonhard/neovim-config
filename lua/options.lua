@@ -50,6 +50,8 @@ opt.virtualedit = 'block'          -- Allow cursor to move where there is no tex
 opt.wildmode = 'longest:full,full' -- Command-line completion mode
 opt.winminwidth = 5                -- Minimum window width
 opt.wrap = false                   -- Disable line wrap
+opt.ch = 0;                        -- no command line height
+require('vim._extui').enable({})   -- experimental feature: https://github.com/neovim/neovim/pull/27855
 
 opt.laststatus = 3
 opt.nrformats = 'bin,hex,alpha,octal,'
@@ -93,25 +95,6 @@ vim.diagnostic.config {
 }
 
 -- Command's: --------------------------------------------------------------------------------------------------
-
--- Messages command: put :messages in a new buffer
-vim.api.nvim_command 'command! Messages enew | execute "redir @a" | silent messages | redir END | normal! "ap'
-
--- Only Command: same as :only , but for floating windows
-vim.api.nvim_create_user_command('Only', function()
-  local win_id = vim.api.nvim_get_current_win()
-  local config = vim.api.nvim_win_get_config(win_id)
-
-  if config.relative ~= '' then -- if floating window
-    local floating_buf = vim.api.nvim_win_get_buf(win_id)
-    vim.api.nvim_win_close(win_id, false)
-    vim.cmd('enew | silent! only')
-    if (vim.api.nvim_buf_is_valid(floating_buf)) then
-      vim.api.nvim_win_set_buf(0, floating_buf)
-    end
-  end
-end, {})
-
 -- ToggleAutoFormat command
 local autoformatting_on = true
 
