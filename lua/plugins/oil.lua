@@ -247,17 +247,6 @@ return {
           end
         end,
       },
-      ["<C-z>"] = {
-        desc = "Toggle Broil",
-        callback = function()
-          local oil = require("oil");
-          local current_dir = oil.get_current_dir()
-          local broil = require("broil")
-
-          toggle_oil('botright split | Oil %:p:h') -- close all oil windows
-          broil.open(current_dir)
-        end
-      }
     },
   },
 }
