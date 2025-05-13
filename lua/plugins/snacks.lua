@@ -17,6 +17,7 @@ return {
     Snacks.toggle.profiler_highlights():map("<leader>uP")
 
     return {
+      bigfile = {},
       picker = {
         prompt = "",
         ui_select = true,
