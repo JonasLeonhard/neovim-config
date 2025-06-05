@@ -36,6 +36,19 @@ local toggle_oil = function(dir)
   end
 end
 
+local close_all_oil_if_picked = function()
+  -- -- Check if current buffer is not an oil buffer
+  if vim.bo.filetype ~= "oil" then
+    -- We picked a file -> Close all oil windows
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.api.nvim_get_option_value("filetype", { buf = buf }) == "oil" then
+        vim.api.nvim_win_close(win, false)
+      end
+    end
+  end
+end
+
 return {
   'stevearc/oil.nvim',
   lazy = true,
@@ -138,13 +151,7 @@ return {
 
           Snacks.picker.files({
             cwd = current_dir,
-            confirm = function(picker, item)
-              picker:close()
-              if item then
-                vim.cmd("edit " .. item.file)
-                vim.cmd("only")
-              end
-            end
+            on_close = close_all_oil_if_picked
           })
         end,
         mode = "n",
@@ -158,16 +165,7 @@ return {
 
           Snacks.picker.grep({
             cwd = current_dir,
-            confirm = function(picker, item)
-              picker:close()
-              if item then
-                vim.cmd("edit +" .. (item.pos and item.pos[1] or 1) .. " " .. item.file)
-                if item.pos then
-                  vim.api.nvim_win_set_cursor(0, { item.pos[1], item.pos[2] - 1 })
-                end
-                vim.cmd("only")
-              end
-            end
+            on_close = close_all_oil_if_picked
           })
         end,
         mode = "n",
