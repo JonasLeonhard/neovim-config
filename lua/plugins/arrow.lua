@@ -54,6 +54,7 @@ return {
     },
   },
   opts = {
+    global_bookmarks = true,
     show_icons = true,
     leader_key = '<C-l>',
     buffer_leader_key = 'm',
