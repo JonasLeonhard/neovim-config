@@ -40,6 +40,7 @@ return {
       yaml = { 'prettierd', 'prettier', stop_after_first = true },
       twig = { 'djlint' },
       astro = { 'prettierd', 'prettier', stop_after_first = true },
+      odin = { 'odinfmt' }
     },
     format_after_save = function()
       if not _AutoFormatEnabled() then
