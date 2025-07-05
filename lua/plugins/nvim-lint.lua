@@ -15,53 +15,55 @@ _AutoLintEnabled = function()
 end
 
 return {
-  'mfussenegger/nvim-lint',
-  lazy = true,
-  event = 'VeryLazy',
-  keys = {
-    {
-      '<leader>cl',
-      function()
-        require('lint').try_lint()
-      end,
-      desc = 'Lint',
-      mode = { 'n' },
-    },
+  pack = {
+    src = 'https://github.com/mfussenegger/nvim-lint',
   },
-  opts = {
-    linters_by_ft = {
-      php = { 'phpstan' },
-      twig = { 'djlint', 'twigcs' },
+  lazy = {
+    "nvim-lint",
+    event = "DeferredUIEnter",
+    keys = {
+      {
+        '<leader>cl',
+        function()
+          require('lint').try_lint()
+        end,
+        desc = 'Lint',
+        mode = { 'n' },
+      },
     },
-  },
-  config = function(_, opts)
-    local lint = require 'lint'
+    after = function()
+      local lint = require 'lint'
 
-    -- custom linter configs:
-    lint.linters.djlint.args = {
-      '--linter-output-format',
-      '{line}:{code}: {message}',
-      '--profile',
-      'nunjucks',
-      '--preserve-blank-lines',
-      '--line-break-after-multiline-tag',
-      '--indent',
-      '2',
-      '-',
-    }
+      -- custom linter configs:
+      lint.linters.djlint.args = {
+        '--linter-output-format',
+        '{line}:{code}: {message}',
+        '--profile',
+        'nunjucks',
+        '--preserve-blank-lines',
+        '--line-break-after-multiline-tag',
+        '--indent',
+        '2',
+        '-',
+      }
 
-    -- Setup:
-    lint.linters_by_ft = opts.linters_by_ft
+      -- Setup:
+      lint.linters_by_ft = {
+        php = { 'phpstan' },
+        twig = { 'djlint', 'twigcs' },
+      }
 
-    local augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-    vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufReadPost', 'InsertLeave' }, {
-      group = augroup,
-      callback = function()
-        if not _AutoLintEnabled() then
-          return
-        end
-        lint.try_lint(nil, { ignore_errors = true })
-      end,
-    })
-  end,
+
+      local augroup = vim.api.nvim_create_augroup('lint', { clear = true })
+      vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufReadPost', 'InsertLeave' }, {
+        group = augroup,
+        callback = function()
+          if not _AutoLintEnabled() then
+            return
+          end
+          lint.try_lint(nil, { ignore_errors = true })
+        end,
+      })
+    end,
+  }
 }

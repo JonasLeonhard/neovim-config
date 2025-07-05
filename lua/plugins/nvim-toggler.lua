@@ -1,52 +1,48 @@
 return {
-  'nguyenvukhang/nvim-toggler',
-  lazy = true,
-  keys = {
-    {
-      '<leader>ct',
-      function()
-        require('nvim-toggler').toggle()
-      end,
-      desc = 'Toggle Cursor Alternate',
-    },
+  pack = {
+    src = 'https://github.com/nguyenvukhang/nvim-toggler',
   },
-  opts = {
-    inverses = {
-      ['true'] = 'false',
-      ['True'] = 'False',
-      ['TRUE'] = 'FALSE',
-      ['Yes'] = 'No',
-      ['YES'] = 'NO',
-      ['UP'] = 'DOWN',
-      ['up'] = 'down',
-      ['DOWN'] = 'UP',
-      ['down'] = 'up',
-      ['LEFT'] = 'RIGHT',
-      ['left'] = 'right',
-      ['RIGHT'] = 'LEFT',
-      ['right'] = 'left',
-      ['TOP'] = 'BOTTOM',
-      ['top'] = 'bottom',
-      ['BOTTOM'] = 'TOP',
-      ['bottom'] = 'top',
-      ['1'] = '0',
-      ['<'] = '>',
-      ['('] = ')',
-      ['['] = ']',
-      ['{'] = '}',
-      ['"'] = "'",
-      ['""'] = "''",
-      ['+'] = '-',
-      ['==='] = '!==',
-      ['/'] = '\\',
-      ['\\'] = '/',
-      ['const'] = 'let',
-      ['let'] = 'const',
-      ['&&'] = '||',
-      ['||'] = '&&',
-      ['='] = ':',
-      [':'] = '=',
+  lazy = {
+    "nvim-toggler",
+    keys = {
+      {
+        '<leader>ct',
+        function()
+          require('nvim-toggler').toggle()
+        end,
+        desc = 'Toggle Cursor Alternate',
+      },
     },
-    remove_default_keybinds = true,
-  },
+    after = function()
+      require('nvim-toggler').setup({
+        inverses = {
+          ['true'] = 'false',
+          ['True'] = 'False',
+          ['TRUE'] = 'FALSE',
+          ['Yes'] = 'No',
+          ['YES'] = 'NO',
+          ['UP'] = 'DOWN',
+          ['LEFT'] = 'RIGHT',
+          ['left'] = 'right',
+          ['Left'] = 'Right',
+          ['TOP'] = 'BOTTOM',
+          ['top'] = 'bottom',
+          ['Top'] = 'Bottom',
+          ['1'] = '0',
+          ['<'] = '>',
+          ['('] = ')',
+          ['['] = ']',
+          ['{'] = '}',
+          ['"'] = "'",
+          ['+'] = '-',
+          ['==='] = '!==',
+          ['/'] = '\\',
+          ['const'] = 'let',
+          ['&&'] = '||',
+        },
+        remove_default_keybinds = true,
+        remove_default_inverses = true,
+      })
+    end
+  }
 }

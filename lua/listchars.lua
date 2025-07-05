@@ -1,3 +1,4 @@
+--- This file adds custom highlighting for specific listchars in red, for example NonBreakingSpace and TralingSpaceChar
 local themeColors = {
   red = "#F38BA8"
 }

@@ -1,8 +1,14 @@
 return {
-  'nmac427/guess-indent.nvim',
-  event = "VeryLazy",
-  lazy = true,
-  opts = {
-    auto_cmd = true
+  pack = {
+    src = 'https://github.com/nmac427/guess-indent.nvim',
+  },
+  lazy = {
+    "guess-indent.nvim",
+    event = "DeferredUIEnter",
+    after = function()
+      require("guess-indent").setup({
+        auto_cmd = true
+      })
+    end
   }
 }

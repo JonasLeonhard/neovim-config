@@ -1,38 +1,18 @@
--- Install global configuration
+local helper = require 'helper'
+local pack_specs, lazy_specs = helper.load_plugin_specs()
+
+-- Install plugins using ':h vim.pack':
+-- We tell vim.pack to install all the plugins we gathered from /lua/plugins
+vim.pack.add(pack_specs) -- If you want to update plugins: ':h vim.pack' or update via ":= vim.pack.update()", :w the buffer to confirm updates
+
+-- Configure builtin neovim options (line number, folds, diagnostics, helpers, lsp's…)
 require 'options'
-require 'helper'
 require 'listchars'
 require 'nushell'
-
--- Package Manager: Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
-end
-vim.opt.rtp:prepend(lazypath)
-
-require('lazy').setup({
-  -- NOTE: The import below automatically adds plugins, configuration, etc from `lua/user/plugins/*.lua`
-  --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
-  --    up-to-date with whatever is in the kickstart repo.
-  --
-  --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  { import = 'plugins' },
-}, {
-  dev = {
-    path = os.getenv("NVIM_DEV_PATH") or "~/projects"
-  },
-})
-
--- Stuff that requires packages
 require 'lsp'
+
+-- Some Plugins don't need to be loaded when we open nvim, as loading them would cause a slight delay when opening.
+-- We can instead lazy load them on events. Eg. when going to insert mode, when pressing a key to open the plugins windows, or after neovim has opened.
+-- To do this we use the lz.n plugin, which then lazyloads all other plugins after
+-- https://github.com/nvim-neorocks/lz.n
+require("lz.n").load(lazy_specs)

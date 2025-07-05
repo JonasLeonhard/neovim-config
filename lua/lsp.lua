@@ -5,9 +5,9 @@ for _, v in ipairs(vim.api.nvim_get_runtime_file('lsp/*', true)) do
   table.insert(lsp_configs, name)
 end
 
--- For some reason this casues lag:
+-- For some reason this casues lag when opening 'oil' buffers for example:
 -- vim.lsp.enable(lsp_configs)
--- -> So we manually setup filetype autocmds
+-- -> So we manually setup filetype autocmds to start lsp servers for their configured filetypes
 
 -- eg: { 'lua': { 'lua_ls' }, 'javascript': { 'eslint', 'ts_ls'}}
 local filetype_to_servers = {}
