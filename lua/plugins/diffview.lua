@@ -94,6 +94,7 @@ return {
       local actions = require 'diffview.actions'
       require('diffview').setup {
         enhanced_diff_hl = true,
+        use_icons = false,
         keymaps = {
           disable_defaults = true,
           view = {

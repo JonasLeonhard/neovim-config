@@ -119,6 +119,9 @@ return {
         desc = "Search Directories"
       }
     },
+    before = function()
+      require("lz.n").trigger_load("mini.icons") -- just in case we are faster than the deferred setup
+    end,
     after = function()
       require("oil").setup({
         cleanup_delay_ms = 0,
