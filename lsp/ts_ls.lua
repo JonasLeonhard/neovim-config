@@ -1,6 +1,3 @@
-local mason_registry = require('mason-registry')
-local vue_language_server_path = vim.fn.expand("$MASON/packages/vue-language-server/node_modules/@vue/language-server")
-
 return {
   cmd = { 'typescript-language-server', '--stdio' },
   filetypes = {
@@ -18,7 +15,7 @@ return {
     plugins = {
       {
         name = '@vue/typescript-plugin',
-        location = vue_language_server_path,
+        location = vim.fn.stdpath 'data' .. '/mason/packages' .. "/vue-language-server/node_modules/@vue/language-server",
         languages = { 'vue' },
       },
     },
