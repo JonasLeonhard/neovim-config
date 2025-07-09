@@ -12,6 +12,11 @@ return {
         "<cmd>Neogit<cr>",
         desc = 'Neogit',
       },
+      {
+        '<leader>gl',
+        "<cmd>NeogitLogCurrent<cr>",
+        desc = "Log of current file"
+      }
     },
     after = function()
       require('neogit').setup({

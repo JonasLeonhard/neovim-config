@@ -99,19 +99,6 @@ return {
             mode = { 'n', 'v' },
           },
 
-          -- git group
-          {
-            '<leader>g',
-            desc = 'git',
-            mode = { 'n', 'v' },
-            {
-              '<leader>gd',
-              desc = 'Diffview',
-              { '<leader>gdc', desc = 'choose' },
-              { '<leader>gdg', desc = 'goto' },
-            },
-          },
-
           -- search group
           {
             '<leader>s',
