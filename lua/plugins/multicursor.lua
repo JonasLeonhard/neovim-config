@@ -1,7 +1,6 @@
 return {
   pack = {
     src = 'https://github.com/jake-stewart/multicursor.nvim',
-    version = '1.0',
   },
   lazy = {
     "multicursor.nvim",

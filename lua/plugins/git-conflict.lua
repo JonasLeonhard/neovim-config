@@ -1,7 +1,6 @@
 return {
   pack = {
     src = 'https://github.com/akinsho/git-conflict.nvim',
-    version = '*'
   },
   lazy = {
     'git-conflict.nvim',

@@ -1,7 +1,6 @@
 return {
   pack = {
     src = 'https://github.com/echasnovski/mini.icons',
-    version = nil
   },
   lazy = {
     "mini.icons",
