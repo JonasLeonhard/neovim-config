@@ -15,7 +15,18 @@ return {
       {
         '<leader>gl',
         "<cmd>NeogitLogCurrent<cr>",
+        mode = { "n" },
         desc = "Log of current file"
+      },
+      {
+        '<leader>gl',
+        function()
+          local start_line = vim.fn.line("'<")
+          local end_line = vim.fn.line("'>")
+          vim.cmd(start_line .. "," .. end_line .. "NeogitLogCurrent")
+        end,
+        mode = { "v" },
+        desc = "Log of current selection"
       }
     },
     after = function()
