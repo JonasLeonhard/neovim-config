@@ -83,6 +83,11 @@ return {
         '<cmd>Gitsigns next_hunk<cr>',
         desc = 'GitSigns next_hunk',
       },
+      {
+        '<leader>gd',
+        '<cmd>Gitsigns diffthis<cr>',
+        desc = "GitSigns diffthis"
+      }
     },
     after = function()
       require('gitsigns').setup({})
