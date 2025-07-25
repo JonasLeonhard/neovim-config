@@ -66,6 +66,8 @@ return {
     'postcss.config.cjs',
     'postcss.config.mjs',
     'postcss.config.ts',
+    'package.json',
+    '.git'
   }),
   settings = {
     tailwindCSS = {
