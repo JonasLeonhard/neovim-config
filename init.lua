@@ -3,7 +3,7 @@ local pack_specs, lazy_specs = helper.load_plugin_specs()
 
 -- Install plugins using ':h vim.pack':
 -- We tell vim.pack to install all the plugins we gathered from /lua/plugins
-vim.pack.add(pack_specs) -- If you want to update plugins: ':h vim.pack' or update via ":= vim.pack.update()", :w the buffer to confirm updates
+vim.pack.add(pack_specs, { load = false }) -- If you want to update plugins: ':h vim.pack' or update via ":= vim.pack.update()", :w the buffer to confirm updates
 
 -- Configure builtin neovim options (line number, folds, diagnostics, helpers, lsp's…)
 require 'options'
