@@ -1,53 +1,53 @@
-local detail = false
+local oil_window_state = {}
+local detail = false -- show extra filedata toggle
 
-local toggle_oil = function(dir)
-  -- Check if any oil buffers are open
-  local oil_windows = {}
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    local buf = vim.api.nvim_win_get_buf(win)
-    local buf_name = vim.api.nvim_buf_get_name(buf)
-    if buf_name:match("^oil://") then
-      table.insert(oil_windows, win)
-    end
-  end
+local remember_window_state = function()
+  local current_win = vim.api.nvim_get_current_win()
+  local current_buf = vim.api.nvim_get_current_buf()
+  local current_buf_filetype = vim.api.nvim_get_option_value("filetype", { buf = current_buf })
 
-  if #oil_windows > 0 then
-    -- Close all oil windows
-    for _, win in ipairs(oil_windows) do
-      pcall(vim.api.nvim_win_close, win, false)
-    end
+  if current_buf_filetype == "oil" then
+    oil_window_state[current_win] = nil
   else
-    local bufname = vim.fn.expand('%:t')
-
-    local oil = require('oil');
-    local M = require("helper");
-    M.smart_split()
-
-    oil.open(dir, nil, function()
-      -- Get the current window
-      local win = vim.api.nvim_get_current_win()
-      local buf = vim.api.nvim_win_get_buf(win)
-
-      -- Only search if we're in an oil buffer
-      if vim.bo[buf].filetype == "oil" then
-        pcall(vim.cmd, '/' .. bufname .. '$') -- dont throw an error if we cant find the bufname
-      end
-    end)
+    oil_window_state[current_win] = {
+      original_buf = current_buf
+    }
   end
 end
 
-local close_all_oil_if_picked = function()
-  -- -- Check if current buffer is not an oil buffer
-  if vim.bo.filetype ~= "oil" then
-    -- We picked a file -> Close all oil windows
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      local buf = vim.api.nvim_win_get_buf(win)
-      if vim.api.nvim_get_option_value("filetype", { buf = buf }) == "oil" then
-        vim.api.nvim_win_close(win, false)
-      end
+local open_oil_with_state = function(open_opts)
+  remember_window_state()
+  require("oil").open(open_opts)
+end
+
+local toggle_oil = function(open_opts)
+  local current_win = vim.api.nvim_get_current_win()
+  local current_buf = vim.api.nvim_get_current_buf()
+  local current_buf_filetype = vim.api.nvim_get_option_value("filetype", { buf = current_buf })
+
+  -- Check if current window is showing oil
+  if current_buf_filetype == "oil" then
+    -- We're in an oil buffer, close it and return to original buffer
+    local state = oil_window_state[current_win]
+    if state and state.original_buf and vim.api.nvim_buf_is_valid(state.original_buf) then
+      vim.api.nvim_set_current_buf(state.original_buf)
     end
+    -- Clear state for this window
+    oil_window_state[current_win] = nil
+  else
+    -- We're in a regular buffer, open oil and remember it
+    open_oil_with_state(open_opts)
   end
 end
+
+vim.api.nvim_create_autocmd("WinClosed", {
+  callback = function(args)
+    local win_id = tonumber(args.match)
+    if win_id and oil_window_state[win_id] then
+      oil_window_state[win_id] = nil
+    end
+  end,
+})
 
 return {
   pack = {
@@ -99,7 +99,7 @@ return {
               if item then
                 picker:close()
                 vim.schedule(function()
-                  toggle_oil(item.text)
+                  open_oil_with_state(item.text)
                 end)
               end
             end,
@@ -120,7 +120,7 @@ return {
       }
     },
     before = function()
-      require("lz.n").trigger_load("mini.icons") -- just in case we are faster than the deferred setup
+      require("lz.n").trigger_load("mini.icons") -- requirement for oil
     end,
     after = function()
       require("oil").setup({
@@ -132,22 +132,9 @@ return {
         keymaps = {
           ["<CR>"] = {
             callback = function()
-              require("oil").select(nil, function()
-                -- maximize the selected buffer if we're not in an oil buffer anymore
-                -- (meaning we opened a file rather than entered a directory)
-                if vim.bo.filetype ~= "oil" then
-                  vim.cmd("tabonly")
-                  vim.cmd("only")
-                end
-              end)
-            end,
-            desc = "Open file and maximize window",
-          },
-          ["g<CR>"] = {
-            callback = function()
               require("oil").select(nil)
             end,
-            desc = "Open file",
+            desc = "Open file and maximize window",
           },
           ["<leader>sf"] = {
             callback = function()
@@ -156,7 +143,6 @@ return {
 
               Snacks.picker.files({
                 cwd = current_dir,
-                on_close = close_all_oil_if_picked
               })
             end,
             mode = "n",
@@ -170,7 +156,6 @@ return {
 
               Snacks.picker.grep({
                 cwd = current_dir,
-                on_close = close_all_oil_if_picked
               })
             end,
             mode = "n",
@@ -207,8 +192,7 @@ return {
                   if item then
                     picker:close()
                     vim.schedule(function()
-                      toggle_oil() -- TODO: find better way to open in split
-                      toggle_oil(current_dir .. item.text)
+                      open_oil_with_state(current_dir .. item.text)
                     end)
                   end
                 end,
