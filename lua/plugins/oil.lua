@@ -17,7 +17,11 @@ end
 
 local open_oil_with_state = function(open_opts)
   remember_window_state()
-  require("oil").open(open_opts)
+
+  local bufname = vim.fn.expand('%:t')
+  require("oil").open(open_opts, nil, function()
+    pcall(vim.cmd, '/' .. bufname .. '$') -- dont throw an error if we cant find the bufname
+  end)
 end
 
 local toggle_oil = function(open_opts)
