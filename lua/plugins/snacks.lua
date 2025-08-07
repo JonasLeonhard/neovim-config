@@ -69,6 +69,7 @@ return {
         bigfile = {},
         picker = {
           prompt = "",
+          hidden = true,
           ui_select = true,
           auto_close = false,
           layout = { preset = "ivy" },
